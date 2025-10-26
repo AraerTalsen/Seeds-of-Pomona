@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//Change to DontDestroyOnLoad approach later on to allow for versatility
+public static class PersistentData
+{
+    private static Dictionary<string, ScriptableObject> dataContainers = new();
+
+    public static void AddDataContainer(ScriptableObject data)
+    {
+        dataContainers.Add(data.GetType().ToString(), data);
+    }
+
+    public static ScriptableObject RetrieveDataContainer(string name)
+    {
+        return dataContainers.ContainsKey(name) ? dataContainers[name] : null;
+    }
+
+    public static int Count()
+    {
+        return dataContainers.Count;
+    }
+}
