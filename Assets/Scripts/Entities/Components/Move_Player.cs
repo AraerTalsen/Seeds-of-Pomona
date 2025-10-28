@@ -67,8 +67,5 @@ public class Move_Player : MonoBehaviour
     public void Kill()
     {
         pdm.KillPlayer();
-        inventory.ClearInventory();
-        inventory.PushData();
-        //SceneManager.LoadScene("TheBase", LoadSceneMode.Single);
     }
 }

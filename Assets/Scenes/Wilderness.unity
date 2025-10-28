@@ -2110,17 +2110,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2085701457045812531, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5214182945939981398, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214182945939981398, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7383708276367097368, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
       propertyPath: m_Pivot.x
@@ -2203,48 +2195,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8010429307729696346, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-      propertyPath: draggable
-      value: 
-      objectReference: {fileID: 1937891474}
-    - target: {fileID: 8010429307729696346, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
       propertyPath: move_Player
       value: 
       objectReference: {fileID: 1915950273}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4664118612674089283, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1937891477}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
---- !u!1 &1937891474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2085701457045812531, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-  m_PrefabInstance: {fileID: 1937891473}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1937891475 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4664118612674089283, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
-  m_PrefabInstance: {fileID: 1937891473}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1937891476 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2869065387538569844, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
   m_PrefabInstance: {fileID: 1937891473}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1937891477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1937891475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080797e66afcc724fbb9f28fa4a86749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2006166660
 PrefabInstance:
   m_ObjectHideFlags: 0
