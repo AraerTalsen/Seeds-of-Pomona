@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 33df389534f7a614a82aaf2bafb73fd7, type: 3}
   m_Color: {r: 0.66835976, g: 0.28693473, b: 0.7798742, a: 1}
   m_FlipX: 0
@@ -223,6 +223,7 @@ MonoBehaviour:
   invSlotCount: 14000000
   persist: {fileID: 11400000, guid: e449da27a43f7b341b253180e8a7f2b7, type: 2}
   itemsHeld: []
+  deathMsg: You died and lost your items to the wilderness.
   wallet: {fileID: 7380057304703131252}
   overridePersist: {fileID: 0}
 --- !u!114 &6111583763345825998
@@ -263,3 +264,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenFX: {fileID: 0}
+  shake: {fileID: 0}
+  vcam: {fileID: 0}

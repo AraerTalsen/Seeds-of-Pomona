@@ -23,7 +23,7 @@ public class Move_Player : MonoBehaviour
     public bool IsHidden { get => isHidden; }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerInteract = GetComponent<PlayerInteract>();
@@ -57,6 +57,13 @@ public class Move_Player : MonoBehaviour
         rb.velocity = Vector2.zero;
         pauseMovement = !pauseMovement;
         cow.PauseWorldClicks = !cow.PauseWorldClicks;
+    }
+    
+    public void TogglePauseMovement(bool pause)
+    {
+        rb.velocity = Vector2.zero;
+        pauseMovement = pause;
+        cow.PauseWorldClicks = pause;
     }
 
     public void ToggleHidden()

@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : Inventory
 {
+    [SerializeField]
+    private string deathMsg;
     public Wallet wallet;
     public PlayerInventoryData overridePersist;
 
@@ -24,5 +24,20 @@ public class PlayerInventory : Inventory
     public override void PullData()
     {
         wallet.CurrentBalance = overridePersist.Balance;
+        if (overridePersist.HasDied)
+        {
+            LogDeathMessage();
+        }
+    }
+    
+    public void TriggerDeath()
+    {
+        overridePersist.HasDied = true;
+    }
+
+    private void LogDeathMessage()
+    {
+        overridePersist.HasDied = false;
+        TextWindowManager.Instance.SetMessage(deathMsg, gameObject);
     }
 }

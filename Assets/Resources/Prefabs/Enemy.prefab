@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  turnSpeed: 0.75
+  turnSpeed: 0.9
   patrolRadius: 5
   persistence: 3
   huntRecoveryTime: 8

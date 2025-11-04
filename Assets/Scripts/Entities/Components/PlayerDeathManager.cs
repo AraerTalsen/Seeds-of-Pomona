@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInventory))]
@@ -8,6 +8,10 @@ public class PlayerDeathManager : MonoBehaviour
 {
     [SerializeField]
     private Animator screenFX;
+    [SerializeField]
+    private Animator shake;
+    [SerializeField]
+    private CinemachineVirtualCamera vcam;
 
     private PlayerInventory inventory;
     private Move_Player mp;
@@ -20,9 +24,25 @@ public class PlayerDeathManager : MonoBehaviour
 
     public void KillPlayer()
     {
+        StartShakeyCam();
         screenFX.SetTrigger("hasDied");
-        mp.TogglePauseMovement();
+        mp.TogglePauseMovement(true);
+        inventory.TriggerDeath();
         inventory.ClearInventory();
         inventory.PushData();
+    }
+
+    private void StartShakeyCam()
+    {
+        CinemachineBasicMultiChannelPerlin noise;
+        noise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        noise.m_AmplitudeGain = 1.0f;
+        StartCoroutine(ResetShake(noise));
+    }
+
+    private IEnumerator ResetShake(CinemachineBasicMultiChannelPerlin noise)
+    {
+        yield return new WaitForSeconds(0.2f);
+        noise.m_AmplitudeGain = 0;
     }
 }

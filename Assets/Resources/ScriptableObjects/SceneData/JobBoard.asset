@@ -16,9 +16,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   requestedItems:
+  - item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
+    itemId: 2
   - item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
     itemId: 1
-  - item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
-    itemId: 1
-  lastPostTime: 45
-  isPersisting: 0
+  lastPostTime: 15
+  isPersisting: 1

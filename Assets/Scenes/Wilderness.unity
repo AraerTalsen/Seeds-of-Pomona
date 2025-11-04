@@ -1131,6 +1131,7 @@ GameObject:
   - component: {fileID: 1073525171}
   - component: {fileID: 1073525173}
   - component: {fileID: 1073525172}
+  - component: {fileID: 1073525174}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1208,6 +1209,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1073525174
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073525170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: e9ce97b7a206dc64d90931ea044e0c72, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1001 &1194965660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2002,10 +2020,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Phil
       objectReference: {fileID: 0}
-    - target: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3379780439248856600, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2046,26 +2060,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3528803846361396545, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: pm
+    - target: {fileID: 3915928874169660627, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
+      propertyPath: vcam
       value: 
-      objectReference: {fileID: 952529163}
-    - target: {fileID: 3528803846361396545, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: menu
+      objectReference: {fileID: 935713735}
+    - target: {fileID: 3915928874169660627, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
+      propertyPath: shake
       value: 
-      objectReference: {fileID: 95267575}
+      objectReference: {fileID: 0}
     - target: {fileID: 3915928874169660627, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
       propertyPath: screenFX
       value: 
       objectReference: {fileID: 1937891476}
-    - target: {fileID: 3915928874169660627, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: deathScreen
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6270380808666359592, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7380057304703131252, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
       propertyPath: displayBalance
       value: 
