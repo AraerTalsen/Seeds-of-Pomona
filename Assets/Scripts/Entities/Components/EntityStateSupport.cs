@@ -53,6 +53,7 @@ public class EntityStateSupport : MonoBehaviour
 
     public bool CheckForTargetEntities()
     {
+        print($"Target pos : {EntityProps.TargetPos}");
         if (EntityProps.TargetTransform != null)
         {
             if (EntityProps.IsResting || EntityProps.IsTracking)
@@ -63,9 +64,9 @@ public class EntityStateSupport : MonoBehaviour
             }
             return true;
         }
-        else if (EntityProps.IsTargetLost)
+        else if (EntityProps.IsTargetLost && EntityProps.TargetPos == null)
         {
-            EntityProps.TargetPos = null;
+            //EntityProps.TargetPos = null;
             EntityProps.IsTracking = true;
             EntityProps.IsTargetLost = false;
             StartCoroutine(nameof(TrackTarget));

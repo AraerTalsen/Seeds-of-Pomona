@@ -42,7 +42,7 @@ public class EnemyBehaviorContext : BehaviorContext
         {
             CurrentState = PossibleStates[1].state;
         }
-        else if (!targetFound && CurrentState == PossibleStates[1].state)
+        else if (!targetFound && !EntityProps.IsTargetLost && CurrentState == PossibleStates[1].state)
         {
             CurrentState = PossibleStates[0].state;
         }
