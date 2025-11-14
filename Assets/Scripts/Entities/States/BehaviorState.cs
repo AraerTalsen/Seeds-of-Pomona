@@ -6,6 +6,7 @@ public class BehaviorState : IBehaviorState
 {
     public IBehaviorContext Context { get; set; }
     public virtual EntityProperties EntityProps { get; set; }
+    public EntityStateSupport EntityStateSupport { get; set; }
     public virtual float RecoveryTime { get; }
 
     public virtual void PerformAction()

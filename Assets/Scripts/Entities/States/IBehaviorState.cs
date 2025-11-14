@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBehaviorState
 {
-    public class BehaviorProperties
+    /*public class BehaviorProperties
     {
         public delegate Vector3 ResetTarget();
         public delegate void DelayNextAction(float recoveryTime);
@@ -26,10 +26,11 @@ public interface IBehaviorState
                 targetPos = value == null ? ChoosePatrolPoint() : value;
             }
         }
-    }
+    }*/
 
     public IBehaviorContext Context { get; set; }
     public EntityProperties EntityProps { get; set; }
+    public EntityStateSupport EntityStateSupport { get; set; }
     public float RecoveryTime { get; }
     public void PerformAction();
 }

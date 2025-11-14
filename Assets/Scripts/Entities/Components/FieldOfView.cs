@@ -50,10 +50,13 @@ public class FieldOfView : MonoBehaviour
 
     private void UpdateVisibleTarget(Transform target, Vector2 dirToTarget, float distToTarget, bool isInList)
     {
-        if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
+        if (target.CompareTag("Player") && Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToTarget, distToTarget);
-            if (hit && target.CompareTag("Player") && !isInList)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, dirToTarget, distToTarget);
+            Debug.DrawRay(transform.position + transform.up, dirToTarget, Color.red);
+
+            print(hit.collider.gameObject);
+            if (hit && hit.collider.CompareTag("Player") && !isInList)
             {
                 Move_Player mp = target.gameObject.GetComponent<Move_Player>();
                 if (!mp.IsHidden) visibleTargets.Add(target);
