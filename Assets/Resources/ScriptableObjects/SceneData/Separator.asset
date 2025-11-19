@@ -22,6 +22,6 @@ MonoBehaviour:
     - item: {fileID: 0}
       itemId: 0
   itemsHeld: []
-  isPersisting: 1
-  unloadTime: 24.34
+  isPersisting: 0
+  unloadTime: 8.84
   currentProgress: 0

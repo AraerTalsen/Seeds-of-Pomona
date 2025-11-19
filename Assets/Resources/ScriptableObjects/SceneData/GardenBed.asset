@@ -16,5 +16,5 @@ MonoBehaviour:
   plotIndeces: 
   growthStages: 
   growthProgress: []
-  unloadTime: 24.34
+  unloadTime: 11.9
   isPersisting: 1

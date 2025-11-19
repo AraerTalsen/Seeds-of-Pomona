@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3334460405629760206}
   - component: {fileID: 5703155041266857417}
-  - component: {fileID: -1086393016252676901}
   - component: {fileID: 6960672242725477455}
+  - component: {fileID: 8172497759509597950}
   m_Layer: 0
   m_Name: Bush
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 46489185a4a0f5b499dd8495f206b491, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -85,8 +85,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!61 &-1086393016252676901
+  m_SpriteSortPoint: 1
+--- !u!114 &6960672242725477455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482909350139462830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c87c763f9db7f4aa13fb9eb5368f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coverColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+--- !u!61 &8172497759509597950
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,10 +131,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.875}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -129,18 +142,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 2, y: 1.75}
   m_EdgeRadius: 0
---- !u!114 &6960672242725477455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482909350139462830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c87c763f9db7f4aa13fb9eb5368f9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coverColor: {r: 1, g: 1, b: 1, a: 0.5019608}
