@@ -28,6 +28,7 @@ public class NavigateState : BehaviorState
     {
         if (Vector2.Distance(EntityProps.Transform.position, targetPos) <= 0.1f)
         {
+            EntityStateSupport.QuitSearch();
             ResetContextState();
         }
     }

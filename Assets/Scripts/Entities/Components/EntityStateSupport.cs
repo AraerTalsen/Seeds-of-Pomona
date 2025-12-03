@@ -63,14 +63,14 @@ public class EntityStateSupport : MonoBehaviour
             }
             return true;
         }
-        else if (EntityProps.IsTargetLost)
-        {
-            EntityProps.TargetPos = null;
-            EntityProps.IsTracking = true;
-            EntityProps.IsTargetLost = false;
-            StartCoroutine(nameof(TrackTarget));
-        }
         return false;
+    }
+
+    public void QuitSearch()
+    {
+        EntityProps.IsTracking = true;
+        EntityProps.IsTargetLost = false;
+        StartCoroutine(nameof(TrackTarget));
     }
 
     private IEnumerator TrackTarget()

@@ -25,7 +25,11 @@ public class EntityProperties
         get => targetTransform;
         set
         {
-            IsTargetLost = targetTransform != null && value == null;
+            if(!IsTargetLost)
+            {
+                IsTargetLost = targetTransform != null && value == null;
+            }
+            
             targetTransform = value;
             Vector2? temp = targetTransform != null ? targetTransform.position : null;
             TargetPos = temp == null ? temp : new Vector2(((Vector2)temp).x, ((Vector2)temp).y);

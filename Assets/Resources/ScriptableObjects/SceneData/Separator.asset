@@ -23,5 +23,5 @@ MonoBehaviour:
       itemId: 0
   itemsHeld: []
   isPersisting: 0
-  unloadTime: 185.31999
+  unloadTime: 8.84
   currentProgress: 0

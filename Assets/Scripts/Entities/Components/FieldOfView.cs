@@ -11,15 +11,19 @@ public class FieldOfView : MonoBehaviour
 
     [HideInInspector]
     public List<Transform> visibleTargets = new();
-
-    private float lastTargetCount = 0;
+    private List<Transform> lastTargets = new();
 
     // Update is called once per frame
     void Update()
     {
         Observe();
+        if(EntityProps.TargetTransform != null)
+        {
+            EntityProps.TargetPos = EntityProps.TargetTransform.position;   
+        }
     }
 
+    //Remove from visible targets any entities outside of view radius
     private void Observe()
     {
         List<Collider2D> targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius).ToList();
@@ -39,19 +43,25 @@ public class FieldOfView : MonoBehaviour
             float distToTarget = Vector2.Distance(transform.position, target.position);
             bool isInList = visibleTargets.Find((t) => t == target);
 
-            UpdateVisibleTargets(target, dirToTarget, distToTarget, isInList);
+            UpdateVisibleTarget(target, dirToTarget, distToTarget, isInList);
         }
+        CompareVisibleTargets();
     }
 
-    private void UpdateVisibleTargets(Transform target, Vector2 dirToTarget, float distToTarget, bool isInList)
+    private void UpdateVisibleTarget(Transform target, Vector2 dirToTarget, float distToTarget, bool isInList)
     {
-        if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
+        if (target.CompareTag("Player") && Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToTarget, distToTarget);
-            if (hit && target.CompareTag("Player") && !isInList)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, dirToTarget, distToTarget);
+            
+            if (hit && hit.collider.CompareTag("Player") && !isInList)
             {
                 Move_Player mp = target.gameObject.GetComponent<Move_Player>();
                 if (!mp.IsHidden) visibleTargets.Add(target);
+            }
+            else if(hit && !hit.collider.CompareTag("Player") && isInList)
+            {
+                visibleTargets.Remove(target);
             }
         }
         else if (isInList)
@@ -61,20 +71,27 @@ public class FieldOfView : MonoBehaviour
 
     }
 
+    private void CompareVisibleTargets()
+    {
+        if (visibleTargets.Except(lastTargets).ToList().Count > 0)
+        {
+            UpdateCurrentTarget();
+        }
+        lastTargets = visibleTargets;
+    }
+
     private void UpdateCurrentTarget()
     {
-        if (lastTargetCount != visibleTargets.Count)
+        if (visibleTargets.Count > 0)
         {
-            if (visibleTargets.Count > 0)
-            {
-                EntityProps.TargetTransform = visibleTargets[0];
-            }
-            else
-            {
-                EntityProps.TargetTransform = null;
-            }
+            EntityProps.TargetTransform = visibleTargets[0];
         }
-        lastTargetCount = visibleTargets.Count;
+        else
+        {
+            Vector2 temp = (Vector2)EntityProps.TargetPos;
+            EntityProps.TargetTransform = null;
+            EntityProps.TargetPos = temp;
+        }
     }
 
     public Vector2 DirFromAngle(float angleInDegrees)

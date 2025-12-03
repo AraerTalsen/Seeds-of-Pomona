@@ -13,6 +13,7 @@ public class BehaviorContext : BehaviorState, IBehaviorContext
         {
             IBehaviorState state = PossibleStates[i].state;
             state.Context = this;
+            state.EntityStateSupport = EntityStateSupport;
             state.EntityProps = EntityProps;
         }
     }

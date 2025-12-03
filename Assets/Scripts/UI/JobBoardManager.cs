@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(JobBoardDisplay))]
+
 //Manage JobRequest creation and organization 
 public class JobBoardManager : MonoBehaviour
 {
@@ -78,7 +80,8 @@ public class JobBoardManager : MonoBehaviour
     //Check if enough time has passed to create a new job
     private void TimeForNewJob()
     {
-        if (jobListings.Count < maxJobCapacity && WorldClock.WorldTimeSince(lastPostTime) >= postDelayInSec)
+        int timePassed = WorldClock.WorldTimeSince(lastPostTime);
+        if (jobListings.Count < maxJobCapacity && timePassed > 1 && timePassed % postDelayInSec == 0)
         {
             CreateNewJobRequest();
         }

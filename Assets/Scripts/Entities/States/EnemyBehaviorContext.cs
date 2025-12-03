@@ -15,11 +15,9 @@ public class EnemyBehaviorContext : BehaviorContext
     }
     public override float RecoveryTime { get; } = 8.0f;
 
-    private readonly EntityStateSupport entityStateSupport;
-
     public EnemyBehaviorContext(EntityStateSupport entityStateSupport, EntityProperties entityProps)
     {
-        this.entityStateSupport = entityStateSupport;
+        EntityStateSupport = entityStateSupport;
         EntityProps = entityProps;
 
         CurrentState = PossibleStates[0].state;
@@ -37,12 +35,12 @@ public class EnemyBehaviorContext : BehaviorContext
 
     private void SearchForTargetEntity()
     {
-        bool targetFound = entityStateSupport.CheckForTargetEntities();
+        bool targetFound = EntityStateSupport.CheckForTargetEntities();
         if (targetFound && CurrentState == PossibleStates[0].state)
         {
             CurrentState = PossibleStates[1].state;
         }
-        else if (!targetFound && CurrentState == PossibleStates[1].state)
+        else if (!targetFound && !EntityProps.IsTargetLost && CurrentState == PossibleStates[1].state)
         {
             CurrentState = PossibleStates[0].state;
         }
