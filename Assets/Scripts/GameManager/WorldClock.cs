@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WorldClock : MonoBehaviour
 {
+    //Clock starts when the game starts, not when the player enters the wilderness
+    //Clock doesn't reset when the player leaves the wilderness
+    //Day count should start at 1 instead of 0
+    //Clock currently only runs on a "20 hour" cycle. Revise lengthOfHrInSec to fix this (or increase length of day)
     private static readonly int lengthOfMinInSec = 1;
     private static readonly int lengthOfHrInSec = 10;
     public static readonly int lengthOfDayInSec = 10;//1200

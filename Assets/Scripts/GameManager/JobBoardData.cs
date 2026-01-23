@@ -16,6 +16,6 @@ public class JobBoardData : ScriptableObject
 
     public List<JobRequest> JobListings {get => jobListings; set => jobListings = value;}
     public List<InventoryEntry> RequestedItems {get => requestedItems; set => requestedItems = value;}
-    public float LastPostTime {get => lastPostTime; set => lastPostTime = value;}
+    //public float LastPostTime {get => lastPostTime; set => lastPostTime = value;}
     public bool IsPersisting {get => isPersisting; set => isPersisting = value;}
 }

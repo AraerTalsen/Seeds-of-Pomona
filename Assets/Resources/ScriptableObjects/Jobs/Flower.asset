@@ -19,4 +19,4 @@ MonoBehaviour:
   baseReward: 600
   rewardVariability: 200
   postedTime: 0
-  timeline: 900
+  timeline: 5

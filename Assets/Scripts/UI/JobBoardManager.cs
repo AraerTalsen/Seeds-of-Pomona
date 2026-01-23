@@ -4,13 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(JobBoardDisplay))]
 
 //Manage JobRequest creation and organization 
-public class JobBoardManager : MonoBehaviour
+public class JobBoardManager : MonoBehaviour, ITimer
 {
     private List<JobRequest> jobListings;
     private List<InventoryEntry> requestedItems;
     private List<(int requestedIndex, int heldItmIndex)?> fulfilledItems;
 
-    private float lastPostTime = 0;
+    //private float lastPostTime = 0;
+    [SerializeField]
+    private int intervalInDays;
+    public int IntervalInDays {get => intervalInDays;}
     public int postDelayInSec;
     private PlayerInventory inv;
     public int maxJobCapacity;
@@ -28,7 +31,7 @@ public class JobBoardManager : MonoBehaviour
     private void FixedUpdate()
     {
         ClearOldJobs();
-        TimeForNewJob();
+        //TimeForNewJob();
     }
 
     //Would Singleton patterns be better than our persistent data containers? They would eliminate these clunky data retrival checks in favor of
@@ -53,6 +56,7 @@ public class JobBoardManager : MonoBehaviour
         {
             jobListings = new();
             requestedItems = new();
+            TimerObserver.Instance.Subscribe(this);
 
             persist.IsPersisting = true;
             persist.JobListings = jobListings;
@@ -77,15 +81,24 @@ public class JobBoardManager : MonoBehaviour
         jobBoardDisplay.JobListings = jobListings;
     }
 
+    public void IncrementTime()
+    {
+        print(TimerObserver.Instance.CurrentDay);
+        if (TimerObserver.Instance.CurrentDay % IntervalInDays == 0 && jobListings.Count < maxJobCapacity)
+        {
+            CreateNewJobRequest();
+        }
+    }
+    
     //Check if enough time has passed to create a new job
-    private void TimeForNewJob()
+    /*private void TimeForNewJob()
     {
         int timePassed = WorldClock.WorldTimeSince(lastPostTime);
         if (jobListings.Count < maxJobCapacity && timePassed > 1 && timePassed % postDelayInSec == 0)
         {
             CreateNewJobRequest();
         }
-    }
+    }*/
 
     //What's a more streamlined way of dynamically removing all items from a list that meet a certain condition? Can it be done in a single pass?
     private void ClearOldJobs()
@@ -93,7 +106,7 @@ public class JobBoardManager : MonoBehaviour
         List<JobRequest> removeJobs = new();
         for (int i = 0; i < jobListings.Count; i++)
         {
-            if (jobListings[i].Deadline <= WorldClock.WorldTimeInSeconds)
+            if (jobListings[i].Deadline <= TimerObserver.Instance.CurrentDay/*WorldClock.WorldTimeInSeconds*/)
             {
                 removeJobs.Add(jobListings[i]);
             }
@@ -107,10 +120,10 @@ public class JobBoardManager : MonoBehaviour
 
     private void CreateNewJobRequest(float postTime = -1)
     {
-        lastPostTime = postTime == -1 ? Time.time : postTime;
+        //lastPostTime = postTime == -1 ? Time.time : postTime;
         int rand = Random.Range(0, JobDictionary.jobs.Count);
         JobRequest newJob = Instantiate(JobDictionary.jobs[rand]);
-        newJob.postedTime = lastPostTime;
+        newJob.postedTime = TimerObserver.Instance.CurrentDay;
         AddJobRequest(newJob);
     }
 
@@ -228,7 +241,7 @@ public class JobBoardManager : MonoBehaviour
     }
 
     //Calculate how many jobs have been added and removed from the board while the scene was unloaded
-    private void CalculateJobDynamism()
+    /*private void CalculateJobDynamism()
     {
         ClearOldJobs();
         float timeSinceLastPost = WorldClock.WorldTimeSince(lastPostTime);
@@ -237,16 +250,16 @@ public class JobBoardManager : MonoBehaviour
         {
             CreateNewJobRequest(lastPostTime + postDelayInSec);
         }
-    }
+    }*/
 
     public void PushData()
     {
-        persist.LastPostTime = lastPostTime;
+        //persist.LastPostTime = lastPostTime;
     }
 
     private void PullData()
     {
-        lastPostTime = persist.LastPostTime;
-        CalculateJobDynamism();
+        //lastPostTime = persist.LastPostTime;
+        //CalculateJobDynamism();
     }
 }
