@@ -18,11 +18,14 @@ public class TimerObserver : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            print("Duplicate Timer Observer");
             Destroy(this);
         }
         else
         {
+            print("New Timer Observer");
             Instance = this;
+            DontDestroyOnLoad(this);
         }
     }
 
