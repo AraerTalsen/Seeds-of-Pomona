@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //Carry over remaining time in CalculateGrowthStage to be the new growthProgress and continue growing from there
-public class GardenPlot : Interactable
+public class GardenPlot : Interactable, ITimer
 {
     private Seeds seeds;
     private SpriteRenderer plant;
@@ -15,6 +15,10 @@ public class GardenPlot : Interactable
     public Seeds Seeds { get => seeds; set => seeds = value; }
     public int CurrentStage { get => currentStage; set => currentStage = value; }
 
+    [SerializeField]
+    private int intervalInDays;
+    public int IntervalInDays {get => intervalInDays;}
+
     private void Awake()
     {
         Transform child = transform.GetChild(0);
@@ -22,7 +26,7 @@ public class GardenPlot : Interactable
         plantInspection = child.GetComponent<PlantInspection>();
     }
 
-    private void FixedUpdate()
+    public void IncrementTime()
     {
         if (seeds != null && currentStage < seeds.growthStages.Length - 1)
         {
@@ -33,9 +37,9 @@ public class GardenPlot : Interactable
     //Check if enough time passed for a new plant growth attempt
     private void TimeForNewAttempt()
     {
-        if (WorldClock.WorldTimeSince(lastGrowthAttempt) + growthProgress >= growthRate)
+        if (TimerObserver.Instance.CurrentDay % IntervalInDays == 0/*WorldClock.WorldTimeSince(lastGrowthAttempt) + growthProgress >= growthRate*/)
         {
-            growthProgress = 0;
+            //growthProgress = 0;
             AttemptNewGrowth();
         }
     }
@@ -43,7 +47,7 @@ public class GardenPlot : Interactable
     //Determine if plant will grow to next stage this growth period
     private void AttemptNewGrowth()
     {
-        lastGrowthAttempt = Time.time;
+        //lastGrowthAttempt = Time.time;
         if (growthOdds >= Random.Range(0, 100))
         {
             currentStage++;
@@ -88,7 +92,7 @@ public class GardenPlot : Interactable
     private void StartGrowth()
     {
         isGrowing = true;
-        lastGrowthAttempt = Time.time;
+        //lastGrowthAttempt = Time.time;
         InitializeValues();
     }
 
@@ -127,18 +131,18 @@ public class GardenPlot : Interactable
         
         if (!CheckIfHarvestable())
         {
-            CalculateGrowthStage();
+            //CalculateGrowthStage();
             CheckIfHarvestable();
         }
         plant.sprite = seeds.growthStages[currentStage];
         isGrowing = true;
-        lastGrowthAttempt = Time.time;
+        //lastGrowthAttempt = Time.time;
     }
 
     //Simulate the number of successful growth attempts
     //1. Compare random number to the minimum odds to beat in order to grow x many stages
     //3. Clamp the growth potential by the number of growth cycles passed and the remaining growth stages of the plant
-    private void CalculateGrowthStage()
+    /*private void CalculateGrowthStage()
     {
         float timeSinceUnload = WorldClock.WorldTimeSince(unloadTime);
         growthProgress += timeSinceUnload;
@@ -152,5 +156,5 @@ public class GardenPlot : Interactable
 
         currentStage += n;
         growthProgress %= growthRate;
-    }
+    }*/
 }

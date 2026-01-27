@@ -1123,6 +1123,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &375626125
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1602,6 +1603,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &599531214
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2096,6 +2098,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &919392737
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2246,6 +2249,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &927617342
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2396,6 +2400,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &995982981
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3184,6 +3189,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &1181872830
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3334,6 +3340,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!212 &1184521389
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4581,6 +4588,7 @@ MonoBehaviour:
   lastGrowthAttempt: 0
   growthProgress: 0
   unloadTime: 0
+  intervalInDays: 1
 --- !u!61 &1787937843
 BoxCollider2D:
   m_ObjectHideFlags: 0

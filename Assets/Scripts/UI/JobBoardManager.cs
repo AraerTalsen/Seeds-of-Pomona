@@ -83,7 +83,7 @@ public class JobBoardManager : MonoBehaviour, ITimer
 
     public void IncrementTime()
     {
-        print(TimerObserver.Instance.CurrentDay);
+        print("Day: " + TimerObserver.Instance.CurrentDay);
         if (TimerObserver.Instance.CurrentDay % IntervalInDays == 0 && jobListings.Count < maxJobCapacity)
         {
             CreateNewJobRequest();
