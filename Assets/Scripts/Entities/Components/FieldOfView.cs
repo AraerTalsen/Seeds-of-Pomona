@@ -56,8 +56,14 @@ public class FieldOfView : MonoBehaviour
             
             if (hit && hit.collider.CompareTag("Player") && !isInList)
             {
-                Move_Player mp = target.gameObject.GetComponent<Move_Player>();
-                if (!mp.IsHidden) visibleTargets.Add(target);
+                GameObject player = target.gameObject;
+                Move_Player mp = player.GetComponent<Move_Player>();
+                DifficultyScaler ds = player.GetComponent<DifficultyScaler>();
+                if (!mp.IsHidden) 
+                {
+                    visibleTargets.Add(target);
+                    ds.TimesSpotted++;
+                }
             }
             else if(hit && !hit.collider.CompareTag("Player") && isInList)
             {
