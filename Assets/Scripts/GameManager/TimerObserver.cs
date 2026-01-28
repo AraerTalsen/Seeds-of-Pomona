@@ -18,12 +18,10 @@ public class TimerObserver : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            print("Duplicate Timer Observer");
             Destroy(this);
         }
         else
         {
-            print("New Timer Observer");
             Instance = this;
             DontDestroyOnLoad(this);
         }
@@ -40,7 +38,10 @@ public class TimerObserver : MonoBehaviour
 
     public void Subscribe(ITimer timer)
     {
-        subscriptions.Add(timer);
+        if(!CheckStatus(timer))
+        {
+           subscriptions.Add(timer);
+        }
     }
 
     public void Unsubscribe(ITimer timer)

@@ -50,7 +50,7 @@ public class EntityManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Move_Player>().Kill();
+            collision.gameObject.GetComponent<PlayerDeathManager>().KillPlayer();
         }
     }
 }

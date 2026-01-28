@@ -53,7 +53,7 @@ public class ClickObjectInWorld : MonoBehaviour
 
     private IClickable FindFirstInteractable(RaycastHit2D[] hits)
     {
-        return hits.Select(hit => hit.transform.gameObject.GetComponent<IClickable>()).Where(interact => interact != null).FirstOrDefault();
+        return hits.Select(hit => hit.transform.gameObject.GetComponent<IClickable>()).FirstOrDefault(interact => interact != null);
     }
 
     private void CheckForInteraction()

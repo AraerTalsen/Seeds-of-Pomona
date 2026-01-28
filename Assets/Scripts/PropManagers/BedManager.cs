@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BedManager : Interactable
 {
-    private void Sleep()
+    private void Sleep(GameObject interactor)
     {
-        
+        interactor.transform.position = transform.position;
+        interactor.GetComponent<PlayerSleepManager>().Sleep();
     }
 
     public override void StartInteractiveProcess(GameObject interactor)
     {
-        print("Sleeping");
-        Sleep();
+        Sleep(interactor);
         TimerObserver.Instance.Broadcast();
     }
 }

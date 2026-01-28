@@ -9,8 +9,6 @@ public class PlayerDeathManager : MonoBehaviour
     [SerializeField]
     private Animator screenFX;
     [SerializeField]
-    private Animator shake;
-    [SerializeField]
     private CinemachineVirtualCamera vcam;
 
     private PlayerInventory inventory;

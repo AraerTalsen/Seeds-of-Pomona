@@ -52,11 +52,11 @@ public class JobBoardManager : MonoBehaviour, ITimer
 
     private void InitializeSaveData()
     {
+        TimerObserver.Instance.Subscribe(this);
         if (!persist.IsPersisting)
         {
             jobListings = new();
             requestedItems = new();
-            TimerObserver.Instance.Subscribe(this);
 
             persist.IsPersisting = true;
             persist.JobListings = jobListings;
@@ -261,5 +261,10 @@ public class JobBoardManager : MonoBehaviour, ITimer
     {
         //lastPostTime = persist.LastPostTime;
         //CalculateJobDynamism();
+    }
+
+    private void OnDisable()
+    {
+        TimerObserver.Instance.Unsubscribe(this);
     }
 }

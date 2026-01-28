@@ -94,6 +94,7 @@ public class GardenPlot : Interactable, ITimer
         isGrowing = true;
         //lastGrowthAttempt = Time.time;
         InitializeValues();
+        TimerObserver.Instance.Subscribe(this);
     }
 
     private void InitializeValues()
@@ -122,6 +123,7 @@ public class GardenPlot : Interactable, ITimer
         isFinished = false;
         currentStage = 0;
         SetPlantInspectability();
+        TimerObserver.Instance.Unsubscribe(this);
     }
 
     public void RestartGrowth()
@@ -136,6 +138,7 @@ public class GardenPlot : Interactable, ITimer
         }
         plant.sprite = seeds.growthStages[currentStage];
         isGrowing = true;
+        TimerObserver.Instance.Subscribe(this);
         //lastGrowthAttempt = Time.time;
     }
 
@@ -157,4 +160,9 @@ public class GardenPlot : Interactable, ITimer
         currentStage += n;
         growthProgress %= growthRate;
     }*/
+
+    private void OnDisable()
+    {
+        TimerObserver.Instance.Unsubscribe(this);
+    }
 }

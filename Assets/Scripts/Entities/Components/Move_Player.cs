@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(ClickObjectInWorld))]
-[RequireComponent(typeof(PlayerDeathManager))]
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(InventoryDisplayManager))]
 [RequireComponent(typeof(PlayerInteract))]
@@ -17,7 +16,6 @@ public class Move_Player : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
-    private PlayerDeathManager pdm;
     public PlayerInventory inventory;
 
     public bool IsHidden { get => isHidden; }
@@ -28,7 +26,6 @@ public class Move_Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInteract = GetComponent<PlayerInteract>();
         cow = GetComponent<ClickObjectInWorld>();
-        pdm = GetComponent<PlayerDeathManager>();
         inventory = GetComponent<PlayerInventory>();
 
         playerInteract.Move_Player = this;
@@ -69,10 +66,5 @@ public class Move_Player : MonoBehaviour
     public void ToggleHidden()
     {
         isHidden = !isHidden;
-    }
-
-    public void Kill()
-    {
-        pdm.KillPlayer();
     }
 }
