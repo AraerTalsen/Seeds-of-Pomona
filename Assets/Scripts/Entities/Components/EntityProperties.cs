@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityProperties
@@ -18,6 +19,9 @@ public class EntityProperties
     public bool IsTracking { get; set; }
     public bool IsTargetLost { get; set; }
     public Transform Transform { get; set; }
+    [SerializeField]
+    private List<Transform> spottedTargets = new();
+    public List<Transform> SpottedTargets {get => spottedTargets;}
 
     private Transform targetTransform;
     public Transform TargetTransform
@@ -32,6 +36,7 @@ public class EntityProperties
             
             targetTransform = value;
             Vector2? temp = targetTransform != null ? targetTransform.position : null;
+            //Do we need all of these casts or can we just do (Vector2)temp or even TargetPos ?= temp;
             TargetPos = temp == null ? temp : new Vector2(((Vector2)temp).x, ((Vector2)temp).y);
         }
     }
@@ -57,5 +62,15 @@ public class EntityProperties
         Transform.rotation = Quaternion.RotateTowards(Transform.rotation, targetRotation, TurnSpeed);
 
         return dirToTarget;
+    }
+
+    public void SpottedNewTarget(Transform t)
+    {
+        spottedTargets.Add(t);
+    }
+
+    public void LostTargets()
+    {
+        spottedTargets.Clear();
     }
 }

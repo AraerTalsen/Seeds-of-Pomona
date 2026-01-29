@@ -62,7 +62,13 @@ public class FieldOfView : MonoBehaviour
                 if (!mp.IsHidden) 
                 {
                     visibleTargets.Add(target);
-                    ds.TimesSpotted++;
+                    
+                    if(!EntityProps.SpottedTargets.Contains(target))
+                    {
+                        ds.TimesSpotted++;
+                        EntityProps.SpottedNewTarget(target);
+                    }
+                    
                 }
             }
             else if(hit && !hit.collider.CompareTag("Player") && isInList)

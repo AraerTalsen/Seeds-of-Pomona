@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DifficultyScaler : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI difficultyScale;
+    private Slider difficultyScale;
     [SerializeField]
     private int maxTimeDifficulty;
     [SerializeField]
@@ -40,7 +39,7 @@ public class DifficultyScaler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        difficultyScale.text = CalculateDifficultyScale().ToString();
+        difficultyScale.value = CalculateDifficultyScale() / 3;
     }
 
     private float DistanceFromBase()
@@ -58,7 +57,7 @@ public class DifficultyScaler : MonoBehaviour
         float timeDifficulty = TimeInWilderness() / maxTimeDifficulty;
         float distDifficulty = DistanceFromBase() / maxDistDifficulty;
         float aggroDifficulty = TimesSpotted * 0.5f;
-
+        print(aggroDifficulty);
         return Mathf.Min(timeDifficulty + distDifficulty + aggroDifficulty, 3);
     }
 
@@ -66,7 +65,7 @@ public class DifficultyScaler : MonoBehaviour
     {
         isAggroed = true;
         yield return new WaitForSeconds(baseAggroCoolDown);
-        TimesSpotted--;
+        timesSpotted--;
         if(TimesSpotted > 0)
         {
             StartCoroutine(nameof(AggroTimer));

@@ -28,7 +28,10 @@ public class NavigateState : BehaviorState
     {
         if (Vector2.Distance(EntityProps.Transform.position, targetPos) <= 0.1f)
         {
-            EntityStateSupport.QuitSearch();
+            if(EntityProps.IsTargetLost && !EntityProps.IsTracking)
+            {
+                EntityStateSupport.QuitSearch();
+            }
             ResetContextState();
         }
     }

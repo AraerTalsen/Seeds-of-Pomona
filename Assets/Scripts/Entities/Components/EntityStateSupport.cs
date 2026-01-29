@@ -69,7 +69,6 @@ public class EntityStateSupport : MonoBehaviour
     public void QuitSearch()
     {
         EntityProps.IsTracking = true;
-        EntityProps.IsTargetLost = false;
         StartCoroutine(nameof(TrackTarget));
     }
 
@@ -77,6 +76,8 @@ public class EntityStateSupport : MonoBehaviour
     {
         yield return new WaitForSeconds(EntityProps.Persistence);
         EntityProps.IsTracking = false;
+        EntityProps.IsTargetLost = false;
+        EntityProps.LostTargets();
         Recover(EntityProps.HuntRecoveryTime);
     }
 }
