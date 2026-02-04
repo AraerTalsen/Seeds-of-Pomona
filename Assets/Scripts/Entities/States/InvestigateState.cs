@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InvestigateState : BehaviorContext
 {
-    public override List<(IBehaviorState state, int maxThreshold)> PossibleStates { get; } = new() { (new ObserveState(), 67), (new NavigateState(), 100) };
+    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new ObserveState(), 67), (new NavigateState(), 100) };
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -32,7 +32,7 @@ public class InvestigateState : BehaviorContext
 
         for (int i = 0; i < PossibleStates.Count; i++)
         {
-            if (PossibleStates[i].maxThreshold >= rand)
+            if (PossibleStates[i].weight >= rand)
             {
                 CurrentState = PossibleStates[i].state;
                 break;

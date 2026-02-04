@@ -22,6 +22,9 @@ public class EntityManager : MonoBehaviour
 
     private EntityStateSupport entityStateSupport;
     private EnemyBehaviorContext enemyBehaviorContext;
+    private EvolutionContext evolutionContext;
+    private EvolutionTracker evolutionTracker;
+    private StatBlock stats;
 
     void Awake()
     {
@@ -40,6 +43,15 @@ public class EntityManager : MonoBehaviour
         FOV = GetComponent<FieldOfView>();
         FOV.EntityProps = EntityProps;
         enemyBehaviorContext = new(entityStateSupport, EntityProps);
+        evolutionTracker = GetComponent<EvolutionTracker>();
+        stats = GetComponent<StatBlock>();
+        evolutionContext = new()
+        {
+            stats = stats,
+            stateMachine = enemyBehaviorContext,
+            visualEntity = gameObject
+        };
+        evolutionTracker.Context = evolutionContext;
     }
 
     void Update()

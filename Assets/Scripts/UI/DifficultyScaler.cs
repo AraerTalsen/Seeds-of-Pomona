@@ -57,7 +57,7 @@ public class DifficultyScaler : MonoBehaviour
         float timeDifficulty = TimeInWilderness() / maxTimeDifficulty;
         float distDifficulty = DistanceFromBase() / maxDistDifficulty;
         float aggroDifficulty = TimesSpotted * 0.5f;
-        print(aggroDifficulty);
+        
         return Mathf.Min(timeDifficulty + distDifficulty + aggroDifficulty, 3);
     }
 

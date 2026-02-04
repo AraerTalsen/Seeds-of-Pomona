@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EntityStateSupport : MonoBehaviour
 {
+    public delegate void BehaviorType();
     private EntityProperties entityProps;
     public EntityProperties EntityProps
     {
@@ -79,5 +80,16 @@ public class EntityStateSupport : MonoBehaviour
         EntityProps.IsTargetLost = false;
         EntityProps.LostTargets();
         Recover(EntityProps.HuntRecoveryTime);
+    }
+
+    public void LaunchBehavior(BehaviorType behavior, float durration)
+    {
+        StartCoroutine(BehaviorOverTime(behavior, durration));
+    }
+
+    private IEnumerator BehaviorOverTime(BehaviorType behavior, float durration)
+    {
+        yield return new WaitForSeconds(durration);
+        behavior();
     }
 }

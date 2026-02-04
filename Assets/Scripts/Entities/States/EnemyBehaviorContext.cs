@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyBehaviorContext : BehaviorContext
 {
-    public override List<(IBehaviorState state, int maxThreshold)> PossibleStates { get; } = new() { (new InvestigateState(), 0), (new NavigateState(), 0) };
+    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new InvestigateState(), 0), (new NavigateState(), 0) };
     private IBehaviorState currentState;
     public override IBehaviorState CurrentState
     {
@@ -31,6 +31,7 @@ public class EnemyBehaviorContext : BehaviorContext
         {
             currentState.PerformAction();
         }
+
     }
 
     private void SearchForTargetEntity()

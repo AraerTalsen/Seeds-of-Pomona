@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1650557447118419653}
   - component: {fileID: 4297527761132930061}
   - component: {fileID: 3922371995299262896}
+  - component: {fileID: 7099110296153449815}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -228,6 +229,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a098f1f25173584fb19d7599db4b268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7099110296153449815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e04a970acb6d54a9c4a608961bb907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolutions:
+  - threshold: 0
+    effect: {fileID: 11400000, guid: 829adc2b7b492f7498af8f3310ea1d6b, type: 2}
+    payload:
+      rid: 5430164766295851009
+  references:
+    version: 2
+    RefIds:
+    - rid: 5430164766295851009
+      type: {class: StatPayload, ns: , asm: Assembly-CSharp}
+      data:
+        stats: 
+        mods: 
 --- !u!1 &8769969267728588781
 GameObject:
   m_ObjectHideFlags: 0

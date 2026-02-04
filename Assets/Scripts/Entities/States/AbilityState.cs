@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityEvolve : Evolutions, IBehaviorState
+public abstract class AbilityState : ScriptableObject, IBehaviorState
 {
-    [HideInInspector]
-    public IBehaviorContext Context { get; set; }
-    [HideInInspector]
-    public EntityProperties EntityProps { get; set; }
-    [HideInInspector]
     public virtual EntityStateSupport EntityStateSupport { get; set; }
 
+    public IBehaviorContext Context { get; set; }
+    public EntityProperties EntityProps { get; set; }
+
     public float RecoveryTime { get; }
+
 
     public abstract void PerformAction();
 }
