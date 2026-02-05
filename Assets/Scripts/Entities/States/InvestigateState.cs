@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InvestigateState : BehaviorContext
 {
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new ObserveState(), 67), (new NavigateState(), 100) };
+    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new ObserveState(), 33), (new NavigateState(), 55) };
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -14,29 +14,12 @@ public class InvestigateState : BehaviorContext
         {
             entityProps = value;
             InitializeStates();
+            CurrentState = null;
         }
     }
 
     public override void PerformAction()
     {
-        if (CurrentState == null)
-        {
-            ChooseState();
-        }
         CurrentState.PerformAction();
-    }
-
-    private void ChooseState()
-    {
-        int rand = Random.Range(0, 101);
-
-        for (int i = 0; i < PossibleStates.Count; i++)
-        {
-            if (PossibleStates[i].weight >= rand)
-            {
-                CurrentState = PossibleStates[i].state;
-                break;
-            }
-        }
     }
 }

@@ -450,7 +450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28169f2ba8e526f46921cb788132984e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
   turnSpeed: 0.75
   patrolRadius: 5
   persistence: 3
@@ -484,7 +483,7 @@ MonoBehaviour:
   - stat: 0
     val: 2
   - stat: 1
-    val: 2
+    val: 5
   - stat: 2
     val: 2
 --- !u!114 &7099110296153449815
@@ -521,7 +520,7 @@ MonoBehaviour:
       data:
         statValPairs:
         - stat: 1
-          val: 1
+          val: 2
     - rid: 5430164783518187520
       type: {class: AbilityPayload, ns: , asm: Assembly-CSharp}
       data:
@@ -536,7 +535,7 @@ MonoBehaviour:
             val: 1
         abilityPayload:
           ability: {fileID: 11400000, guid: f216b6165920c6f44811e6965a270fc4, type: 2}
-          probability: 50
+          probability: 75
         scaleIncrease: 2
 --- !u!1 &8769969267728588781
 GameObject:

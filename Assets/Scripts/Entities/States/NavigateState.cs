@@ -4,7 +4,7 @@ public class NavigateState : BehaviorState
 {
     public override float RecoveryTime { get; } = 4.0f;
 
-    private Vector3 targetPos;
+    private Vector2 targetPos;
     private Transform trans;
 
     public override void PerformAction()
@@ -19,7 +19,7 @@ public class NavigateState : BehaviorState
 
     private void Move()
     {
-        targetPos = (Vector3)EntityProps.TargetPos;
+        targetPos = (Vector2)EntityProps.TargetPos;
         EntityProps.Transform.position = Vector2.MoveTowards(trans.position, targetPos, EntityProps.MoveSpeed * Time.deltaTime);
         EntityProps.Rotate();
     }

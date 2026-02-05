@@ -3,16 +3,7 @@ using UnityEngine;
 
 public class EnemyBehaviorContext : BehaviorContext
 {
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new InvestigateState(), 0), (new NavigateState(), 0) };
-    private IBehaviorState currentState;
-    public override IBehaviorState CurrentState
-    {
-        get => currentState;
-        set
-        {
-            currentState = value ?? PossibleStates[0].state;
-        }
-    }
+    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new InvestigateState(), 50), (new NavigateState(), 0) };
     public override float RecoveryTime { get; } = 8.0f;
 
     public EnemyBehaviorContext(EntityStateSupport entityStateSupport, EntityProperties entityProps)
@@ -37,13 +28,13 @@ public class EnemyBehaviorContext : BehaviorContext
     private void SearchForTargetEntity()
     {
         bool targetFound = EntityStateSupport.CheckForTargetEntities();
-        if (targetFound && CurrentState == PossibleStates[0].state)
+        if (targetFound && CurrentState != PossibleStates[1].state)
         {
             CurrentState = PossibleStates[1].state;
         }
-        else if (!targetFound && !EntityProps.IsTargetLost && CurrentState == PossibleStates[1].state)
+        else if (!targetFound && !EntityProps.IsTargetLost)
         {
-            CurrentState = PossibleStates[0].state;
+            CurrentState = null;
         }
     }
 }

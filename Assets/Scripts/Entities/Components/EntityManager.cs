@@ -9,8 +9,6 @@ using UnityEngine;
 public class EntityManager : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
     private float turnSpeed;
     [SerializeField]
     private float patrolRadius;
@@ -30,9 +28,10 @@ public class EntityManager : MonoBehaviour
 
     void Awake()
     {
+        stats = GetComponent<StatBlock>();
         EntityProps = new()
         {
-            MoveSpeed = moveSpeed,
+            StatBlock = stats,
             TurnSpeed = turnSpeed,
             PatrolRadius = patrolRadius,
             Persistence = persistence,
@@ -46,7 +45,7 @@ public class EntityManager : MonoBehaviour
         FOV.EntityProps = EntityProps;
         enemyBehaviorContext = new(entityStateSupport, EntityProps);
         evolutionTracker = GetComponent<EvolutionTracker>();
-        stats = GetComponent<StatBlock>();
+        
         evolutionContext = new()
         {
             stats = stats,

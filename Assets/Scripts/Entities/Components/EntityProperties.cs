@@ -9,7 +9,7 @@ public class EntityProperties
     public DelayNextAction Recover { get; set; }
     public ResetTarget ChoosePatrolPoint { get; set; }
 
-    public float MoveSpeed { get; set; }
+    public float MoveSpeed => StatBlock.GetStat(Stats.Speed);
     public float TurnSpeed { get; set; }
     public float PatrolRadius { get; set; }
     public float Persistence { get; set; }
@@ -21,7 +21,8 @@ public class EntityProperties
     public Transform Transform { get; set; }
     [SerializeField]
     private List<Transform> spottedTargets = new();
-    public List<Transform> SpottedTargets {get => spottedTargets;}
+    public List<Transform> SpottedTargets => spottedTargets;
+    public StatBlock StatBlock { get; set; }
 
     private Transform targetTransform;
     public Transform TargetTransform

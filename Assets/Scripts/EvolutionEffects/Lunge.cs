@@ -30,6 +30,6 @@ public class Lunge : AbilityState
 
     private void LungeForward()
     {
-        Debug.Log("Success");
+        Debug.Log("Lunged");
     }
 }

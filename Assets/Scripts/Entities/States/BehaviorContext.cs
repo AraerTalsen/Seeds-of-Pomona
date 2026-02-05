@@ -5,7 +5,15 @@ using UnityEngine;
 
 public class BehaviorContext : BehaviorState, IBehaviorContext
 {
-    public virtual IBehaviorState CurrentState { get; set; }
+    protected IBehaviorState currentState;
+    public virtual IBehaviorState CurrentState 
+    { 
+        get => currentState;
+        set
+        {
+            currentState = value ?? ChooseRandomState();
+        }
+    }
     public virtual List<(IBehaviorState state, int weight)> PossibleStates { get; } = new();
 
     public void AddState(IBehaviorState state, int weight)
@@ -47,7 +55,7 @@ public class BehaviorContext : BehaviorState, IBehaviorContext
         {
            currentWeight += weight;
 
-            if(randNum < currentWeight)
+            if(randNum < currentWeight && currentWeight != 0)
             {
                 return state;
             }
