@@ -4,6 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(FieldOfView))]
 [RequireComponent(typeof(EntityStateSupport))]
+[RequireComponent(typeof(EvolutionTracker))]
+[RequireComponent(typeof(StatBlock))]
 public class EntityManager : MonoBehaviour
 {
     [SerializeField]

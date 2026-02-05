@@ -10,7 +10,20 @@ public class AbilityEvolutionEffect : EvolutionEffect
 
     public override void Apply(EvolutionContext context, Payload payload)
     {
+        HandleEffect(context, payload, true);
+    }
+
+    public override void Revert(EvolutionContext context, Payload payload)
+    {
+        HandleEffect(context, payload, false);
+    }
+
+    protected override void HandleEffect(EvolutionContext context, Payload payload, bool isApplied)
+    {
         AbilityPayload data = (AbilityPayload)payload;
-        context.stateMachine.AddState(data.ability, data.probabilty);
+        if(isApplied)
+            context.stateMachine.AddState(data.ability, data.probabilty);
+        else
+            context.stateMachine.RemoveState(data.ability, data.probabilty);
     }
 }

@@ -10,10 +10,23 @@ public class StatEvolutionEffect : EvolutionEffect
 
     public override void Apply(EvolutionContext context, Payload payload)
     {
+        HandleEffect(context, payload, true);
+    }
+
+    public override void Revert(EvolutionContext context, Payload payload)
+    {
+        HandleEffect(context, payload, false);
+    }
+
+    protected override void HandleEffect(EvolutionContext context, Payload payload, bool isApplied)
+    {
         StatPayload data = (StatPayload)payload;
-        for(int i = 0; i < data.stats.Count; i++)
+        int sign = isApplied ? 1 : -1;
+
+        for(int i = 0; i < data.statValPair.Count; i++)
         {
-            context.stats.Modify(data.stats[i], data.mods[i]);
+            StatValPair pair = data.statValPair[i];
+            context.stats.Modify(pair.stat, sign * pair.val);
         }
     }
 }

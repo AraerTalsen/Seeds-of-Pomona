@@ -5,6 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public class StatPayload : Payload
 {
-    public List<Stats> stats;
-    public List<int> mods;
+    public List<StatValPair> statValPair;
 }

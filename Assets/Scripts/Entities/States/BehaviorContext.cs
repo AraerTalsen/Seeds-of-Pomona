@@ -25,6 +25,11 @@ public class BehaviorContext : BehaviorState, IBehaviorContext
         }
     }
 
+    public void RemoveState(IBehaviorState state, int weight)
+    {
+        PossibleStates.Remove((state, weight));
+    }
+
     protected void InitializeState(IBehaviorState state)
     {
         state.Context = this;

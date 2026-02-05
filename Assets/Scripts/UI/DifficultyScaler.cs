@@ -28,18 +28,24 @@ public class DifficultyScaler : MonoBehaviour
     private float startTime;
     private int timesSpotted;
     private bool isAggroed = false;
+    private StageDifficulty stageDifficulty;
+    private int currThreshold = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         startPos = transform.position;
         startTime = Time.time;
+        stageDifficulty = StageDifficulty.Instance;
+        stageDifficulty.Subscribe(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        difficultyScale.value = CalculateDifficultyScale() / 3;
+        float difficulty = CalculateDifficultyScale();
+        GetCurrentDiffThreshold(difficulty);
+        difficultyScale.value = difficulty / 3;
     }
 
     private float DistanceFromBase()
@@ -74,5 +80,21 @@ public class DifficultyScaler : MonoBehaviour
         {
             isAggroed = false;
         }
+    }
+
+    private void GetCurrentDiffThreshold(float difficulty)
+    {
+        int diffValue = Mathf.FloorToInt(difficulty);
+        
+        if(diffValue != currThreshold)
+        {
+            currThreshold = diffValue;
+            stageDifficulty.NoticeOfDiffChange(currThreshold);
+        }
+    }
+
+    private void OnDisable()
+    {
+        stageDifficulty.Unsubscribe(this);
     }
 }
