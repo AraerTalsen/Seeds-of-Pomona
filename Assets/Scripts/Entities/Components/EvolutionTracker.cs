@@ -44,10 +44,13 @@ public class EvolutionTracker : MonoBehaviour
             }
             else
             {
-                if (threshold >= difficultyLvl && nextEvo > threshold)
+                if (threshold > difficultyLvl)
                     nextEvo = threshold;
-                else if(threshold < difficultyLvl)
-                    break;
+                else if(threshold <= difficultyLvl)
+                {
+                    nextEvo = threshold;
+                    break;   
+                }
             }
 
             index += forward ? 1 : -1;
@@ -76,7 +79,6 @@ public class EvolutionTracker : MonoBehaviour
 
     private void RevertEvolution(int stage)
     {
-        print("Reverting evolution");
         EvolutionEntry entry = evolutions[stage];
         entry.effect.Revert(Context, entry.payload);
     }

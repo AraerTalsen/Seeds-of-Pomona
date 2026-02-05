@@ -6,5 +6,5 @@ using UnityEngine;
 public class AbilityPayload : Payload
 {
     public AbilityState ability;
-    public int probabilty;
+    public int probability;
 }

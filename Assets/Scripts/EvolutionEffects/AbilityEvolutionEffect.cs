@@ -7,23 +7,13 @@ using UnityEngine;
 public class AbilityEvolutionEffect : EvolutionEffect
 {
     public override Type PayloadType => typeof(AbilityPayload);
-
-    public override void Apply(EvolutionContext context, Payload payload)
-    {
-        HandleEffect(context, payload, true);
-    }
-
-    public override void Revert(EvolutionContext context, Payload payload)
-    {
-        HandleEffect(context, payload, false);
-    }
-
+    
     protected override void HandleEffect(EvolutionContext context, Payload payload, bool isApplied)
     {
         AbilityPayload data = (AbilityPayload)payload;
         if(isApplied)
-            context.stateMachine.AddState(data.ability, data.probabilty);
+            context.stateMachine.AddState(data.ability, data.probability);
         else
-            context.stateMachine.RemoveState(data.ability, data.probabilty);
+            context.stateMachine.RemoveState(data.ability, data.probability);
     }
 }

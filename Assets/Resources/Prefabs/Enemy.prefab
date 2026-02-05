@@ -508,6 +508,10 @@ MonoBehaviour:
     effect: {fileID: 11400000, guid: f1c65d1ad93be9140a57ff414b66a20f, type: 2}
     payload:
       rid: 5430164783518187520
+  - threshold: 3
+    effect: {fileID: 11400000, guid: bcd78ed4e75a6b54a90bb39bdea38278, type: 2}
+    payload:
+      rid: 5430164804645683200
   currentEvolution: 0
   references:
     version: 2
@@ -515,14 +519,25 @@ MonoBehaviour:
     - rid: 5430164766295851009
       type: {class: StatPayload, ns: , asm: Assembly-CSharp}
       data:
-        statValPair:
+        statValPairs:
         - stat: 1
           val: 1
     - rid: 5430164783518187520
       type: {class: AbilityPayload, ns: , asm: Assembly-CSharp}
       data:
         ability: {fileID: 11400000, guid: d458af5bb174b5e42ac9a5ac0c1be08e, type: 2}
-        probabilty: 75
+        probability: 50
+    - rid: 5430164804645683200
+      type: {class: TransformationPayload, ns: , asm: Assembly-CSharp}
+      data:
+        statPayload:
+          statValPairs:
+          - stat: 2
+            val: 1
+        abilityPayload:
+          ability: {fileID: 11400000, guid: f216b6165920c6f44811e6965a270fc4, type: 2}
+          probability: 50
+        scaleIncrease: 2
 --- !u!1 &8769969267728588781
 GameObject:
   m_ObjectHideFlags: 0
