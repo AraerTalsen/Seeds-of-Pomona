@@ -74,11 +74,11 @@ public class GardenPlot : Interactable, ITimer
     {
         if (!isGrowing)
         {
-            Inventory inv = interactor.GetComponent<Move_Player>().inventory;
-            int index = inv.FindItem(0);
+            DragNDropInventory inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
+            int index = inv.Find(0).Item.id;
             if (index > -1)
             {
-                seeds = (Seeds)inv.PullItems(index, 1).item;
+                seeds = (Seeds)inv.PullItems(index, 1, out int unfulfilled).item;
                 ToggleInteractability();
                 StartGrowth();
             }
@@ -115,7 +115,7 @@ public class GardenPlot : Interactable, ITimer
 
     private void Harvest(GameObject interactor)
     {
-        interactor.GetComponent<Move_Player>().inventory.AddItem((1, output), 0);
+        interactor.GetComponent<Move_Player>().inventory.GetInventory().PushItems(output.id, 1);
         plant.sprite = null;
         output = null;
         seeds = null;

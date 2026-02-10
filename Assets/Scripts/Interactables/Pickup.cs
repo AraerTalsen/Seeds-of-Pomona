@@ -8,7 +8,7 @@ public class Pickup : Interactable
     
     public override void StartInteractiveProcess(GameObject interactor)
     {
-        interactor.GetComponent<Move_Player>().inventory.AddItem(1, 1, 0);
+        interactor.GetComponent<Move_Player>().inventory.GetInventory().PushItems(1, 1);
         Destroy(transform.parent.gameObject);
     }
 }

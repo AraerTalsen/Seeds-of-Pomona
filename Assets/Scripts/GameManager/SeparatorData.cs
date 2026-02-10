@@ -11,7 +11,11 @@ public class SeparatorData : InventoryData
     private float unloadTime;
     [SerializeField]
     private float currentProgress;
+    [SerializeField] private List<InventoryEntry> input;
+    [SerializeField] private List<InventoryEntry> output;
 
     public float UnloadTime { get => unloadTime; set => unloadTime = value; }
     public float CurrentProgress { get => currentProgress; set => currentProgress = value; }
+    public List<InventoryEntry> Input { get => input; set => input = value; }
+    public List<InventoryEntry> Output { get => output; set => output = value; }
 }

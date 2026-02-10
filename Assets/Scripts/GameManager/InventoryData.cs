@@ -4,9 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/InventoryData")]
-public class InventoryData : ScriptableObject
+public class InventoryData : PersistentDataBase
 {
-    [System.Serializable]
+    /*[System.Serializable]
     public class InventoryContainer
     {
         public InventoryEntry[] inventory;
@@ -15,18 +15,19 @@ public class InventoryData : ScriptableObject
         {
             inventory = Inventory;
         }
-    }
+    }*/
 
 
     [SerializeField]
-    private InventoryContainer[] inventories;
+    //private InventoryContainer[] inventories;
+    private List<InventoryEntry> inventory;
 
-    [SerializeField]
-    private List<HeldItem> itemsHeld;
+    //[SerializeField]
+    //private List<HeldItem> itemsHeld;
     [SerializeField]
     private bool isPersisting = false;
 
-    public InventoryEntry[][] Inventories
+    /*public InventoryEntry[][] Inventories
     {
         get
         {
@@ -51,7 +52,8 @@ public class InventoryData : ScriptableObject
                 inventories[i] = new InventoryContainer(value[i]);
             }
         }
-    }
-    public List<HeldItem> ItemsHeld { get => itemsHeld; set => itemsHeld = value; }
+    }*/
+    public List<InventoryEntry> Inventory { get => inventory; set => inventory = value; }
+    //public List<HeldItem> ItemsHeld { get => itemsHeld; set => itemsHeld = value; }
     public bool IsPersisting { get => isPersisting; set => isPersisting = value; }
 }

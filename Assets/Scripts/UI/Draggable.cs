@@ -10,9 +10,9 @@ public class Draggable : MonoBehaviour
     public PlayerInventory pi;
     public Image image;
 
-    private InventoryEntry inventoryItem = new(0);
+    private InventoryEntry inventoryItem = InventoryEntry.Empty();
     private int currentSlot;
-    private Inventory refInventory;
+    private ItemInventory refInventory;
 
     public InventoryEntry InventoryItem
     {
@@ -28,29 +28,29 @@ public class Draggable : MonoBehaviour
     }
 
     //Could call inv.SetSlot(temp, invIndex, slotIndex); just once after all of the conditionals
-    public InventoryEntry SetDraggable(Inventory inv, int slotIndex, int invIndex, bool isPrivateInput, bool isSameType)
+    public InventoryEntry SetDraggable(DragNDropInventory inv, int slotIndex, int invIndex, bool isPrivateInput, bool isSameType)
     {
         InventoryEntry temp = inventoryItem;
-        InventoryEntry slotItem = inv.PullSlot(invIndex, slotIndex);
+        InventoryEntry slotItem = inv.PullSlot(slotIndex);
 
         if (isSameType)
         {
 
             if (isPrivateInput)
             {
-                (inventoryItem, temp) = HandleSameItemType(inventoryItem.Quantity, slotItem.Quantity, slotItem.item.maxStackSize, slotItem.item);
-                inv.SetSlot(temp, invIndex, slotIndex);
+                (inventoryItem, temp) = HandleSameItemType(inventoryItem.Quantity, slotItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
+                inv.SetSlot(temp, slotIndex);
             }
             else
             {
-                (temp, inventoryItem) = HandleSameItemType(slotItem.Quantity, inventoryItem.Quantity, slotItem.item.maxStackSize, slotItem.item);
-                inv.SetSlot(temp, invIndex, slotIndex);
+                (temp, inventoryItem) = HandleSameItemType(slotItem.Quantity, inventoryItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
+                inv.SetSlot(temp, slotIndex);
             }
         }
         else
         {
             inventoryItem = slotItem;
-            inv.SetSlot(temp, invIndex, slotIndex);
+            inv.SetSlot(temp, slotIndex);
         }
 
         SetDraggableDisplay(inv, slotIndex);
@@ -62,8 +62,8 @@ public class Draggable : MonoBehaviour
     private (InventoryEntry, InventoryEntry) HandleSameItemType(int recievingItemQty, int losingItemQty, int maxStackSize, Item item)
     {
         (int gainedQty, int lostQty) = AddQuantityToItem(recievingItemQty, losingItemQty, maxStackSize);
-        InventoryEntry gainingInventory = new InventoryEntry(gainedQty, item);
-        InventoryEntry losingInventory = lostQty == 0 ? new InventoryEntry(0) : new InventoryEntry(lostQty, item);
+        InventoryEntry gainingInventory = new(gainedQty, item);
+        InventoryEntry losingInventory = lostQty == 0 ? InventoryEntry.Empty() : new(lostQty, item);
         return (gainingInventory, losingInventory);
     }
     
@@ -84,7 +84,7 @@ public class Draggable : MonoBehaviour
         }
     }
 
-    private void SetDraggableDisplay(Inventory inv, int slotIndex)
+    private void SetDraggableDisplay(DragNDropInventory inv, int slotIndex)
     {
         TMP_Text txt = transform.GetChild(0).GetComponent<TMP_Text>();
         if(inventoryItem != null && !inventoryItem.IsEmpty) 
@@ -93,7 +93,7 @@ public class Draggable : MonoBehaviour
             currentSlot = slotIndex;
 
             image.color = new Color(255, 255, 255, 1);
-            image.sprite = inventoryItem.item.sprite;
+            image.sprite = inventoryItem.Item.sprite;
             txt.text = inventoryItem.Quantity.ToString();
         }
         else 

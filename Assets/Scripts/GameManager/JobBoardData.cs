@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/JobBoardData")]
-public class JobBoardData : ScriptableObject
+public class JobBoardData : PersistentDataBase
 {
     [SerializeField]
     private List<JobRequest> jobListings;

@@ -11,12 +11,12 @@ public class PlayerDeathManager : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera vcam;
 
-    private PlayerInventory inventory;
+    private PInv inventory;
     private Move_Player mp;
 
     private void Start()
     {
-        inventory = GetComponent<PlayerInventory>();
+        inventory = GetComponent<PInv>();
         mp = GetComponent<Move_Player>();
     }
 
@@ -26,8 +26,8 @@ public class PlayerDeathManager : MonoBehaviour
         screenFX.SetTrigger("hasDied");
         mp.TogglePauseMovement(true);
         inventory.TriggerDeath();
-        inventory.ClearInventory();
-        inventory.PushData();
+        inventory.GetInventory().ClearInventory();
+        inventory.PushDataTemp();
     }
 
     private void StartShakeyCam()

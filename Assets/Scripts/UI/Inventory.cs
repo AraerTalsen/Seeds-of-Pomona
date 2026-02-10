@@ -7,7 +7,7 @@ using TMPro;
 //Defines the number of inventories and item slots an entity has. Stores items
 public abstract class Inventory : MonoBehaviour
 {
-    [SerializeField]
+    /*[SerializeField]
     private List<int> invSlotCount;
 
     public InventoryData persist;
@@ -42,7 +42,7 @@ public abstract class Inventory : MonoBehaviour
             inventories[i] = new InventoryEntry[invSlotCount[i]];
             for (int j = 0; j < inventories[i].Length; j++)
             {
-                inventories[i][j] = new(0);
+                inventories[i][j] = InventoryEntry.Empty();
             }
         }
     }
@@ -106,7 +106,7 @@ public abstract class Inventory : MonoBehaviour
         for (int i = 0; i < inventories[invIndex].Length; i++)
         {
             bool isSlotEmpty = inventories[invIndex][i] == null || inventories[invIndex][i].IsEmpty;
-            bool isEqual = (useEmptySlots && isSlotEmpty) || (!isSlotEmpty && inventories[invIndex][i].item.id == item.itm.id);
+            bool isEqual = (useEmptySlots && isSlotEmpty) || (!isSlotEmpty && inventories[invIndex][i].Item.id == item.itm.id);
             if (isEqual)
             {
                 item = CheckRemainingSlotCapacity(item, holdIndex, invIndex, i, out bool shortCircuit);
@@ -159,11 +159,11 @@ public abstract class Inventory : MonoBehaviour
     //Takes a positive or negative quantity and adds it to the existing slots quantity
     private void UpdateSlotQty(int insertQty, int holdIndex, int invIndex, int slotIndex, Item item)
     {
-        if (inventories[invIndex][slotIndex].item == null)
+        if (inventories[invIndex][slotIndex].Item == null)
         {
             inventories[invIndex][slotIndex].item = item;
         }
-        inventories[invIndex][slotIndex].Quantity += insertQty;
+        inventories[invIndex][slotIndex].TryAddQuantity(insertQty);
 
         bool isSlotEmpty = inventories[invIndex][slotIndex].IsEmpty;
         UpdateHeldItem(insertQty, isSlotEmpty, holdIndex, invIndex, slotIndex);
@@ -172,11 +172,11 @@ public abstract class Inventory : MonoBehaviour
 
     public void UpdateSlotQty(int insertQty, int invIndex, int slotIndex, Item item)
     {
-        if (inventories[invIndex][slotIndex].item == null)
+        if (inventories[invIndex][slotIndex].Item == null)
         {
-            inventories[invIndex][slotIndex].item = item;
+            inventories[invIndex][slotIndex].Item = item;
         }
-        inventories[invIndex][slotIndex].Quantity += insertQty;
+        inventories[invIndex][slotIndex].TryAddQuantity(insertQty);
 
         bool isSlotEmpty = inventories[invIndex][slotIndex].IsEmpty;
         UpdateHeldItem(insertQty, isSlotEmpty, FindItem(item.id), invIndex, slotIndex);
@@ -244,7 +244,7 @@ public abstract class Inventory : MonoBehaviour
     {
         if (isClearing)
         {
-            inventories[invIndex][slotIndex].Clear();
+            inventories[invIndex][slotIndex].Remove();
         }
         else
         {
@@ -254,7 +254,7 @@ public abstract class Inventory : MonoBehaviour
         if (entry != null && !entry.IsEmpty)
         {
             int mod = isClearing ? -1 : 1;
-            UpdateHeldItem(mod * entry.Quantity, isClearing, GetHoldIndex(entry.item), invIndex, slotIndex);
+            UpdateHeldItem(mod * entry.Quantity, isClearing, GetHoldIndex(entry.Item), invIndex, slotIndex);
         }
 
         DisplayManager.UpdateItemDisplay(slotIndex, invIndex);
@@ -268,14 +268,14 @@ public abstract class Inventory : MonoBehaviour
             (_, int totalQty, List<Vector2> coords) = itemsHeld[heldItmIndex];
 
             int outputQty = totalQty < requestedQty ? totalQty : requestedQty;
-            Item item = inventories[(int)coords[0].x][(int)coords[0].y].item;
+            Item item = inventories[(int)coords[0].x][(int)coords[0].y].Item;
 
             InventoryEntry output = new(outputQty, item);
 
             DeleteItemsByAmnt(requestedQty, heldItmIndex, coords, totalQty, item);
             return output;
         }
-        return new InventoryEntry(0);
+        return InventoryEntry.Empty();
     }
 
     //Remove items from inventory storage, item registry, and display
@@ -344,7 +344,7 @@ public abstract class Inventory : MonoBehaviour
         {
             for(int j = 0; j < inventories[i].Length; j++)
             {
-                inventories[i][j].Quantity = 0;
+                inventories[i][j].Remove();
             }
         }
         itemsHeld = new();
@@ -353,5 +353,5 @@ public abstract class Inventory : MonoBehaviour
         persist.ItemsHeld = itemsHeld;
     }
 
-    public abstract void PullData();
+    public abstract void PullData();*/
 }

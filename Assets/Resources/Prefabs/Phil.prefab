@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 5742771467124524928}
   - component: {fileID: 8753084640111481468}
   - component: {fileID: 2880920643094256351}
-  - component: {fileID: 1405383544668606022}
   - component: {fileID: 3528803846361396545}
   - component: {fileID: 6111583763345825998}
+  - component: {fileID: 2645968022735046473}
+  - component: {fileID: 5997011432069869266}
   - component: {fileID: 7380057304703131252}
   - component: {fileID: 3915928874169660627}
   - component: {fileID: 2284373679954702307}
@@ -194,22 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8cd0cc0fbadbb46ba7cf04ea251ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1405383544668606022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3290296282669825184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50bf722b3697824fb8406ad5abb2321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 943175505593346667}
-  createMenuInstance: 0
-  pm: {fileID: 2134567587334468044}
-  openPlayerInventory: 0
 --- !u!114 &3528803846361396545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,12 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963f58b9b2bee074cb183ff0565ba69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invSlotCount: 14000000
-  persist: {fileID: 11400000, guid: e449da27a43f7b341b253180e8a7f2b7, type: 2}
-  itemsHeld: []
-  deathMsg: You died and lost your items to the wilderness.
-  wallet: {fileID: 7380057304703131252}
-  overridePersist: {fileID: 0}
 --- !u!114 &6111583763345825998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +219,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3a69f84b3a39a449772f13025c46d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2645968022735046473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290296282669825184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f1563592439314ba24f47c6e4ff2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persist: {fileID: 11400000, guid: e449da27a43f7b341b253180e8a7f2b7, type: 2}
+  maxCapacity: 20
+  wallet: {fileID: 7380057304703131252}
+  invContainer: {fileID: 747182706675965952}
+--- !u!114 &5997011432069869266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290296282669825184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff171e11939d6c142b9082c30dc3ebb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menu: {fileID: 943175505593346667}
+  pm: {fileID: 2134567587334468044}
+  createMenuInstance: 0
 --- !u!114 &7380057304703131252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +433,11 @@ PrefabInstance:
       addedObject: {fileID: 2544250567627389151}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
+--- !u!224 &747182706675965952 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8713273805172443030, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}
+  m_PrefabInstance: {fileID: 8265586267685218198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &943175505593346667 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9197361761786056189, guid: 516e77f19be86864f9d0cb15ddc2a77f, type: 3}

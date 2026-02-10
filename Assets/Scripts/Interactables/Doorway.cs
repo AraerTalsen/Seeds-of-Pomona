@@ -9,7 +9,7 @@ public class Doorway : Interactable
     [SerializeField]
     private bool autoOpenDoor = false;
     public string destination;
-    public PlayerInventory playerInventory;
+    public PInv playerInventory;
     public Separator separator;
     public GardenBed gardenBed;
     public JobBoardManager jobBoardManager;
@@ -24,10 +24,9 @@ public class Doorway : Interactable
 
     public override void StartInteractiveProcess(GameObject interactor)
     {
-        playerInventory.PushData();
+        playerInventory.PushDataTemp();
         if (gardenBed != null) gardenBed.PushData();
-        if (separator != null) separator.PushData();
-        if (jobBoardManager != null) jobBoardManager.PushData();
+        if (separator != null) separator.PushDataTemp();
         SceneManager.LoadScene(destination, LoadSceneMode.Single);
     }
 }

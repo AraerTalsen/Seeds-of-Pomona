@@ -17,7 +17,7 @@ public class PlayerInteract : InteractController
 
             if (interact is InteractTriggerMenu itm)
             {
-                itm.Menu2 = DisplayManager.Menu;
+                itm.Menu2 = DisplayManager.Menu.ActiveMenu;
                 interact.StartInteractiveProcess(gameObject);
             }
             else

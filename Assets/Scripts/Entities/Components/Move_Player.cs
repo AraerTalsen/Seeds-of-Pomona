@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(ClickObjectInWorld))]
 [RequireComponent(typeof(PlayerInventory))]
-[RequireComponent(typeof(InventoryDisplayManager))]
 [RequireComponent(typeof(PlayerInteract))]
 public class Move_Player : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class Move_Player : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
-    public PlayerInventory inventory;
+    public PInv inventory;
 
     public bool IsHidden { get => isHidden; }
 
@@ -26,10 +25,9 @@ public class Move_Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInteract = GetComponent<PlayerInteract>();
         cow = GetComponent<ClickObjectInWorld>();
-        inventory = GetComponent<PlayerInventory>();
+        inventory = GetComponent<PInv>();
 
         playerInteract.Move_Player = this;
-        playerInteract.DisplayManager = GetComponent<InventoryDisplayManager>();
     }
 
     // Update is called once per frame

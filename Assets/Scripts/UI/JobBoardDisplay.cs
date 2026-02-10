@@ -18,7 +18,7 @@ public class JobBoardDisplay : BasicMenu
     private Button complete;
     private GameObject leftArrow, rightArrow, emptyBoard;
     public int currentListingIndex = 0;
-    public PlayerInventory inv;
+    public PInv inv;
     public bool isOpen = false;
 
     public UnityAction CompleteJobRequest;

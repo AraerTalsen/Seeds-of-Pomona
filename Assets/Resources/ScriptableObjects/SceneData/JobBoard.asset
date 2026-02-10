@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea81c1d8ef0f51a42ac0b641a3419eca, type: 3}
   m_Name: JobBoard
   m_EditorClassIdentifier: 
-  jobListings: []
+  jobListings:
+  - {fileID: 0}
   requestedItems: []
   lastPostTime: 0
   isPersisting: 1

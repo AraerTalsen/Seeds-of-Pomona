@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/GardenPlotData")]
-public class GardenPlotData : ScriptableObject
+public class GardenPlotData : PersistentDataBase
 {    
     [SerializeField]
     private List<int> itemIds;

@@ -1,75 +1,56 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 [RequireComponent(typeof(JobBoardDisplay))]
 
 //Manage JobRequest creation and organization 
-public class JobBoardManager : MonoBehaviour, ITimer
+public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 {
+    [SerializeField] private JobBoardData persist;
     private List<JobRequest> jobListings;
     private List<InventoryEntry> requestedItems;
-    private List<(int requestedIndex, int heldItmIndex)?> fulfilledItems;
+    private List<(int requestedItmIndex, int itemId)?> fulfilledItems;
 
     //private float lastPostTime = 0;
     [SerializeField]
     private int intervalInDays;
     public int IntervalInDays {get => intervalInDays;}
     public int postDelayInSec;
-    private PlayerInventory inv;
+    private PInv inv;
     public int maxJobCapacity;
-    public JobBoardData persist;
     private JobBoardDisplay jobBoardDisplay;
     private JobBoardProperties jobBoardProperties;
 
     private void Start()
     {
-        persist = RetrievePersistentData();
+        Persist = RetrieveData(persist);
         jobBoardProperties = new();
-        InitializeSaveData();
+        PullData();
     }
 
     private void FixedUpdate()
     {
         ClearOldJobs();
-        //TimeForNewJob();
     }
 
-    //Would Singleton patterns be better than our persistent data containers? They would eliminate these clunky data retrival checks in favor of
-    //a quick instance comparison check, though, the container provides more accessibility and data persistence across game reloads
-    protected JobBoardData RetrievePersistentData()
-    {
-        JobBoardData temp = (JobBoardData)PersistentData.RetrieveDataContainer(persist.GetType().ToString());
-        if (temp == null)
-        {
-            PersistentData.AddDataContainer(persist);
-            return persist;
-        }
-        else
-        {
-            return temp;
-        }
-    }
-
-    private void InitializeSaveData()
+    protected override void PullData()
     {
         TimerObserver.Instance.Subscribe(this);
-        if (!persist.IsPersisting)
+        jobListings = new();
+        requestedItems = new();
+        if (!Persist.IsPersisting)
         {
-            jobListings = new();
-            requestedItems = new();
-
-            persist.IsPersisting = true;
-            persist.JobListings = jobListings;
-            persist.RequestedItems = requestedItems;
-            InitializeDisplayManager();
+            Persist.IsPersisting = true;
+            Persist.JobListings = jobListings;
+            Persist.RequestedItems = requestedItems;
         }
         else
         {
-            jobListings = persist.JobListings;
-            requestedItems = persist.RequestedItems;
-            InitializeDisplayManager();
-            PullData();
+            jobListings = Persist.JobListings;
+            requestedItems = Persist.RequestedItems;
         }
+        InitializeDisplayManager();
     }
 
     private void InitializeDisplayManager()
@@ -89,16 +70,6 @@ public class JobBoardManager : MonoBehaviour, ITimer
             CreateNewJobRequest();
         }
     }
-    
-    //Check if enough time has passed to create a new job
-    /*private void TimeForNewJob()
-    {
-        int timePassed = WorldClock.WorldTimeSince(lastPostTime);
-        if (jobListings.Count < maxJobCapacity && timePassed > 1 && timePassed % postDelayInSec == 0)
-        {
-            CreateNewJobRequest();
-        }
-    }*/
 
     //What's a more streamlined way of dynamically removing all items from a list that meet a certain condition? Can it be done in a single pass?
     private void ClearOldJobs()
@@ -118,9 +89,8 @@ public class JobBoardManager : MonoBehaviour, ITimer
         }
     }
 
-    private void CreateNewJobRequest(float postTime = -1)
+    private void CreateNewJobRequest()
     {
-        //lastPostTime = postTime == -1 ? Time.time : postTime;
         int rand = Random.Range(0, JobDictionary.jobs.Count);
         JobRequest newJob = Instantiate(JobDictionary.jobs[rand]);
         newJob.postedTime = TimerObserver.Instance.CurrentDay;
@@ -154,8 +124,8 @@ public class JobBoardManager : MonoBehaviour, ITimer
         {
             for (int i = 0; i < requestedItems.Count; i++)
             {
-                int index = inv.FindItem(requestedItems[i].item.id);
-                (int, int)? temp = index == -1 ? null : (i, index);
+                int id = requestedItems[i].Item.id;//inv.GetInventory().Find(requestedItems[i].Item.id);
+                (int, int)? temp = inv.GetInventory().Find(id) == null ? null : (i, id);
                 fulfilledItems.Add(temp);
             }
             FindFulfilledRequests();
@@ -173,10 +143,11 @@ public class JobBoardManager : MonoBehaviour, ITimer
             {
                 if (fulfilledItems[i] != null)
                 {
-                    int heldItemQty = inv.itemsHeld[fulfilledItems[i].Value.heldItmIndex].totalQty;
+                    int itemId = fulfilledItems[i].Value.itemId;
+                    int heldItemQty = inv.GetInventory().Sum(itemId);
                     if (requestedItems[i].Quantity <= heldItemQty)
                     {
-                        jobBoardProperties.FulfilledRequests.Add(fulfilledItems[i].Value.requestedIndex);
+                        jobBoardProperties.FulfilledRequests.Add(fulfilledItems[i].Value.itemId);
                     }
                 }
             }
@@ -193,9 +164,10 @@ public class JobBoardManager : MonoBehaviour, ITimer
 
     private void TakeItemsFromPlayer()
     {
-        int heldItmIndex = fulfilledItems[jobBoardDisplay.currentListingIndex].Value.heldItmIndex;
+        //Might be passing invalid item id
+        int heldItmIndex = fulfilledItems[jobBoardDisplay.currentListingIndex].Value.itemId;
         int qty = requestedItems[jobBoardDisplay.currentListingIndex].Quantity;
-        inv.PullItems(heldItmIndex, qty);
+        inv.GetInventory().PullItems(qty, heldItmIndex, out int unfulfilled);
     }
 
     private void RemoveJobRequest()
@@ -240,31 +212,13 @@ public class JobBoardManager : MonoBehaviour, ITimer
         }
     }
 
-    //Calculate how many jobs have been added and removed from the board while the scene was unloaded
-    /*private void CalculateJobDynamism()
-    {
-        ClearOldJobs();
-        float timeSinceLastPost = WorldClock.WorldTimeSince(lastPostTime);
-        int numLoopsFinished = (int)Mathf.Clamp(timeSinceLastPost / postDelayInSec, 0, 3 - jobListings.Count);
-        for (int i = 0; i < numLoopsFinished; i++)
-        {
-            CreateNewJobRequest(lastPostTime + postDelayInSec);
-        }
-    }*/
-
-    public void PushData()
-    {
-        //persist.LastPostTime = lastPostTime;
-    }
-
-    private void PullData()
-    {
-        //lastPostTime = persist.LastPostTime;
-        //CalculateJobDynamism();
-    }
-
     private void OnDisable()
     {
         TimerObserver.Instance.Unsubscribe(this);
+    }
+
+    protected override void PushData()
+    {
+        //throw new System.NotImplementedException();
     }
 }

@@ -1,23 +1,27 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 //Machine that takes an input item and creates up to two types of output items from it.
-public class Separator : Inventory
+public class Separator : PersistentObject<SeparatorData>
 {
+    [SerializeField] private SeparatorData persist;
+    [SerializeField] private Transform invContainerInput;
+    [SerializeField] private Transform invContainerOutput;
     public int processTime;
     public int machineId;
-    private SeparatorData overridePersist;
+    public int inputSize, outputSize;
     private bool isProcessing = false;
-    private Image progressBar;
+    [SerializeField] private Image progressBar;
     private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
+    private DragNDropInventory input;
+    private DragNDropInventory output;
 
-    protected override void Start()
+    protected void Start()
     {
-        InitializeInvStorage();
-        persist = RetrievePersistentData();
-        overridePersist = (SeparatorData)persist;
-        InitializeSaveData(overridePersist);
+        Persist = RetrieveData(persist);
+        PullData();
     }
 
     private void FixedUpdate()
@@ -32,31 +36,27 @@ public class Separator : Inventory
 
     private void ToggleProcessCheck()
     {
-        if (inventories[0][0] != null && !inventories[0][0].IsEmpty && !isProcessing)
+        if (input.Read(0) != null && !input.Read(0).IsEmpty && !isProcessing)
         {
             StartProcess();
         }
-        else if ((inventories[0][0] == null || inventories[0][0].IsEmpty) && isProcessing)
+        else if ((input.Read(0) == null || input.Read(0).IsEmpty) && isProcessing)
         {
             isProcessing = false;
             ResetProgress();
-            StopCoroutine("ProcessItems");
+            StopCoroutine(nameof(ProcessItems));
         }
     }
 
     private void StartProcess()
     {
         isProcessing = true;
-        if (progressBar == null)
-        {
-            progressBar = DisplayManager.ActiveMenu.transform.GetChild(1).GetChild(1).GetComponent<Image>();
-        }
-        StartCoroutine("ProcessItems");
+        StartCoroutine(nameof(ProcessItems));
     }
 
     private IEnumerator ProcessItems()
     {
-        while (Peek(0, 0).Quantity > 0)
+        while (input.Read(0).Quantity > 0)
         {
             yield return new WaitForSeconds(processTime - carryOverProgress);
             carryOverProgress = 0;
@@ -70,15 +70,15 @@ public class Separator : Inventory
     private void PullFromInputSlot(int numItems)
     {
         GenerateItems(numItems);
-        UpdateSlotQty(-numItems, 0, 0, Peek(0, 0).item);
+        input.PullItems(input.Read(0).Item.id, numItems, out int unfulfilled);
     }
 
     private void GenerateItems(int numItems)
     {
-        int[] outputs = Peek(0, 0).item.outputItems;
+        int[] outputs = input.Read(0).Item.outputItems;
         int randQty = Mathf.Clamp(Random.Range(numItems, 3 * numItems + 1), 0, ItemDictionary.items[outputs[0]].maxStackSize);
-        AddItem(randQty, outputs[0], 1);
-        AddItem(numItems, outputs[1], 1);
+        output.PushItems(outputs[0], randQty);
+        output.PushItems(outputs[1], numItems);
     }
 
     private void DisplayProgress()
@@ -97,9 +97,9 @@ public class Separator : Inventory
     private void CalculateProgress()
     {
         timePassed += WorldClock.WorldTimeSince(unloadTime);
-        int numLoopsFinished = Mathf.Min(Peek(0, 0).Quantity, (int)timePassed / processTime);
+        int numLoopsFinished = Mathf.Min(input.Read(0).Quantity, (int)timePassed / processTime);
         PullFromInputSlot(numLoopsFinished);
-        if (Peek(0, 0).Quantity <= 0)
+        if (input.Read(0).Quantity <= 0)
         {
             timePassed = 0;
         }
@@ -111,21 +111,39 @@ public class Separator : Inventory
         }
     }
 
-    public void PushData()
+    protected override void PullData()
     {
+        input = new(inputSize, invContainerInput);
+        output = new(outputSize, invContainerOutput);
+        if(!Persist.IsPersisting)
+        {
+            Persist.Input = input.Entries.ToList();
+            Persist.Output = output.Entries.ToList();
+        }
+        else
+        {
+            unloadTime = Persist.UnloadTime;
+            timePassed = Persist.CurrentProgress;
+            input.LoadFromStorage(Persist.Input);
+            output.LoadFromStorage(Persist.Output);
+        }
 
-        overridePersist.IsPersisting = true;
-        overridePersist.UnloadTime = Time.time;
-        overridePersist.CurrentProgress = timePassed;
-    }
-
-    public override void PullData()
-    {
-        unloadTime = overridePersist.UnloadTime;
-        timePassed = overridePersist.CurrentProgress;
-        if (inventories[0][0] != null && inventories[0][0].Quantity > 0)
+        
+        if (input.Read(0) != null && input.Read(0).Quantity > 0)
         {
             CalculateProgress();
         }
+    }
+
+    protected override void PushData()
+    {
+        Persist.IsPersisting = true;
+        Persist.UnloadTime = Time.time;
+        Persist.CurrentProgress = timePassed;
+    }
+
+    public void PushDataTemp()
+    {
+        PushData();
     }
 }

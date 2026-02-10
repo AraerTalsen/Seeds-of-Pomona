@@ -5,14 +5,14 @@ using UnityEngine;
 //Change to DontDestroyOnLoad approach later on to allow for versatility
 public static class PersistentData
 {
-    private static Dictionary<string, ScriptableObject> dataContainers = new();
+    private static Dictionary<string, PersistentDataBase> dataContainers = new();
 
-    public static void AddDataContainer(ScriptableObject data)
+    public static void AddDataContainer(PersistentDataBase data)
     {
         dataContainers.Add(data.GetType().ToString(), data);
     }
 
-    public static ScriptableObject RetrieveDataContainer(string name)
+    public static PersistentDataBase RetrieveDataContainer(string name)
     {
         return dataContainers.ContainsKey(name) ? dataContainers[name] : null;
     }

@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7499cab831fd5643bf7236d304d9816, type: 3}
   m_Name: Separator
   m_EditorClassIdentifier: 
-  inventories:
-  - inventory:
-    - item: {fileID: 0}
-      itemId: 0
-  - inventory:
-    - item: {fileID: 0}
-      itemId: 0
-    - item: {fileID: 0}
-      itemId: 0
-  itemsHeld: []
+  inventory: []
   isPersisting: 1
-  unloadTime: 34.739998
-  currentProgress: 0
+  unloadTime: 83.82
+  currentProgress: 3.0199978
+  input: []
+  output: []

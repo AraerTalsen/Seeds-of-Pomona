@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerInventory : Inventory
 {
-    [SerializeField]
+    /*[SerializeField]
     private string deathMsg;
     public Wallet wallet;
     public PlayerInventoryData overridePersist;
@@ -39,5 +39,5 @@ public class PlayerInventory : Inventory
     {
         overridePersist.HasDied = false;
         TextWindowManager.Instance.SetMessage(deathMsg, gameObject);
-    }
+    }*/
 }

@@ -5,81 +5,60 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryEntry
 {
-    private int quantity;
-    public Item item;
+    public int Quantity { get; private set; }
+    public Item Item { get; private set; }
 
-    [SerializeField]
-    private int itemId;
-    
-    public int Quantity
+    public bool IsEmpty => Item == null || Quantity <= 0;
+
+    public InventoryEntry(int qty, Item item)
     {
-        get => quantity;
-        set
+        ApplyState(qty, item);
+    }
+
+    public static InventoryEntry Empty() => new(0, null);
+
+    public int Set(int qty, Item item)
+    {
+        return ApplyState(qty, item);
+    }
+
+    public int TryAddQuantity(int delta)
+    {
+        int deficit = (delta > 0 ? Item.maxStackSize : 0) - Quantity;
+        int contribution = delta > 0 ? Mathf.Min(delta, deficit) : Mathf.Max(delta, deficit);
+        
+        if(deficit != 0)
         {
-            quantity = value;
-            if (quantity <= 0)
-            {
-                Clear();
-            }
+            ApplyState(Quantity + contribution, Item);
         }
+        return delta - contribution;
     }
 
-    public Item Item
+    public void Remove()
     {
-        get => item;
-        set
+        Clear();
+    }
+
+    public InventoryEntry Clone() => new(Quantity, Item);
+
+    private int ApplyState(int qty, Item item)
+    {
+        if(qty <= 0 || item == null)
         {
-            item = value;
-            itemId = item.id;
+            Clear();
+            return qty;
         }
+        
+        int contribution = qty > item.maxStackSize ? item.maxStackSize : qty;
+
+        Quantity = contribution;
+        Item = item;
+        return qty - contribution;
     }
 
-    public bool IsEmpty
+    private void Clear()
     {
-        get
-        {
-            bool isEmpty = item == null || quantity <= 0;
-            return isEmpty;
-        }
-    }
-
-    public InventoryEntry(int qty, Item itm)
-    {
-        quantity = qty;
-        item = itm;
-        ItemId = item != null ? item.id : -1;
-    }
-
-    public InventoryEntry(int qty)
-    {
-        quantity = qty;
-    }
-
-    public void Deconstruct(out int quantity, out Item item)
-    {
-        quantity = this.quantity;
-        //item = this.item == null ? Object.Instantiate(ItemDictionary.items[itemId]) : item;
-        item = this.item;
-    }
-
-    public InventoryEntry Clone()
-    {
-        return new InventoryEntry(quantity, item);
-    }
-
-    public int ItemId
-    {
-        set
-        {
-            itemId = value;
-        }
-    }
-
-    //Perhaps make private, since setting qty to 0 calls this anyway
-    public void Clear()
-    {
-        quantity = 0;
-        item = null;
-        itemId = -1;
+        Quantity = 0;
+        Item = null;
     }
 }

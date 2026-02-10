@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6166ed5447b8348bff29efb0501f9e, type: 3}
   m_Name: GardenBed
   m_EditorClassIdentifier: 
-  itemIds: 
-  plotIndeces: 
-  growthStages: 
-  growthProgress: []
-  unloadTime: 34.739998
+  itemIds: 0000000000000000
+  plotIndeces: 0100000002000000
+  growthStages: 0200000001000000
+  growthProgress:
+  - 142
+  - 142
+  unloadTime: 83.82
   isPersisting: 1
