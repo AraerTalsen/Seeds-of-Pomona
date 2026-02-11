@@ -74,6 +74,7 @@ public class JobBoardDisplay : BasicMenu
     public void UpdateArrowButtons()
     {
         bool isLargeEnough = JobListings.Count >= 2;
+        //print($"There are enough job listings to keep arrows active: {isLargeEnough}");
         
         leftArrow.SetActive(isLargeEnough);
         rightArrow.SetActive(isLargeEnough);

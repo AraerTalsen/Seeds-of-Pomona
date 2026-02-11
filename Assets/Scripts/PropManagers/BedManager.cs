@@ -13,6 +13,5 @@ public class BedManager : Interactable
     public override void StartInteractiveProcess(GameObject interactor)
     {
         Sleep(interactor);
-        TimerObserver.Instance.Broadcast();
     }
 }

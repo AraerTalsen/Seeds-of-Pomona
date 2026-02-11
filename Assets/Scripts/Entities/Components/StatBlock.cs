@@ -14,7 +14,7 @@ public class StatBlock : MonoBehaviour
     private bool debugMode = false;
     private TextMeshProUGUI statDisplay;
 
-    private void Start()
+    private void Awake()
     {
         InitializeValues();
     }
