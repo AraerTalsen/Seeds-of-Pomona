@@ -75,10 +75,10 @@ public class GardenPlot : Interactable, ITimer
         if (!isGrowing)
         {
             DragNDropInventory inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
-            int index = inv.Find(0).Item.id;
-            if (index > -1)
+            InventoryEntry entry = inv.Find(0);
+            if (entry != null)
             {
-                seeds = (Seeds)inv.PullItems(index, 1, out int unfulfilled).item;
+                seeds = (Seeds)inv.PullItems(entry.Item.id, 1, out int unfulfilled).item;
                 ToggleInteractability();
                 StartGrowth();
             }

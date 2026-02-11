@@ -5,14 +5,21 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryEntry
 {
-    public int Quantity { get; private set; }
-    public Item Item { get; private set; }
+    [SerializeField] private int quantity; 
+    [SerializeField] private Item item; 
+    [SerializeField] private string debugItemName;
+    public int Quantity { get => quantity; private set => quantity = value; }
+    public Item Item { get => item; private set => item = value; }
 
     public bool IsEmpty => Item == null || Quantity <= 0;
 
     public InventoryEntry(int qty, Item item)
     {
         ApplyState(qty, item);
+    }
+    private void UpdateDebug()
+    {
+        debugItemName = item == null ? "Empty" : item.name;
     }
 
     public static InventoryEntry Empty() => new(0, null);
@@ -53,6 +60,7 @@ public class InventoryEntry
 
         Quantity = contribution;
         Item = item;
+        UpdateDebug();
         return qty - contribution;
     }
 
@@ -60,5 +68,6 @@ public class InventoryEntry
     {
         Quantity = 0;
         Item = null;
+        UpdateDebug();
     }
 }

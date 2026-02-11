@@ -151,6 +151,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
                     }
                 }
             }
+            
             jobBoardDisplay.UpdateCompleteButton();
         }
     }
@@ -165,9 +166,9 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     private void TakeItemsFromPlayer()
     {
         //Might be passing invalid item id
-        int heldItmIndex = fulfilledItems[jobBoardDisplay.currentListingIndex].Value.itemId;
+        int itemId = fulfilledItems[jobBoardDisplay.currentListingIndex].Value.itemId;
         int qty = requestedItems[jobBoardDisplay.currentListingIndex].Quantity;
-        inv.GetInventory().PullItems(qty, heldItmIndex, out int unfulfilled);
+        inv.GetInventory().PullItems(itemId, qty, out int unfulfilled);
     }
 
     private void RemoveJobRequest()

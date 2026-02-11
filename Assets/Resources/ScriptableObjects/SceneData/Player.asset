@@ -12,7 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3604f0e752c62748972b1e6c4e8f074, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  inventory: []
-  isPersisting: 1
+  inventory:
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
+  isPersisting: 0
   balance: 0
   hasDied: 0
