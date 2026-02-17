@@ -15,64 +15,72 @@ MonoBehaviour:
   inventory:
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Smoke Screen(Clone)
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: Sleeping Willow(Clone)
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: Sleeping Willow(Clone)
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: 
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: 
-  isPersisting: 0
+    debugItemName: Empty
+  isPersisting: 1
   balance: 0
   hasDied: 0
+  powerups:
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: Smoke Screen(Clone)
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
+  lockStates: 0000

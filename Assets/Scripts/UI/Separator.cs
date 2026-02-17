@@ -15,8 +15,8 @@ public class Separator : PersistentObject<SeparatorData>
     private bool isProcessing = false;
     [SerializeField] private Image progressBar;
     private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
-    private DragNDropInventory input;
-    private DragNDropInventory output;
+    private BoundedDDI input;
+    private BoundedDDI output;
 
     protected void Start()
     {
@@ -113,8 +113,8 @@ public class Separator : PersistentObject<SeparatorData>
 
     protected override void PullData()
     {
-        input = new(inputSize, invContainerInput);
-        output = new(outputSize, invContainerOutput);
+        input = new(invContainerInput);
+        output = new(invContainerOutput);
         if(!Persist.IsPersisting)
         {
             Persist.Input = input.Entries.ToList();

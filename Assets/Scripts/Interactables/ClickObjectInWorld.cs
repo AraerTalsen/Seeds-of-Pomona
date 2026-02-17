@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 //Mouse event handling to detect if an IClickable has been hovered over or clicked on
 public class ClickObjectInWorld : MonoBehaviour

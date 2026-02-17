@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoundedInventory : ItemInventory
 {
-    public BoundedInventory(int maxCapacity)
+    /*public BoundedInventory(int maxCapacity)
     {
         for(int i = 0; i < maxCapacity; i++)
         {
@@ -12,5 +12,5 @@ public class BoundedInventory : ItemInventory
         }
     }
 
-    public override void Delete(int slotIndex) => _Inventory[slotIndex].Remove();
+    public override void Delete(int slotIndex) => _Inventory[slotIndex].Remove();*/
 }

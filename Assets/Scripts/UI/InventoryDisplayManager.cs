@@ -8,52 +8,40 @@ using TMPro;
 public class InventoryDisplayManager
 {
     //private Transform[][] slots;
-    private Transform[] slots;
+    protected List<Transform> slots;
 
-    public InventoryDisplayManager
-    (DragNDropInventory inv, Transform invContainer)
+    public InventoryDisplayManager (DragNDropInventory inv, Transform invContainer)
     {
         Inventory = inv;
         InvContainer = invContainer;
         InitializeInventoryDisplay();
     }
 
-    private DragNDropInventory Inventory { get; set; }
-    private Transform InvContainer { get; set; }
+    public DragNDropInventory Inventory { get; set; }
+    protected Transform InvContainer { get; set; }
     public BasicMenu Menu { get; set; }
 
     public void InitializeInventoryDisplay()
     {
-        //int numInventories = ActiveMenu.transform.GetChild(0).childCount;
-        //slots = new Transform[numInventories][];;
+        slots = InvContainer.Cast<Transform>().ToList();
+        int numSlots = slots.Count;
 
-        //for (int i = 0; i < numInventories; i++)
-        //{
-            //slots[i] = ActiveMenu.transform.GetChild(0).GetChild(i).Cast<Transform>().ToArray();
-            slots = InvContainer.Cast<Transform>().ToArray();
-            int numSlots = slots.Length;
-
-            for (int i = 0; i < numSlots; i++)
-            {
-                Transform t = slots[i];
-                InventorySlot iSlot = t.GetComponent<InventorySlot>();
-                iSlot.refInvScript = Inventory;
-                //iSlot.invIndex = i;
-                iSlot.slotIndex = i;
-            }
-        //}
+        for (int i = 0; i < numSlots; i++)
+        {
+            Transform t = slots[i];
+            InventorySlot iSlot = t.GetComponent<InventorySlot>();
+            iSlot.refInvScript = Inventory;
+            iSlot.slotIndex = i;
+        }
         UpdateDisplayAll();
     }
 
     public void UpdateDisplayAll()
     {
-        //for (int i = 0; i < Inventory.inventories.Length; i++)
-        //{
-            for (int i = 0; i < Inventory.Entries/*.inventories[i]*/.Count; i++)
-            {
-                UpdateItemDisplay(i);
-            }
-        //}
+        for (int i = 0; i < Inventory.Entries.Count; i++)
+        {
+            UpdateItemDisplay(i);
+        }
     }
 
     public void UpdateItemDisplay(int slotIndex)
@@ -63,7 +51,8 @@ public class InventoryDisplayManager
         TMP_Text txt = t.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
 
         bool slotIsUsed = Inventory.Read(slotIndex) != null && !Inventory.Read(slotIndex).IsEmpty;
-        txt.text = slotIsUsed ? Inventory.Read(slotIndex).Quantity.ToString() : "";
+        int qty = slotIsUsed ? Inventory.Read(slotIndex).Quantity : -1;
+        txt.text = slotIsUsed && qty > 1 ? qty.ToString() : "";
 
         if (slotIsUsed && slotImage.sprite == null)
         {
@@ -74,4 +63,14 @@ public class InventoryDisplayManager
             slotImage.sprite = null;
         }
     }
+
+    public void ToggleLock(int slotIndex)
+    {
+        InventorySlot slot = slots[slotIndex].gameObject.GetComponent<InventorySlot>();
+        slot.isLocked = !slot.isLocked;
+    }
+
+    public bool IsSlotLocked(int slotIndex) => slots[slotIndex].gameObject.GetComponent<InventorySlot>().isLocked;
+
+    public void SetSlotLock(int slotIndex, bool isLocked) => slots[slotIndex].gameObject.GetComponent<InventorySlot>().isLocked = isLocked;
 }

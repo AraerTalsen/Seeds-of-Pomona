@@ -3,40 +3,72 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PInv : PersistentObject<PlayerInventoryData>
 {    
+    [SerializeField] private FlexInvDisplayManager.ISlotPrefill prefill;
+    [SerializeField] private Transform bagContainer, powerupContainer;
+    [SerializeField] private string deathMsg;
     public PlayerInventoryData persist;
-    public int maxCapacity;
+    public int bagCapacity, powerupCapacity;
     public Wallet wallet;
-    [SerializeField] private Transform invContainer;
-    private DragNDropInventory bag;
+    private BoundedDDI bag;
+    private PowerUps powerupSlots;
 
     private void Start()
     {
         Persist = RetrieveData(persist);
         PullData();
+        bag.PushItems(3, 1);
+        bag.PushItems(4, 1);
+    }
+
+    private void Update()
+    {
+        powerupSlots.PowerupInterface();
     }
 
     protected override void PullData()
     {
-        bag = new(maxCapacity, invContainer);
+        bag = new(bagContainer);
+        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill);
+
         if (!Persist.IsPersisting)
         {
-            Persist.Inventory = bag.Entries.ToList();
+            Persist.Inventory = (List<InventoryEntry>)bag.Entries;
+            Persist.Powerups = (List<InventoryEntry>)powerupSlots.Entries;
             Persist.IsPersisting = true;
         }
         else
         {
             bag.LoadFromStorage(Persist.Inventory);
+            powerupSlots.RebuildSlots(Persist.Powerups, Persist.LockStates);
             wallet.CurrentBalance = Persist.Balance;
+        }
+
+        if (Persist.HasDied)
+        {
+            LogDeathMessage();
         }
     }
 
     protected override void PushData()
     {
+        if(SceneManager.GetActiveScene().name.CompareTo("Wilderness") == 0)
+        {
+            TimerObserver.Instance.Broadcast();
+        }
+        
         Persist.IsPersisting = true;
         Persist.Balance = wallet.CurrentBalance;
+
+        List<bool> lockStates = new();
+        for(int i = 0; i < powerupSlots.Count; i++)
+        {
+            lockStates.Add(powerupSlots.IsSlotLocked(i));
+        }
+        Persist.LockStates = lockStates;
     }
 
     public void PushDataTemp()
@@ -44,10 +76,21 @@ public class PInv : PersistentObject<PlayerInventoryData>
         PushData();
     }
 
-    public DragNDropInventory GetInventory() => bag;
+    public BoundedDDI GetInventory() => bag;
 
     public void TriggerDeath()
     {
         Persist.HasDied = true;
+    }
+
+    private void LogDeathMessage()
+    {
+        Persist.HasDied = false;
+        TextWindowManager.Instance.SetMessage(deathMsg, gameObject);
+    }
+
+    private void OnDisable()
+    {
+        
     }
 }

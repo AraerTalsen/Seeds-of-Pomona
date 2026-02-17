@@ -24,6 +24,9 @@ public class GardenPlot : Interactable, ITimer
         Transform child = transform.GetChild(0);
         plant = child.GetComponent<SpriteRenderer>();
         plantInspection = child.GetComponent<PlantInspection>();
+
+        //Remove line when bed is added back in
+        IncrementTime();
     }
 
     public void IncrementTime()
@@ -74,7 +77,7 @@ public class GardenPlot : Interactable, ITimer
     {
         if (!isGrowing)
         {
-            DragNDropInventory inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
+            BoundedDDI inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
             InventoryEntry entry = inv.Find(0);
             if (entry != null)
             {

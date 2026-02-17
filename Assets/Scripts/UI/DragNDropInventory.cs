@@ -3,29 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragNDropInventory : BoundedInventory
+public abstract class DragNDropInventory : ItemInventory
 {
-    private InventoryDisplayManager InventoryDisplayManager { get; set; }
-    public DragNDropInventory(int maxCapacity, Transform invContainer) : 
-    base(maxCapacity)
-    {
-        InventoryDisplayManager = new (this, invContainer);
-    }
+    protected InventoryDisplayManager DisplayManager { get; set; }
+    protected int Capacity { get; set; }
 
-    public void SetSlot(InventoryEntry entry, int slotIndex)
+    public virtual void SetSlot(InventoryEntry entry, int slotIndex)
     {
         SetEntry(entry, slotIndex);
-        InventoryDisplayManager.UpdateItemDisplay(slotIndex);
-    }
-
-    public InventoryEntry PullSlot(int slotIndex)
-    {
-        InventoryEntry output = Read(slotIndex).Clone();
-
-        Delete(slotIndex);
-        InventoryDisplayManager.UpdateItemDisplay(slotIndex);
-
-        return output;
+        DisplayManager.UpdateItemDisplay(slotIndex);
     }
 
     public (int qty, Item item) PullItems(int id, int requestedQty, out int unfulfilled)
@@ -42,7 +28,7 @@ public class DragNDropInventory : BoundedInventory
         Item item = entry.Item;//May have receieved invalid item id, so added exception to throw
 
         PullQty(outputQty, item, out unfulfilled);
-        InventoryDisplayManager.UpdateDisplayAll();
+        DisplayManager.UpdateDisplayAll();
 
         return (outputQty, item);
     }
@@ -53,18 +39,15 @@ public class DragNDropInventory : BoundedInventory
         Item item = matchingItem != null ? matchingItem.Item : UnityEngine.Object.Instantiate(ItemDictionary.items[id]);
         
         PushQty(insertQty, item, out int remainder);
-        InventoryDisplayManager.UpdateDisplayAll();
+        DisplayManager.UpdateDisplayAll();
     }
 
     public override void ClearInventory()
     {
         base.ClearInventory();
-        InventoryDisplayManager.UpdateDisplayAll();
+        DisplayManager.UpdateDisplayAll();
     }
 
-    public override void LoadFromStorage(List<InventoryEntry> storedData)
-    {
-        base.LoadFromStorage(storedData);
-        InventoryDisplayManager.InitializeInventoryDisplay();
-    }
+    public abstract void Delete(int slotIndex);
+    protected abstract void InitializeInventory();
 }

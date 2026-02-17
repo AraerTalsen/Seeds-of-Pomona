@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea81c1d8ef0f51a42ac0b641a3419eca, type: 3}
   m_Name: JobBoard
   m_EditorClassIdentifier: 
-  jobListings: []
-  requestedItems: []
+  jobListings:
+  - {fileID: 0}
+  requestedItems:
+  - quantity: 5
+    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
+    debugItemName: Bio Mass
   lastPostTime: 0
-  isPersisting: 0
+  isPersisting: 1

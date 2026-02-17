@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DynamicInventory : ItemInventory
 {
-    public void Create(int qty, Item item) => _Inventory.Add(new InventoryEntry(qty, item));
+    /*public void Create(int qty, Item item) => _Inventory.Add(new InventoryEntry(qty, item));
     public void Create(InventoryEntry entry) => _Inventory.Add(entry);
 
     public override void Delete(int slotIndex) =>_Inventory.RemoveAt(slotIndex);
@@ -26,5 +26,5 @@ public class DynamicInventory : ItemInventory
         }
 
         Create(remainder, item);
-    }
+    }*/
 }

@@ -28,6 +28,5 @@ public class PlayerSleepManager : MonoBehaviour
         move_Player.TogglePauseMovement();
         transform.position += Vector3.right * 2;
         spriteRenderer.sortingOrder = 1;
-        TimerObserver.Instance.Broadcast();
     }
 }

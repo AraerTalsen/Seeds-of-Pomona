@@ -6,10 +6,12 @@ using UnityEngine;
 public class InventoryBase
 {
     protected List<InventoryEntry> _Inventory { get; private set; } = new();
-    public IReadOnlyList<InventoryEntry> Entries => _Inventory; 
+    public IReadOnlyList<InventoryEntry> Entries => _Inventory;
+    public int Count => _Inventory.Count; 
+
+    public void CreateNewEntry() => _Inventory.Add(InventoryEntry.Empty());
 
     public InventoryEntry Read(int slotIndex) => _Inventory[slotIndex];
-
     public InventoryEntry Find(Item item)
     {
         for(int i = 0; i < _Inventory.Count; i++)

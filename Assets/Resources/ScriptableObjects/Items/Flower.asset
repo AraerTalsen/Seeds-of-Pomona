@@ -15,5 +15,5 @@ MonoBehaviour:
   id: 1
   maxStackSize: 20
   sprite: {fileID: 21300000, guid: b8fae1e22da6fe443bf17c74669ccf8f, type: 3}
-  usableInMachines: 00000000
+  categories: 01000000
   outputItems: 0000000002000000

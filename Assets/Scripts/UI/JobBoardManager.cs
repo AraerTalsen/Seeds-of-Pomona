@@ -27,6 +27,9 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         Persist = RetrieveData(persist);
         jobBoardProperties = new();
         PullData();
+
+        //Remove this line when the bed is added back in
+        IncrementTime();
     }
 
     private void FixedUpdate()

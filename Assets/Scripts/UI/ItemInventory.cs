@@ -75,6 +75,4 @@ public abstract class ItemInventory : InventoryBase
             
         }
     }
-
-    public abstract void Delete(int slotIndex);
 }

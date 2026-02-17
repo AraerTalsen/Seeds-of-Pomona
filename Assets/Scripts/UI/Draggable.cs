@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 
 public class Draggable : MonoBehaviour
 {
+    [SerializeField] private GameObject toolTipDisplay;
+    [SerializeField] private TextMeshProUGUI toolTipText;
     public PlayerInventory pi;
     public Image image;
 
@@ -14,13 +16,8 @@ public class Draggable : MonoBehaviour
     private int currentSlot;
     private ItemInventory refInventory;
 
-    public InventoryEntry InventoryItem
-    {
-        get
-        {
-            return inventoryItem;
-        }
-    }
+    public InventoryEntry InventoryItem => inventoryItem;
+    public bool IsDisplayOpen => toolTipDisplay.activeSelf;
 
     public void Update()
     {
@@ -31,7 +28,7 @@ public class Draggable : MonoBehaviour
     public InventoryEntry SetDraggable(DragNDropInventory inv, int slotIndex, int invIndex, bool isPrivateInput, bool isSameType)
     {
         InventoryEntry temp = inventoryItem;
-        InventoryEntry slotItem = inv.PullSlot(slotIndex);
+        InventoryEntry slotItem = inv.Read(slotIndex);
 
         if (isSameType)
         {
@@ -94,7 +91,7 @@ public class Draggable : MonoBehaviour
 
             image.color = new Color(255, 255, 255, 1);
             image.sprite = inventoryItem.Item.sprite;
-            txt.text = inventoryItem.Quantity.ToString();
+            txt.text = inventoryItem.Quantity > 1 ? inventoryItem.Quantity.ToString() : "";
         }
         else 
         {
@@ -103,4 +100,12 @@ public class Draggable : MonoBehaviour
             txt.text = "";
         }
     }
+
+    public void OpenToolTipDisplay(string toolTip)
+    {
+        toolTipText.text = toolTip;
+        toolTipDisplay.SetActive(true);
+    }
+
+    public void CloseToolTipDisplay() => toolTipDisplay.SetActive(false);
 }

@@ -3676,7 +3676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1329307807
 Transform:
   m_ObjectHideFlags: 0
@@ -4115,6 +4115,14 @@ PrefabInstance:
     - target: {fileID: 1701024510140644001, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
       propertyPath: m_Name
       value: Separator
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415787954468088816, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: whitelist.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415787954468088816, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: whitelist.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7450067149286059818, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
       propertyPath: m_Pivot.x
