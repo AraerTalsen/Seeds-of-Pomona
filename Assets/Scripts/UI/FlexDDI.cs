@@ -68,4 +68,11 @@ public class FlexDDI : DragNDropInventory
 
         return false;
     }
+
+    public override void ClearInventory()
+    {
+        _Inventory.Clear();
+        CreateNewEntry();
+        DisplayManager.UpdateDisplayAll();
+    }
 }

@@ -820,11 +820,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3334460405629760206, guid: 8e63517261ecdec44ad0896ad1d5282a, type: 3}
   m_PrefabInstance: {fileID: 556953128}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &602790655 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-  m_PrefabInstance: {fileID: 1915950271}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &690291426
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,25 +2389,26 @@ PrefabInstance:
       propertyPath: baseAggroCoolDown
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7798777667098202973, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
+      propertyPath: difficultyScale
+      value: 
+      objectReference: {fileID: 966175565}
     m_RemovedComponents:
     - {fileID: 1405383544668606022, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8973904162715823554, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2544250567627389151, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      insertIndex: -1
+      insertIndex: 0
       addedObject: {fileID: 966175564}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 1915950286}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
 --- !u!114 &1915950272 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2645968022735046473, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
   m_PrefabInstance: {fileID: 1915950271}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602790655}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57f1563592439314ba24f47c6e4ff2f5, type: 3}
@@ -2423,23 +2419,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3379780439248856600, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
   m_PrefabInstance: {fileID: 1915950271}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1915950286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602790655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea5cedf0423f9c8418370546a1ab6998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  difficultyScale: {fileID: 966175565}
-  maxTimeDifficulty: 900
-  maxDistDifficulty: 40
-  baseAggroCoolDown: 15
-  startPos: {x: 0, y: 0}
 --- !u!1001 &2006166660
 PrefabInstance:
   m_ObjectHideFlags: 0

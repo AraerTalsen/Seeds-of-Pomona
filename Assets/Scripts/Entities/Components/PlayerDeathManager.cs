@@ -27,6 +27,7 @@ public class PlayerDeathManager : MonoBehaviour
         mp.TogglePauseMovement(true);
         inventory.TriggerDeath();
         inventory.GetInventory().ClearInventory();
+        inventory.GetPowerups().ClearInventory();
         inventory.PushDataTemp();
     }
 

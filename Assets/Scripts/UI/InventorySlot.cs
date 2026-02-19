@@ -10,7 +10,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 {
     [SerializeField] private float toolTipDelay = 0.25f;
     [SerializeField] private string toolTip;
-    [SerializeField] private Draggable draggable;
+    [SerializeField] private bool isTrashable = false;
+    [SerializeField] private GameObject trashItem;
     public DragNDropInventory refInvScript;
     public int invIndex;
     public int slotIndex;
@@ -19,9 +20,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     public bool isLocked = false;
     public string ToolTip { get => toolTip; set => toolTip = value; }
     public float ToolTipDelay { get => toolTipDelay; set => toolTipDelay = value; }
-    public Draggable Draggable { get => draggable; set => draggable = value; }
+    public bool IsTrashable { get => isTrashable; set => isTrashable = value; }
     private bool pointerHovering = false;
     private bool preparingToolTip = false;
+    private Draggable draggable;
+
+    private void Start()
+    {
+        draggable = Draggable.Instance;
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -96,6 +103,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         pointerHovering = false;
         CloseToolTipDisplay();
+        if(isTrashable)
+        {
+            trashItem.SetActive(false);
+        }
+    }
+
+    public void DeleteItem()
+    {
+        refInvScript.Delete(slotIndex);
     }
 
     private IEnumerator DelayToolTip()
@@ -104,5 +120,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         yield return new WaitForSeconds(toolTipDelay);
         preparingToolTip = false;
         SetToolTipDisplay();
+        if(isTrashable)
+        {
+           trashItem.SetActive(true); 
+        }
     }
 }

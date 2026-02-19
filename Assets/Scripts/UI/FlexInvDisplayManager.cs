@@ -11,16 +11,16 @@ public class FlexInvDisplayManager : InventoryDisplayManager
         [SerializeField] private bool isPrivateInput;
         [SerializeField] private bool isLocked;
         [SerializeField] private string toolTip;
+        [SerializeField] private bool isTrashable;
         [SerializeField] private List<Item.ItemCategory> whitelist;
         [SerializeField] private GameObject iSlot;
-        [SerializeField] private Draggable draggable;
 
         public bool IsPrivateInput => isPrivateInput;
         public bool IsLocked => isLocked;
         public string ToolTip => toolTip;
+        public bool IsTrashable => isTrashable;
         public List<Item.ItemCategory> Whitelist => whitelist;
         public GameObject ISlot => iSlot;
-        public Draggable Draggable => draggable;
     }
     
     private ISlotPrefill prefill;
@@ -39,9 +39,9 @@ public class FlexInvDisplayManager : InventoryDisplayManager
         iSlotProps.isPrivateInput = prefill.IsPrivateInput;
         iSlotProps.isLocked = prefill.IsLocked;
         iSlotProps.ToolTip = prefill.ToolTip;
+        iSlotProps.IsTrashable = prefill.IsTrashable;
         iSlotProps.whitelist = prefill.Whitelist;
         iSlotProps.refInvScript = Inventory;
-        iSlotProps.Draggable = prefill.Draggable;
         iSlotProps.slotIndex = slots.Count;
         slots.Add(g.transform);
 

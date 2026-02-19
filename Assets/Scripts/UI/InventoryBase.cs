@@ -75,12 +75,4 @@ public class InventoryBase
     public int TryAddQuantity (int qty, int slotIndex) => _Inventory[slotIndex].TryAddQuantity(qty);
     public int SetItem(int qty, Item item, int slotIndex) => _Inventory[slotIndex].Set(qty, item);
     public virtual void LoadFromStorage(List<InventoryEntry> storedData) => _Inventory = storedData;
-        
-    public virtual void ClearInventory()
-    {
-        for(int i = 0; i < _Inventory.Count; i++)
-        {
-            _Inventory[i].Remove();
-        }
-    }
 }

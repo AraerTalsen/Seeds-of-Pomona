@@ -18,6 +18,25 @@ public class Draggable : MonoBehaviour
 
     public InventoryEntry InventoryItem => inventoryItem;
     public bool IsDisplayOpen => toolTipDisplay.activeSelf;
+    public static Draggable Instance { get; private set; }
+
+    private void Awake()
+    {
+        TrySetInstance();
+    }
+
+    private void TrySetInstance()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
 
     public void Update()
     {

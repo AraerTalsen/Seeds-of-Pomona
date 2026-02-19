@@ -27,4 +27,13 @@ public class BoundedDDI : DragNDropInventory
             CreateNewEntry();
         }
     }
+
+    public override void ClearInventory()
+    {
+        for(int i = 0; i < _Inventory.Count; i++)
+        {
+            _Inventory[i].Remove();
+        }
+        DisplayManager.UpdateDisplayAll();
+    }
 }

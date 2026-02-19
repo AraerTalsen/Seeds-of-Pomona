@@ -15,7 +15,7 @@ MonoBehaviour:
   jobListings:
   - {fileID: 0}
   requestedItems:
-  - quantity: 5
+  - quantity: 2
     item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
     debugItemName: Bio Mass
   lastPostTime: 0

@@ -18,16 +18,16 @@ MonoBehaviour:
     debugItemName: Smoke Screen(Clone)
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: Sleeping Willow(Clone)
+    debugItemName: Bio Mass(Clone)
   - quantity: 1
     item: {fileID: 0}
     debugItemName: Sleeping Willow(Clone)
-  - quantity: 0
+  - quantity: 2
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Flower(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: Sleeping Willow(Clone)
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -79,8 +79,11 @@ MonoBehaviour:
   powerups:
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: Smoke Screen(Clone)
-  - quantity: 0
+    debugItemName: Sleeping Willow(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  lockStates: 0000
+    debugItemName: Smoke Screen(Clone)
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: Smoke Screen(Clone)
+  lockStates: 010101

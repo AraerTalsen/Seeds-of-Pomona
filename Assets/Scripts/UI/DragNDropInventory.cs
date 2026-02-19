@@ -42,12 +42,7 @@ public abstract class DragNDropInventory : ItemInventory
         DisplayManager.UpdateDisplayAll();
     }
 
-    public override void ClearInventory()
-    {
-        base.ClearInventory();
-        DisplayManager.UpdateDisplayAll();
-    }
-
     public abstract void Delete(int slotIndex);
+    public abstract void ClearInventory();
     protected abstract void InitializeInventory();
 }

@@ -2,15 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PowerUps : FlexDDI
 {
     private int scrollIndex = 0;
+    private string sceneName = SceneManager.GetActiveScene().name;
+    private List<GameObject> activeHUDSlots = new();
+    private GameObject HUDSlot;
+    private Transform HUDContainer;
 
-    public PowerUps(GameObject player, int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill) :
+    public PowerUps(GameObject player, int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill, GameObject HUDSlot, Transform HUDContainer) :
     base(capacity, invContainer, prefill)
     {
         this.player = player;
+        this.HUDSlot = HUDSlot;
+        this.HUDContainer = HUDContainer;
     }
 
     //lock and unlock slots
@@ -18,6 +25,7 @@ public class PowerUps : FlexDDI
     //display HUD slots
 
     private List<int> activePUpIndeces = new();
+    private List<int> passivePUpIndeces = new();
     private GameObject player;
 
     public override void SetSlot(InventoryEntry entry, int slotIndex)
@@ -27,31 +35,34 @@ public class PowerUps : FlexDDI
 
         if(!entry.IsEmpty)
         {
+            Tool t = (Tool)entry.Item;
+
             if(prevEntry.IsEmpty && !IsAtCapacity())
             {
                 CreateNewEntry();
                 ((FlexInvDisplayManager)DisplayManager).AddNewISlot();
             }
+            else if(!prevEntry.IsEmpty)
+            {
+                
+            }
             
-            if(SceneManager.GetActiveScene().name.CompareTo("Wilderness") == 0)
+            if(sceneName.CompareTo("Wilderness") == 0)
             {
                 DisplayManager.ToggleLock(slotIndex);
-                Tool t = (Tool)entry.Item;
                 t.SetExpirationDay(TimerObserver.Instance.CurrentDay + t.Durability);
+                AddToolRefToSecondaryList(t, slotIndex);
             }
 
-            if(((Tool)entry.Item).IsActive)
-            {
-                activePUpIndeces.Add(slotIndex);
-            }
+            
         }
         else if(entry.IsEmpty)
         {
             Delete(slotIndex);
 
-            if(!prevEntry.IsEmpty && ((Tool)prevEntry.Item).IsActive)
+            if(!prevEntry.IsEmpty)
             {
-                activePUpIndeces.Remove(slotIndex);
+                Tool t = (Tool)prevEntry.Item;
             }
         }
     }
@@ -78,12 +89,18 @@ public class PowerUps : FlexDDI
     {
         (storedData, lockStates) = CheckTimerExpirations(storedData, lockStates);
         LoadFromStorage(storedData);
-        Scene currentScene = SceneManager.GetActiveScene();
-        string sceneName = currentScene.name;
 
+        bool isWilderness = sceneName.CompareTo("Wilderness") == 0;
+        for(int i = 0; i < storedData.Count; i++)
+        {
+            if(isWilderness && !storedData[i].IsEmpty)
+            {
+                AddToolRefToSecondaryList((Tool)storedData[i].Item, i);
+            }
+        }
+        
         for(int i = 0; i < ((FlexInvDisplayManager)DisplayManager).SlotCount; i++)
         {
-            bool isWilderness = sceneName.CompareTo("Wilderness") == 0;
             bool isSlotInUse = !Read(i).IsEmpty;
             bool isSlotUnlocked = !lockStates[i];
 
@@ -167,10 +184,82 @@ public class PowerUps : FlexDDI
 
     private void UsePowerup()
     {
+        UseActive();
+        UsePassives();
+    }
+
+    private void UseActive()
+    {
+        //This will need to make a check for powerup cool downs
+        //A powerup payload can be created to save instance data for such a check
         if(Input.GetKeyDown(KeyCode.Q))
         {
             Tool t = (Tool)Read(activePUpIndeces[scrollIndex]).Item;
             t.UseAbility(player);
         }
+    }
+
+    private void UsePassives()
+    {
+        foreach(int i in passivePUpIndeces)
+        {
+            Tool t = (Tool)Read(i).Item;
+            t.UseAbility(player);
+        }
+    }
+    public override void ClearInventory()
+    {
+        base.ClearInventory();
+        DisplayManager.SetSlotLock(0, false);
+        activeHUDSlots.Clear();
+    }
+
+    private void AddToolRefToSecondaryList(Tool tool, int slotIndex)
+    {
+        if(tool.IsActive)
+        {
+            activePUpIndeces.Add(slotIndex);
+            CreateNewHUDSlot(tool.sprite);
+        }
+        else
+        {
+            passivePUpIndeces.Add(slotIndex);
+        }
+    }
+
+    private void RemoveToolRefFromSecondaryList(Tool tool, int slotIndex)
+    {
+        if(tool.IsActive)
+        {
+            int index = activePUpIndeces.FindIndex( i => i == slotIndex);
+            activePUpIndeces.Remove(slotIndex);
+            GameObject g = activeHUDSlots[index];
+            activeHUDSlots.RemoveAt(index);
+            Object.Destroy(g);
+        }
+        else
+        {
+            passivePUpIndeces.Remove(slotIndex);
+        }
+    }
+
+    /*private void UpdateSecondaryList(Tool tool, int slotIndex)
+    {
+        if(tool.IsActive)
+        {
+            int index = activePUpIndeces.FindIndex( i => i == slotIndex);
+            if(index == -1)
+            {
+                activePUpIndeces.Insert()
+            }
+            activeHUDSlots[index]
+        }
+    }*/
+
+    private void CreateNewHUDSlot(Sprite sprite)
+    {
+        activeHUDSlots.Add(Object.Instantiate(HUDSlot, HUDContainer));
+        activeHUDSlots[^1].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        
     }
 }

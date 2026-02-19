@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7893952f53000cd4992b06ad237d376e, type: 3}
   m_Name: Sleeping Willow
   m_EditorClassIdentifier: 
+  toolTip: '[{0}]
+
+    {1} will last for {2} expiditions.'
+  altToolTip: '{0} has {1} expiditions remaining.'
   id: 4
   maxStackSize: 1
   sprite: {fileID: 21300000, guid: da9a38665b1de4c4cacc70b8198c6ce7, type: 3}

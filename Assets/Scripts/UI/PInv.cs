@@ -9,7 +9,9 @@ public class PInv : PersistentObject<PlayerInventoryData>
 {    
     [SerializeField] private FlexInvDisplayManager.ISlotPrefill prefill;
     [SerializeField] private Transform bagContainer, powerupContainer;
-    [SerializeField] private string deathMsg;
+    [SerializeField][TextArea] private string deathMsg;
+    [SerializeField] private GameObject HUDSlot;
+    [SerializeField] private Transform HUDContainer;
     public PlayerInventoryData persist;
     public int bagCapacity, powerupCapacity;
     public Wallet wallet;
@@ -22,6 +24,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         PullData();
         bag.PushItems(3, 1);
         bag.PushItems(4, 1);
+        bag.PushItems(1, 1);
     }
 
     private void Update()
@@ -32,7 +35,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     protected override void PullData()
     {
         bag = new(bagContainer);
-        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill);
+        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer);
 
         if (!Persist.IsPersisting)
         {
@@ -77,6 +80,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     }
 
     public BoundedDDI GetInventory() => bag;
+    public PowerUps GetPowerups() => powerupSlots;
 
     public void TriggerDeath()
     {
