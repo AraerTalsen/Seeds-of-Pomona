@@ -248,10 +248,10 @@ GameObject:
   - component: {fileID: 1500779053726636031}
   - component: {fileID: 5740902903683394309}
   - component: {fileID: 3592073404327748659}
+  - component: {fileID: 6829615890056641274}
   - component: {fileID: 1650557447118419653}
   - component: {fileID: 4297527761132930061}
   - component: {fileID: 3922371995299262896}
-  - component: {fileID: 2459160191072320017}
   - component: {fileID: 7099110296153449815}
   m_Layer: 0
   m_Name: Enemy
@@ -423,6 +423,20 @@ PolygonCollider2D:
       - {x: 0.5, y: -0.96484375}
       - {x: 0.48828125, y: -0.9453125}
   m_UseDelaunayMesh: 0
+--- !u!114 &6829615890056641274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7093db4adc0c9f748b9211ac3a692f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    baseStats: 000000000100000000000000
 --- !u!114 &1650557447118419653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,26 +480,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a098f1f25173584fb19d7599db4b268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2459160191072320017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5428211342321066594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3505da39daaac1c488eb37762d758095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statDebugDisplay: {fileID: 4120563217348664032}
-  statValPairs:
-  - stat: 0
-    val: 2
-  - stat: 1
-    val: 5
-  - stat: 2
-    val: 2
 --- !u!114 &7099110296153449815
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class EntityProperties
     public DelayNextAction Recover { get; set; }
     public ResetTarget ChoosePatrolPoint { get; set; }
 
-    public float MoveSpeed => StatBlock.GetStat(Stats.Speed);
+    public float MoveSpeed => StatBlock[Stats.Speed];
     public float TurnSpeed { get; set; }
     public float PatrolRadius { get; set; }
     public float Persistence { get; set; }

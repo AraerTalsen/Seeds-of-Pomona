@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   isPersisting: 1
-  unloadTime: 31.3
-  currentProgress: 3.0199978
+  unloadTime: 33.82
+  currentProgress: 0
   input:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
   output:
-  - quantity: 1
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Smoke Screen(Clone)
-  - quantity: 1
+    debugItemName: Empty
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Bio Mass(Clone)
+    debugItemName: Empty

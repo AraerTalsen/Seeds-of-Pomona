@@ -15,7 +15,7 @@ public class StatEvolutionEffect : EvolutionEffect
         for(int i = 0; i < data.statValPairs.Count; i++)
         {
             StatValPair pair = data.statValPairs[i];
-            context.stats.Modify(pair.stat, sign * pair.val);
+            context.stats[pair.stat] += sign * pair.val;
         }
     }
 }

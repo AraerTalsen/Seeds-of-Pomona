@@ -20,10 +20,6 @@ public class PowerUps : FlexDDI
         this.HUDContainer = HUDContainer;
     }
 
-    //lock and unlock slots
-    //use powerups passively
-    //display HUD slots
-
     private List<int> activePUpIndeces = new();
     private List<int> passivePUpIndeces = new();
     private GameObject player;
@@ -148,7 +144,7 @@ public class PowerUps : FlexDDI
     public override void LoadFromStorage(List<InventoryEntry> storedData)
     {
         base.LoadFromStorage(storedData);
-
+        
         DisplayManager.UpdateItemDisplay(0);
         for(int i = 1; i < Count; i++)
         {

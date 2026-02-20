@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(FieldOfView))]
 [RequireComponent(typeof(EntityStateSupport))]
 [RequireComponent(typeof(EvolutionTracker))]
-[RequireComponent(typeof(StatBlock))]
 public class EntityManager : MonoBehaviour
 {
     [SerializeField]
@@ -24,14 +23,15 @@ public class EntityManager : MonoBehaviour
     private EnemyBehaviorContext enemyBehaviorContext;
     private EvolutionContext evolutionContext;
     private EvolutionTracker evolutionTracker;
-    private StatBlock stats;
+    private EntityStats stats;
+    
 
     void Awake()
     {
-        stats = GetComponent<StatBlock>();
+        stats = GetComponent<EntityStats>();
         EntityProps = new()
         {
-            StatBlock = stats,
+            StatBlock = stats.Stats,
             TurnSpeed = turnSpeed,
             PatrolRadius = patrolRadius,
             Persistence = persistence,
@@ -48,7 +48,7 @@ public class EntityManager : MonoBehaviour
         
         evolutionContext = new()
         {
-            stats = stats,
+            stats = stats.Stats,
             stateMachine = enemyBehaviorContext,
             visualEntity = gameObject
         };

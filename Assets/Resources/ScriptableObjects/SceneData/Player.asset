@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 1
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Smoke Screen(Clone)
-  - quantity: 1
+    debugItemName: Empty
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Bio Mass(Clone)
-  - quantity: 1
+    debugItemName: Empty
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Sleeping Willow(Clone)
-  - quantity: 2
+    debugItemName: Empty
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Flower(Clone)
-  - quantity: 1
+    debugItemName: Empty
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Sleeping Willow(Clone)
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -77,13 +77,7 @@ MonoBehaviour:
   balance: 0
   hasDied: 0
   powerups:
-  - quantity: 1
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Sleeping Willow(Clone)
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Smoke Screen(Clone)
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Smoke Screen(Clone)
-  lockStates: 010101
+    debugItemName: Empty
+  lockStates: 00
