@@ -6,10 +6,10 @@ using UnityEngine;
 public class InventoryBase
 {
     protected List<InventoryEntry> _Inventory { get; private set; } = new();
-    public IReadOnlyList<InventoryEntry> Entries => _Inventory;
+    public List<InventoryEntry> Entries => _Inventory;
     public int Count => _Inventory.Count; 
 
-    public void CreateNewEntry() => _Inventory.Add(InventoryEntry.Empty());
+    public virtual void CreateNewEntry() => _Inventory.Add(InventoryEntry.Empty()); 
 
     public InventoryEntry Read(int slotIndex) => _Inventory[slotIndex];
     public InventoryEntry Find(Item item)
@@ -71,8 +71,8 @@ public class InventoryBase
         return locations;
     }
 
-    public void SetEntry(InventoryEntry entry, int slotIndex) => _Inventory[slotIndex] = entry;
-    public int TryAddQuantity (int qty, int slotIndex) => _Inventory[slotIndex].TryAddQuantity(qty);
-    public int SetItem(int qty, Item item, int slotIndex) => _Inventory[slotIndex].Set(qty, item);
-    public virtual void LoadFromStorage(List<InventoryEntry> storedData) => _Inventory = storedData;
+    //public void SetEntry(InventoryEntry entry, int slotIndex) { Debug.Log($"Inventory: {GetHashCode()}, Slot {slotIndex} change {entry.GetHashCode()} to {entry.GetHashCode()}"); _Inventory[slotIndex] = entry; }
+    public int TryAddQuantity (int qty, int slotIndex) { /*Debug.Log($"Inventory: {GetHashCode()}, Slot {slotIndex} adding {qty} to {Read(slotIndex).Item}");*/ return Read(slotIndex).TryAddQuantity(qty); }
+    public int SetItem(int qty, Item item, int slotIndex) { Debug.Log($"Inventory entry: {_Inventory[slotIndex].GetHashCode()}, Slot {slotIndex} set to {qty} of {item}"); return _Inventory[slotIndex].Set(qty, item); }
+    public virtual void LoadFromStorage(List<InventoryEntry> storedData) { /*Debug.Log($"Inventory: {GetHashCode()}, just reloaded from storage");*/ _Inventory = storedData; }
 }

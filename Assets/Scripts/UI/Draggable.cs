@@ -43,31 +43,30 @@ public class Draggable : MonoBehaviour
         transform.position = Input.mousePosition;
     }
 
-    //Could call inv.SetSlot(temp, invIndex, slotIndex); just once after all of the conditionals
-    public InventoryEntry SetDraggable(DragNDropInventory inv, int slotIndex, int invIndex, bool isPrivateInput, bool isSameType)
+    public InventoryEntry SetDraggable(DragNDropInventory inv, int slotIndex, bool isPrivateInput, bool isSameType)
     {
-        InventoryEntry temp = inventoryItem;
+        InventoryEntry temp = inventoryItem.Clone();
         InventoryEntry slotItem = inv.Read(slotIndex);
+        print($"Darggable Incoming entry: {slotItem.Item}, {slotItem.Quantity}, Outgoing entry: {temp.Item}, {temp.Quantity}");
 
         if (isSameType)
         {
 
             if (isPrivateInput)
             {
-                (inventoryItem, temp) = HandleSameItemType(inventoryItem.Quantity, slotItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
-                inv.SetSlot(temp, slotIndex);
+                (slotItem, temp) = HandleSameItemType(inventoryItem.Quantity, slotItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
+                inv.SetSlot(temp.Quantity, temp.Item, slotIndex);
             }
             else
             {
-                (temp, inventoryItem) = HandleSameItemType(slotItem.Quantity, inventoryItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
-                inv.SetSlot(temp, slotIndex);
+                (temp, slotItem) = HandleSameItemType(slotItem.Quantity, inventoryItem.Quantity, slotItem.Item.maxStackSize, slotItem.Item);
+                inv.SetSlot(temp.Quantity, temp.Item, slotIndex);
             }
         }
-        else
-        {
-            inventoryItem = slotItem;
-            inv.SetSlot(temp, slotIndex);
-        }
+
+        inventoryItem.Set(slotItem.Quantity, slotItem.Item);
+        inv.SetSlot(temp.Quantity, temp.Item, slotIndex);
+        print($"Darggable  double check Incoming entry: {slotItem.Item}, {slotItem.Quantity}, Outgoing entry: {temp.Item}, {temp.Quantity}");
 
         SetDraggableDisplay(inv, slotIndex);
 
@@ -105,6 +104,7 @@ public class Draggable : MonoBehaviour
         TMP_Text txt = transform.GetChild(0).GetComponent<TMP_Text>();
         if(inventoryItem != null && !inventoryItem.IsEmpty) 
         {
+            print("Item is not null");
             refInventory = inv;
             currentSlot = slotIndex;
 
@@ -114,6 +114,7 @@ public class Draggable : MonoBehaviour
         }
         else 
         {
+            print("Item is null");
             image.color = new Color(255, 255, 255, 0);
             image.sprite = null;
             txt.text = "";

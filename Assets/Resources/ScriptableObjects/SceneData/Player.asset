@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 0
+  - quantity: 20
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Seeds(Clone)
+  - quantity: 20
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Seeds(Clone)
+  - quantity: 20
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: Bio Mass(Clone)
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty

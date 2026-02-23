@@ -122,6 +122,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &17625761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5493292938144363367, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+  m_PrefabInstance: {fileID: 1523571009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &105886951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,6 +3885,11 @@ Transform:
   - {fileID: 330111934}
   m_Father: {fileID: 997315978}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1498008707 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1951893539600139572, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+  m_PrefabInstance: {fileID: 1523571009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1498945434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4123,6 +4139,54 @@ PrefabInstance:
     - target: {fileID: 2415787954468088816, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
       propertyPath: whitelist.Array.data[0]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648204051076411317, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764154615772534921, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7450067149286059818, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
       propertyPath: m_Pivot.x
@@ -4384,12 +4448,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persist: {fileID: 11400000, guid: b47c082719a69f04090058dd3eb829ad, type: 2}
   invContainerInput: {fileID: 1523571013}
-  invContainerOutput: {fileID: 1523571010}
+  invContainerStdOutput: {fileID: 1523571010}
+  invContainerSpOutput: {fileID: 1498008707}
   processTime: 3
   machineId: 0
-  inputSize: 1
-  outputSize: 2
-  progressBar: {fileID: 328534310}
+  stdProgressBar: {fileID: 328534310}
+  spProgressBar: {fileID: 17625761}
 --- !u!61 &1640886733
 BoxCollider2D:
   m_ObjectHideFlags: 0

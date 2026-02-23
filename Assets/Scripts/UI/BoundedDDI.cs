@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class BoundedDDI : DragNDropInventory
 {
-    public BoundedDDI(Transform invContainer)
+    public BoundedDDI(Transform invContainer, bool hasListener = false)
     {
         DisplayManager = new(this, invContainer);
         Capacity = invContainer.childCount;
 
         InitializeInventory();
+        Listener = hasListener ? new() : null;
     }
 
-    public override void Delete(int slotIndex) => _Inventory[slotIndex].Remove();
+    public override void Delete(int slotIndex) 
+    {
+        Listener?.StartNewEvent();
+        if(Listener != null)
+        {
+            Listener.TempItem = Read(slotIndex).Item;
+        }
+        
+        _Inventory[slotIndex].Remove();
+        Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Cleared);
+    }
 
     public override void LoadFromStorage(List<InventoryEntry> storedData)
     {

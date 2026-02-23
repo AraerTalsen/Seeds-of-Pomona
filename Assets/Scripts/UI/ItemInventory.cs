@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class ItemInventory : InventoryBase
 {
+    public InventoryListener Listener { get; set; }
     public int Sum(Item item)
     {
         List<int> locations = FindAll(item);
@@ -48,6 +49,11 @@ public abstract class ItemInventory : InventoryBase
             locations.AddRange(FindAll(null));
         }
 
+        if(qty != 0 && locations.Count > 0 && Listener != null)
+        {
+            Listener.StartNewEvent();
+        }
+
         remainder = qty;
         int i = 0;
         while(remainder != 0 && i < locations.Count)
@@ -59,6 +65,9 @@ public abstract class ItemInventory : InventoryBase
 
     private void Insert(int qty, Item item, int slotIndex, out int remainder)
     {
+        if(Listener != null) 
+        { Listener.TempItem = Read(slotIndex).Item; }
+
         remainder = qty;
         InventoryEntry slot = Entries[slotIndex];
 
@@ -73,6 +82,7 @@ public abstract class ItemInventory : InventoryBase
                 remainder = TryAddQuantity(qty, slotIndex);
             }
             
+            Listener?.TouchSlot(slotIndex, Listener.TempItem, qty - remainder);
         }
     }
 }

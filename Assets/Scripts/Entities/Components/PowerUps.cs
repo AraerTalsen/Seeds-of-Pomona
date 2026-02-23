@@ -24,18 +24,23 @@ public class PowerUps : FlexDDI
     private List<int> passivePUpIndeces = new();
     private GameObject player;
 
-    public override void SetSlot(InventoryEntry entry, int slotIndex)
+    public override void SetSlot(int qty, Item item, int slotIndex)
     {
         InventoryEntry prevEntry = Read(slotIndex);
-        base.SetSlot(entry, slotIndex);
+        base.SetSlot(qty, item, slotIndex);
 
-        if(!entry.IsEmpty)
+        if(item != null)
         {
-            Tool t = (Tool)entry.Item;
+            Tool t = (Tool)item;
 
             if(prevEntry.IsEmpty && !IsAtCapacity())
             {
                 CreateNewEntry();
+                if(Listener != null)
+                {
+                    Listener.StartNewEvent();
+                    Listener.InventorySizeDelta++;
+                }
                 ((FlexInvDisplayManager)DisplayManager).AddNewISlot();
             }
             else if(!prevEntry.IsEmpty)
@@ -52,13 +57,14 @@ public class PowerUps : FlexDDI
 
             
         }
-        else if(entry.IsEmpty)
+        else
         {
             Delete(slotIndex);
 
             if(!prevEntry.IsEmpty)
             {
                 Tool t = (Tool)prevEntry.Item;
+                //I think we add removetoolfromsecondarylist here
             }
         }
     }
@@ -72,7 +78,14 @@ public class PowerUps : FlexDDI
         }
         else
         {
+            Listener?.StartNewEvent();
+            if(Listener != null)
+            {
+                Listener.TempItem = Read(slotIndex).Item;
+            }
+            
             Read(slotIndex).Remove();
+            Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Cleared);
         }
 
         if(DisplayManager.IsSlotLocked(slotIndex))
@@ -238,19 +251,6 @@ public class PowerUps : FlexDDI
             passivePUpIndeces.Remove(slotIndex);
         }
     }
-
-    /*private void UpdateSecondaryList(Tool tool, int slotIndex)
-    {
-        if(tool.IsActive)
-        {
-            int index = activePUpIndeces.FindIndex( i => i == slotIndex);
-            if(index == -1)
-            {
-                activePUpIndeces.Insert()
-            }
-            activeHUDSlots[index]
-        }
-    }*/
 
     private void CreateNewHUDSlot(Sprite sprite)
     {

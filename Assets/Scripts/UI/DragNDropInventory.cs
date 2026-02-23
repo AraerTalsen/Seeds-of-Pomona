@@ -8,9 +8,18 @@ public abstract class DragNDropInventory : ItemInventory
     protected InventoryDisplayManager DisplayManager { get; set; }
     protected int Capacity { get; set; }
 
-    public virtual void SetSlot(InventoryEntry entry, int slotIndex)
+    public virtual void SetSlot(int qty, Item item, int slotIndex)
     {
-        SetEntry(entry, slotIndex);
+        Debug.Log($"Slot Incoming entry: {item}, {qty}. Outgoing entry: {Read(slotIndex).Item}, {Read(slotIndex).Quantity}");
+        Listener?.StartNewEvent();
+        if(Listener != null)
+        {
+            Listener.TempItem = Read(slotIndex).Item;
+        }
+        
+        SetItem(qty, item, slotIndex);
+
+        Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Set);
         DisplayManager.UpdateItemDisplay(slotIndex);
     }
 

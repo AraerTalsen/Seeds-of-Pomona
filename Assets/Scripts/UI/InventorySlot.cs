@@ -13,7 +13,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField] private bool isTrashable = false;
     [SerializeField] private GameObject trashItem;
     public DragNDropInventory refInvScript;
-    public int invIndex;
     public int slotIndex;
     public bool isPrivateInput;
     public List<Item.ItemCategory> whitelist = new();
@@ -47,7 +46,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
             if(!isLocked && !((isPrivateInput && !isSameObjType && !isDNull) || hasWhitelist && !itemAllowedByWhitelist && !isDNull))
             {
-                InventoryEntry temp = draggable.SetDraggable(refInvScript, slotIndex, invIndex, isPrivateInput, isSameObjType);
+                InventoryEntry temp = draggable.SetDraggable(refInvScript, slotIndex, isPrivateInput, isSameObjType);
             
                 transform.GetChild(0).GetComponent<Image>().sprite = temp != null && !temp.IsEmpty ? temp.Item.sprite : null;
                 TMP_Text text = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,15 +9,18 @@ public class Separator : PersistentObject<SeparatorData>
 {
     [SerializeField] private SeparatorData persist;
     [SerializeField] private Transform invContainerInput;
-    [SerializeField] private Transform invContainerOutput;
+    [SerializeField] private Transform invContainerStdOutput;
+    [SerializeField] private Transform invContainerSpOutput;
     public int processTime;
     public int machineId;
-    public int inputSize, outputSize;
     private bool isProcessing = false;
-    [SerializeField] private Image progressBar;
+    [SerializeField] private Image stdProgressBar;
+    [SerializeField] private Image spProgressBar;
     private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
     private BoundedDDI input;
-    private BoundedDDI output;
+    private BoundedDDI stdOutput;
+    private BoundedDDI spOutput;
+    private Vector3Int filledOutputSlots = Vector3Int.zero;
 
     protected void Start()
     {
@@ -36,15 +40,13 @@ public class Separator : PersistentObject<SeparatorData>
 
     private void ToggleProcessCheck()
     {
-        if (input.Read(0) != null && !input.Read(0).IsEmpty && !isProcessing)
+        if (filledOutputSlots.magnitude == 0 && input.Read(0) != null && !input.Read(0).IsEmpty && !isProcessing)
         {
             StartProcess();
         }
         else if ((input.Read(0) == null || input.Read(0).IsEmpty) && isProcessing)
         {
-            isProcessing = false;
-            ResetProgress();
-            StopCoroutine(nameof(ProcessItems));
+            StopProcess();
         }
     }
 
@@ -52,6 +54,13 @@ public class Separator : PersistentObject<SeparatorData>
     {
         isProcessing = true;
         StartCoroutine(nameof(ProcessItems));
+    }
+
+    private void StopProcess()
+    {
+        isProcessing = false;
+            ResetProgress();
+            StopCoroutine(nameof(ProcessItems));
     }
 
     private IEnumerator ProcessItems()
@@ -62,11 +71,9 @@ public class Separator : PersistentObject<SeparatorData>
             carryOverProgress = 0;
             PullFromInputSlot(1);
         }
-        //UpdateSlotQty(0, 0, 0, inventories[0][0].item);
         isProcessing = false;
     }
 
-    //We should revise our code to update InventoryEntries rather han creating new ones 
     private void PullFromInputSlot(int numItems)
     {
         GenerateItems(numItems);
@@ -77,21 +84,28 @@ public class Separator : PersistentObject<SeparatorData>
     {
         int[] outputs = input.Read(0).Item.outputItems;
         int randQty = Mathf.Clamp(Random.Range(numItems, 3 * numItems + 1), 0, ItemDictionary.items[outputs[0]].maxStackSize);
-        output.PushItems(outputs[0], randQty);
-        output.PushItems(outputs[1], numItems);
+        stdOutput.PushItems(outputs[0], randQty);
+        stdOutput.PushItems(outputs[1], numItems);
+
+        if(IsAnyOutputFull())
+        {
+            StopProcess();
+        }
     }
 
     private void DisplayProgress()
     {
         timePassed += Time.deltaTime;
         float ratio = timePassed / processTime % 1;
-        progressBar.fillAmount = ratio;
+        stdProgressBar.fillAmount = ratio;
+        spProgressBar.fillAmount = ratio;
     }
 
     private void ResetProgress()
     {
         timePassed = 0;
-        progressBar.fillAmount = 0;
+        stdProgressBar.fillAmount = 0;
+        spProgressBar.fillAmount = 0;
     }
 
     private void CalculateProgress()
@@ -114,18 +128,22 @@ public class Separator : PersistentObject<SeparatorData>
     protected override void PullData()
     {
         input = new(invContainerInput);
-        output = new(invContainerOutput);
+        stdOutput = new(invContainerStdOutput, true);
+        spOutput = new(invContainerSpOutput, true);
+        stdOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
+        spOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
+        stdOutput.Listener.SubscribeToTouchedSlots(SlotWasEmptied, 0);
         if(!Persist.IsPersisting)
         {
-            Persist.Input = input.Entries.ToList();
-            Persist.Output = output.Entries.ToList();
+            Persist.Input = input.Entries;
+            Persist.Output = stdOutput.Entries;
         }
         else
         {
             unloadTime = Persist.UnloadTime;
             timePassed = Persist.CurrentProgress;
             input.LoadFromStorage(Persist.Input);
-            output.LoadFromStorage(Persist.Output);
+            stdOutput.LoadFromStorage(Persist.Output);
         }
 
         
@@ -134,6 +152,29 @@ public class Separator : PersistentObject<SeparatorData>
             CalculateProgress();
         }
     }
+
+    private void SlotWasEmptied()
+    {
+        stdOutput.Listener.PrintAllDetails();
+        IsAnyOutputFull();
+        print($"Inventory entry: {stdOutput.Read(0).GetHashCode()}, Slot #0 is {stdOutput.Read(0).Quantity} of {stdOutput.Read(0).Item}");
+        print($"Vector: {filledOutputSlots}");
+    }
+
+    private bool IsAnyOutputFull()
+    {
+        filledOutputSlots.x = GetFilledValue(stdOutput.Read(0));
+        filledOutputSlots.y = GetFilledValue(stdOutput.Read(1));
+        filledOutputSlots.z = GetFilledValue(spOutput.Read(0));
+
+        return filledOutputSlots.x > 0 
+            || filledOutputSlots.y > 0 
+            || filledOutputSlots.z > 0;
+    }
+
+    private int GetFilledValue(InventoryEntry slot) =>
+        (slot != null && !slot.IsEmpty && 
+        slot.Quantity >= slot.Item.maxStackSize) ? 1 : 0;
 
     protected override void PushData()
     {

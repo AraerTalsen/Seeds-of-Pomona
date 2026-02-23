@@ -26,6 +26,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         stats = GetComponent<EntityStats>();
         Persist = RetrieveData(persist);
         PullData();
+        bag.PushItems(1, 20);
     }
 
     private void Update()
