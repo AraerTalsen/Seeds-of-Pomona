@@ -16,9 +16,5 @@ MonoBehaviour:
   plotIndeces: 
   growthStages: 
   growthProgress: []
-<<<<<<< Updated upstream
-  unloadTime: 9.5199995
-=======
   unloadTime: 4.22
->>>>>>> Stashed changes
   isPersisting: 1

@@ -14,11 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   isPersisting: 1
-<<<<<<< Updated upstream
-  unloadTime: 9.5199995
-=======
   unloadTime: 4.22
->>>>>>> Stashed changes
   currentProgress: 0
   input:
   - quantity: 0
