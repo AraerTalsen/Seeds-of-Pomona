@@ -14,8 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jobListings:
   - {fileID: 0}
+<<<<<<< Updated upstream
   requestedItems:
   - quantity: 4
+=======
+  - {fileID: 0}
+  requestedItems:
+  - quantity: 4
+    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
+    debugItemName: Bio Mass
+  - quantity: 6
+>>>>>>> Stashed changes
     item: {fileID: 11400000, guid: c82897e123caa1847b353824121c0091, type: 2}
     debugItemName: Seeds
   lastPostTime: 0

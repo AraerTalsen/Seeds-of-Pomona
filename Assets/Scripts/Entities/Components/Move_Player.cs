@@ -16,6 +16,10 @@ public class Move_Player : MonoBehaviour
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
     public PInv inventory;
+    Animator animator;
+    private Vector2 lastMoveDirection;
+    private bool facingLeft = true;
+    private Vector2 input;
 
     public bool IsHidden { get => isHidden; }
 
@@ -28,6 +32,8 @@ public class Move_Player : MonoBehaviour
         inventory = GetComponent<PInv>();
 
         playerInteract.Move_Player = this;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +43,9 @@ public class Move_Player : MonoBehaviour
         {
             Move();
         }
+
+        Animate();
+        ProcessInputs();
     }
 
     private void Move()
@@ -64,5 +73,30 @@ public class Move_Player : MonoBehaviour
     public void ToggleHidden()
     {
         isHidden = !isHidden;
+    }
+
+    void Animate()
+    {
+        animator.SetFloat("MoveX", input.x);
+        animator.SetFloat("MoveY", input.y);
+        animator.SetFloat("MoveMagnitude", input.magnitude);
+        animator.SetFloat("LastMoveX", lastMoveDirection.x);
+        animator.SetFloat("LastMoveY", lastMoveDirection.y);
+    }
+
+    void ProcessInputs()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        if ((moveX == 0 && moveY == 0) && (input.x != 0 || input.y != 0))
+        {
+            lastMoveDirection = input;
+        }
+
+        input.x = Input.GetAxisRaw("Horizontal");
+        input.y = Input.GetAxisRaw("Vertical");
+
+        input.Normalize();
     }
 }
