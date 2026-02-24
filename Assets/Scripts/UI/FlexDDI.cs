@@ -39,6 +39,7 @@ public class FlexDDI : DragNDropInventory
         
         _Inventory.RemoveAt(slotIndex);
         Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Deleted);
+        
     }
 
     protected override void UpdateQty(int qty, Item item, out int remainder)

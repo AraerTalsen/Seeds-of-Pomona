@@ -86,6 +86,7 @@ public class PowerUps : FlexDDI
             
             Read(slotIndex).Remove();
             Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Cleared);
+            DisplayManager.UpdateItemDisplay(slotIndex);
         }
 
         if(DisplayManager.IsSlotLocked(slotIndex))
@@ -105,6 +106,10 @@ public class PowerUps : FlexDDI
             if(isWilderness && !storedData[i].IsEmpty)
             {
                 AddToolRefToSecondaryList((Tool)storedData[i].Item, i);
+                if(!lockStates[i])
+                {
+                    lockStates[i] = true;
+                }
             }
         }
         

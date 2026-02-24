@@ -42,7 +42,6 @@ public class BoonProfile
             Modifiers = modifiers;
             foreach(KeyValuePair<Stats, int> pair in Modifiers) 
             {
-                Debug.Log($"{pair.Key} -> {pair.Value}");
                 boonDisplay.UpdateStatDisplay(pair.Key, pair.Value);
             }
         }

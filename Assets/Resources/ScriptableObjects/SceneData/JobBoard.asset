@@ -15,8 +15,8 @@ MonoBehaviour:
   jobListings:
   - {fileID: 0}
   requestedItems:
-  - quantity: 6
-    item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
-    debugItemName: Flower
+  - quantity: 4
+    item: {fileID: 11400000, guid: c82897e123caa1847b353824121c0091, type: 2}
+    debugItemName: Seeds
   lastPostTime: 0
   isPersisting: 1

@@ -4372,6 +4372,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7038279825268794526, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
   m_PrefabInstance: {fileID: 1523571009}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1547888501 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1951893539600139572, guid: 587da572aaea341489b7bc2d607ef682, type: 3}
+  m_PrefabInstance: {fileID: 1523571009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1614065468
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,7 +4533,7 @@ MonoBehaviour:
   persist: {fileID: 11400000, guid: b47c082719a69f04090058dd3eb829ad, type: 2}
   invContainerInput: {fileID: 1523571013}
   invContainerStdOutput: {fileID: 1523571010}
-  invContainerSpOutput: {fileID: 1498008707}
+  invContainerSpOutput: {fileID: 1547888501}
   processTime: 3
   machineId: 0
   stdProgressBar: {fileID: 328534310}

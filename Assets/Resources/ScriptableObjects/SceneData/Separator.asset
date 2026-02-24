@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Separator
   m_EditorClassIdentifier: 
   inventory: []
-  isPersisting: 0
-  unloadTime: 79.24
-  currentProgress: 33.040565
+  isPersisting: 1
+  unloadTime: 9.5199995
+  currentProgress: 0
   input:
-  - quantity: 9
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Flower(Clone)
+    debugItemName: Empty
   output:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  - quantity: 11
+  - quantity: 0
     item: {fileID: 0}
-    debugItemName: Bio Mass(Clone)
+    debugItemName: Empty

@@ -47,7 +47,6 @@ public class Draggable : MonoBehaviour
     {
         InventoryEntry temp = inventoryItem.Clone();
         InventoryEntry slotItem = inv.Read(slotIndex);
-        print($"Darggable Incoming entry: {slotItem.Item}, {slotItem.Quantity}, Outgoing entry: {temp.Item}, {temp.Quantity}");
 
         if (isSameType)
         {
@@ -66,7 +65,6 @@ public class Draggable : MonoBehaviour
 
         inventoryItem.Set(slotItem.Quantity, slotItem.Item);
         inv.SetSlot(temp.Quantity, temp.Item, slotIndex);
-        print($"Darggable  double check Incoming entry: {slotItem.Item}, {slotItem.Quantity}, Outgoing entry: {temp.Item}, {temp.Quantity}");
 
         SetDraggableDisplay(inv, slotIndex);
 
@@ -104,7 +102,6 @@ public class Draggable : MonoBehaviour
         TMP_Text txt = transform.GetChild(0).GetComponent<TMP_Text>();
         if(inventoryItem != null && !inventoryItem.IsEmpty) 
         {
-            print("Item is not null");
             refInventory = inv;
             currentSlot = slotIndex;
 
@@ -114,7 +111,6 @@ public class Draggable : MonoBehaviour
         }
         else 
         {
-            print("Item is null");
             image.color = new Color(255, 255, 255, 0);
             image.sprite = null;
             txt.text = "";

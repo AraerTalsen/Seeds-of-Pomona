@@ -119,7 +119,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         yield return new WaitForSeconds(toolTipDelay);
         preparingToolTip = false;
         SetToolTipDisplay();
-        if(isTrashable)
+        if(isTrashable && !refInvScript.Read(slotIndex).IsEmpty && isLocked)
         {
            trashItem.SetActive(true); 
         }

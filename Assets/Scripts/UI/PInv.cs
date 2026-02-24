@@ -26,7 +26,8 @@ public class PInv : PersistentObject<PlayerInventoryData>
         stats = GetComponent<EntityStats>();
         Persist = RetrieveData(persist);
         PullData();
-        bag.PushItems(1, 20);
+        bag.PushItems(3, 2);
+        bag.PushItems(4, 1);
     }
 
     private void Update()
@@ -55,8 +56,8 @@ public class PInv : PersistentObject<PlayerInventoryData>
 
         if (!Persist.IsPersisting)
         {
-            Persist.Inventory = (List<InventoryEntry>)bag.Entries;
-            Persist.Powerups = (List<InventoryEntry>)powerupSlots.Entries;
+            Persist.Inventory = bag.Entries;
+            Persist.Powerups = powerupSlots.Entries;
             Persist.Boons = boonProfile.Modifiers;
             Persist.IsPersisting = true;
         }

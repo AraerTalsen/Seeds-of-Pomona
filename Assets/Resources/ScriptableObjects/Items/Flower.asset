@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd86dacfe726944f8cda1d3fc1a302f, type: 3}
   m_Name: Flower
   m_EditorClassIdentifier: 
+  toolTip: 
+  altToolTip: 
   id: 1
   maxStackSize: 20
   sprite: {fileID: 21300000, guid: b8fae1e22da6fe443bf17c74669ccf8f, type: 3}
   categories: 01000000
   outputItems: 0000000002000000
+  specialOutputID: 3
+  specialChance: 25

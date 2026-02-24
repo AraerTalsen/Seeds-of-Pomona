@@ -14,6 +14,7 @@ public class Separator : PersistentObject<SeparatorData>
     public int processTime;
     public int machineId;
     private bool isProcessing = false;
+    private bool isGenPowerup = false;
     [SerializeField] private Image stdProgressBar;
     [SerializeField] private Image spProgressBar;
     private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
@@ -59,17 +60,19 @@ public class Separator : PersistentObject<SeparatorData>
     private void StopProcess()
     {
         isProcessing = false;
-            ResetProgress();
-            StopCoroutine(nameof(ProcessItems));
+        ResetProgress();
+        StopCoroutine(nameof(ProcessItems));
     }
 
     private IEnumerator ProcessItems()
     {
         while (input.Read(0).Quantity > 0)
         {
+            isGenPowerup = IsSpecialGenerating(input.Read(0).Item);
             yield return new WaitForSeconds(processTime - carryOverProgress);
             carryOverProgress = 0;
             PullFromInputSlot(1);
+            isGenPowerup = false;
         }
         isProcessing = false;
     }
@@ -87,10 +90,23 @@ public class Separator : PersistentObject<SeparatorData>
         stdOutput.PushItems(outputs[0], randQty);
         stdOutput.PushItems(outputs[1], numItems);
 
+        if(isGenPowerup)
+        {
+            spOutput.PushItems(input.Read(0).Item.specialOutputID, 1);
+            print(spOutput.Read(0));
+        }
+
         if(IsAnyOutputFull())
         {
             StopProcess();
         }
+    }
+
+    private bool IsSpecialGenerating(Item item)
+    {
+        bool hasPowerup = item.specialOutputID > -1;
+        int rand = Random.Range(0, 100);
+        return hasPowerup && rand <= item.specialChance;
     }
 
     private void DisplayProgress()
@@ -98,7 +114,10 @@ public class Separator : PersistentObject<SeparatorData>
         timePassed += Time.deltaTime;
         float ratio = timePassed / processTime % 1;
         stdProgressBar.fillAmount = ratio;
-        spProgressBar.fillAmount = ratio;
+        if(isGenPowerup)
+        {
+            spProgressBar.fillAmount = ratio;
+        }
     }
 
     private void ResetProgress()
@@ -132,7 +151,7 @@ public class Separator : PersistentObject<SeparatorData>
         spOutput = new(invContainerSpOutput, true);
         stdOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
         spOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
-        stdOutput.Listener.SubscribeToTouchedSlots(SlotWasEmptied, 0);
+
         if(!Persist.IsPersisting)
         {
             Persist.Input = input.Entries;
@@ -157,8 +176,6 @@ public class Separator : PersistentObject<SeparatorData>
     {
         stdOutput.Listener.PrintAllDetails();
         IsAnyOutputFull();
-        print($"Inventory entry: {stdOutput.Read(0).GetHashCode()}, Slot #0 is {stdOutput.Read(0).Quantity} of {stdOutput.Read(0).Item}");
-        print($"Vector: {filledOutputSlots}");
     }
 
     private bool IsAnyOutputFull()

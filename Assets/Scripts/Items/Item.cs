@@ -22,11 +22,13 @@ public class Item : ScriptableObject
    public Sprite sprite;
    public List<ItemCategory> categories = new() { ItemCategory.Basic };
    public int[] outputItems;
+   public int specialOutputID = -1;
+   public int specialChance;
    public virtual string CurrentToolTip
    {
       get
       {
          return altToolTip.CompareTo("") != 0 && UseAltToolTip ? altToolTip : toolTip;
       }
-   } 
+   }
 }

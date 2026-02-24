@@ -10,7 +10,6 @@ public abstract class DragNDropInventory : ItemInventory
 
     public virtual void SetSlot(int qty, Item item, int slotIndex)
     {
-        Debug.Log($"Slot Incoming entry: {item}, {qty}. Outgoing entry: {Read(slotIndex).Item}, {Read(slotIndex).Quantity}");
         Listener?.StartNewEvent();
         if(Listener != null)
         {
@@ -27,14 +26,8 @@ public abstract class DragNDropInventory : ItemInventory
     {
         int totalQty = Sum(id);
         int outputQty = Mathf.Min(totalQty, requestedQty);
-        InventoryEntry entry = Find(id);
-
-        if(entry == null)
-        {
-            throw new ArgumentException($"Requested item of id: {id} does not exist in the inventory");
-        }
-
-        Item item = entry.Item;//May have receieved invalid item id, so added exception to throw
+        InventoryEntry entry = Find(id) ?? throw new ArgumentException($"Requested item of id: {id} does not exist in the inventory");
+        Item item = entry.Item;
 
         PullQty(outputQty, item, out unfulfilled);
         DisplayManager.UpdateDisplayAll();
