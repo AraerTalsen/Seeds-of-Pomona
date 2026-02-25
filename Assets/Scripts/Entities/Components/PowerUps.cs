@@ -53,17 +53,13 @@ public class PowerUps : FlexDDI
         else
         {
             Delete(slotIndex);
-
-            if(!prevEntry.IsEmpty && sceneName.CompareTo("Wilderness") == 0)
-            {
-                Tool t = (Tool)prevEntry.Item;
-                RemoveToolRefFromSecondaryList(t, slotIndex);
-            }
         }
     }
     //How to add RemoveToolRefFromSecondaryList to here
     public override void Delete(int slotIndex)
     {
+        InventoryEntry prevEntry = Read(slotIndex).Clone();
+
         if(slotIndex != Count - 1)
         {
             base.Delete(slotIndex);
@@ -95,6 +91,12 @@ public class PowerUps : FlexDDI
             {
                 DisplayManager.ToggleLock(slotIndex);
             }
+        }
+
+        if(!prevEntry.IsEmpty && sceneName.CompareTo("Wilderness") == 0)
+        {
+            Tool t = (Tool)prevEntry.Item;
+            RemoveToolRefFromSecondaryList(t, slotIndex);
         }
     }
 
@@ -253,10 +255,19 @@ public class PowerUps : FlexDDI
             GameObject g = activeHUDSlots[index];
             activeHUDSlots.RemoveAt(index);
             Object.Destroy(g);
+            for(int i = index; i < activePUpIndeces.Count; i++)
+            {
+                activePUpIndeces[i]--;
+            }
         }
         else
         {
             int index = passivePUpIndeces.FindIndex( i => i == slotIndex);
+            passivePUpIndeces.Remove(slotIndex);
+            for(int i = 0; i < passivePUpIndeces.Count; i++)
+            {
+                passivePUpIndeces[i]--;
+            }
         }
     }
 
