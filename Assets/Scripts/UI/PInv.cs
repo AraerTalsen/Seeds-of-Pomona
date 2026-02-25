@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class PInv : PersistentObject<PlayerInventoryData>
 {    
     [SerializeField] private FlexInvDisplayManager.ISlotPrefill prefill;
-    [SerializeField] private BoonDisplay.BoonDisplayProps props;
+    //[SerializeField] private BoonDisplay.BoonDisplayProps props;
     [SerializeField] private Transform bagContainer, powerupContainer;
     [SerializeField][TextArea] private string deathMsg;
     [SerializeField] private GameObject HUDSlot;
@@ -18,7 +18,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     public Wallet wallet;
     private BoundedDDI bag;
     private PowerUps powerupSlots;
-    private BoonProfile boonProfile;
+    //private BoonProfile boonProfile;
     private EntityStats stats;
 
     private void Start()
@@ -33,39 +33,26 @@ public class PInv : PersistentObject<PlayerInventoryData>
     private void Update()
     {
         powerupSlots.PowerupInterface();
-
-        if(Input.GetKeyUp(KeyCode.Keypad1))
-        {
-            boonProfile.BoostStat(Stats.Speed, 1);
-        }
-        else if(Input.GetKeyUp(KeyCode.Keypad2))
-        {
-            boonProfile.BoostStat(Stats.Strength, 1);
-        }
-        else if(Input.GetKeyUp(KeyCode.Keypad3))
-        {
-            boonProfile.BoostStat(Stats.Health, 1);
-        }
     }
 
     protected override void PullData()
     {
         bag = new(bagContainer);
         powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer);
-        boonProfile = new(props, stats.Stats);
+        //boonProfile = new(props, stats.Stats);
 
         if (!Persist.IsPersisting)
         {
             Persist.Inventory = bag.Entries;
             Persist.Powerups = powerupSlots.Entries;
-            Persist.Boons = boonProfile.Modifiers;
+            //Persist.Boons = boonProfile.Modifiers;
             Persist.IsPersisting = true;
         }
         else
         {
             bag.LoadFromStorage(Persist.Inventory);
             powerupSlots.RebuildSlots(Persist.Powerups, Persist.LockStates);
-            boonProfile.LoadModifiers(persist.Boons);
+            //boonProfile.LoadModifiers(persist.Boons);
             wallet.CurrentBalance = Persist.Balance;
         }
 

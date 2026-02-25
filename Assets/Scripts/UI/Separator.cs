@@ -10,18 +10,18 @@ public class Separator : PersistentObject<SeparatorData>
     [SerializeField] private SeparatorData persist;
     [SerializeField] private Transform invContainerInput;
     [SerializeField] private Transform invContainerStdOutput;
-    [SerializeField] private Transform invContainerSpOutput;
+    //[SerializeField] private Transform invContainerSpOutput;
     public int processTime;
     public int machineId;
     private bool isProcessing = false;
-    private bool isGenPowerup = false;
+    //private bool isGenPowerup = false;
     [SerializeField] private Image stdProgressBar;
-    [SerializeField] private Image spProgressBar;
+    //[SerializeField] private Image spProgressBar;
     private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
     private BoundedDDI input;
     private BoundedDDI stdOutput;
-    private BoundedDDI spOutput;
-    private Vector3Int filledOutputSlots = Vector3Int.zero;
+    //private BoundedDDI spOutput;
+    private Vector2Int filledOutputSlots = Vector2Int.zero;
 
     protected void Start()
     {
@@ -68,11 +68,11 @@ public class Separator : PersistentObject<SeparatorData>
     {
         while (input.Read(0).Quantity > 0)
         {
-            isGenPowerup = IsSpecialGenerating(input.Read(0).Item);
+            //isGenPowerup = IsSpecialGenerating(input.Read(0).Item);
             yield return new WaitForSeconds(processTime - carryOverProgress);
             carryOverProgress = 0;
             PullFromInputSlot(1);
-            isGenPowerup = false;
+            //isGenPowerup = false;
         }
         isProcessing = false;
     }
@@ -90,11 +90,11 @@ public class Separator : PersistentObject<SeparatorData>
         stdOutput.PushItems(outputs[0], randQty);
         stdOutput.PushItems(outputs[1], numItems);
 
-        if(isGenPowerup)
+        /*if(isGenPowerup)
         {
             spOutput.PushItems(input.Read(0).Item.specialOutputID, 1);
             print(spOutput.Read(0));
-        }
+        }*/
 
         if(IsAnyOutputFull())
         {
@@ -114,17 +114,17 @@ public class Separator : PersistentObject<SeparatorData>
         timePassed += Time.deltaTime;
         float ratio = timePassed / processTime % 1;
         stdProgressBar.fillAmount = ratio;
-        if(isGenPowerup)
+        /*if(isGenPowerup)
         {
             spProgressBar.fillAmount = ratio;
-        }
+        }*/
     }
 
     private void ResetProgress()
     {
         timePassed = 0;
         stdProgressBar.fillAmount = 0;
-        spProgressBar.fillAmount = 0;
+        //spProgressBar.fillAmount = 0;
     }
 
     private void CalculateProgress()
@@ -148,9 +148,9 @@ public class Separator : PersistentObject<SeparatorData>
     {
         input = new(invContainerInput);
         stdOutput = new(invContainerStdOutput, true);
-        spOutput = new(invContainerSpOutput, true);
+        //spOutput = new(invContainerSpOutput, true);
         stdOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
-        spOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
+        //spOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
 
         if(!Persist.IsPersisting)
         {
@@ -182,11 +182,11 @@ public class Separator : PersistentObject<SeparatorData>
     {
         filledOutputSlots.x = GetFilledValue(stdOutput.Read(0));
         filledOutputSlots.y = GetFilledValue(stdOutput.Read(1));
-        filledOutputSlots.z = GetFilledValue(spOutput.Read(0));
+        //filledOutputSlots.z = GetFilledValue(spOutput.Read(0));
 
         return filledOutputSlots.x > 0 
-            || filledOutputSlots.y > 0 
-            || filledOutputSlots.z > 0;
+            || filledOutputSlots.y > 0; 
+            //|| filledOutputSlots.z > 0;
     }
 
     private int GetFilledValue(InventoryEntry slot) =>

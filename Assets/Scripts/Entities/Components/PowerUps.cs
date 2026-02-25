@@ -26,7 +26,7 @@ public class PowerUps : FlexDDI
 
     public override void SetSlot(int qty, Item item, int slotIndex)
     {
-        InventoryEntry prevEntry = Read(slotIndex);
+        InventoryEntry prevEntry = Read(slotIndex).Clone();
         base.SetSlot(qty, item, slotIndex);
 
         if(item != null)
@@ -38,14 +38,9 @@ public class PowerUps : FlexDDI
                 CreateNewEntry();
                 if(Listener != null)
                 {
-                    Listener.StartNewEvent();
                     Listener.InventorySizeDelta++;
                 }
                 ((FlexInvDisplayManager)DisplayManager).AddNewISlot();
-            }
-            else if(!prevEntry.IsEmpty)
-            {
-                
             }
             
             if(sceneName.CompareTo("Wilderness") == 0)
@@ -53,28 +48,36 @@ public class PowerUps : FlexDDI
                 DisplayManager.ToggleLock(slotIndex);
                 t.SetExpirationDay(TimerObserver.Instance.CurrentDay + t.Durability);
                 AddToolRefToSecondaryList(t, slotIndex);
-            }
-
-            
+            }            
         }
         else
         {
             Delete(slotIndex);
 
-            if(!prevEntry.IsEmpty)
+            if(!prevEntry.IsEmpty && sceneName.CompareTo("Wilderness") == 0)
             {
                 Tool t = (Tool)prevEntry.Item;
-                //I think we add removetoolfromsecondarylist here
+                RemoveToolRefFromSecondaryList(t, slotIndex);
             }
         }
     }
-
+    //How to add RemoveToolRefFromSecondaryList to here
     public override void Delete(int slotIndex)
     {
         if(slotIndex != Count - 1)
         {
             base.Delete(slotIndex);
             ((FlexInvDisplayManager)DisplayManager).RemoveSlotAt(slotIndex);
+
+            if(!Read(Count - 1).IsEmpty)
+            {
+                CreateNewEntry();
+                if(Listener != null)
+                {
+                    Listener.InventorySizeDelta++;
+                }
+                ((FlexInvDisplayManager)DisplayManager).AddNewISlot();
+            }
         }
         else
         {
@@ -87,11 +90,11 @@ public class PowerUps : FlexDDI
             Read(slotIndex).Remove();
             Listener?.TouchSlot(slotIndex, Listener.TempItem, InventoryListener.SlotTouchMode.Cleared);
             DisplayManager.UpdateItemDisplay(slotIndex);
-        }
 
-        if(DisplayManager.IsSlotLocked(slotIndex))
-        {
-            DisplayManager.ToggleLock(slotIndex);
+            if(DisplayManager.IsSlotLocked(slotIndex))
+            {
+                DisplayManager.ToggleLock(slotIndex);
+            }
         }
     }
 
@@ -241,9 +244,9 @@ public class PowerUps : FlexDDI
         }
     }
 
-    private void RemoveToolRefFromSecondaryList(Tool tool, int slotIndex)
+    private void RemoveToolRefFromSecondaryList(Tool prevTool, int slotIndex)
     {
-        if(tool.IsActive)
+        if(prevTool.IsActive)
         {
             int index = activePUpIndeces.FindIndex( i => i == slotIndex);
             activePUpIndeces.Remove(slotIndex);
@@ -253,14 +256,18 @@ public class PowerUps : FlexDDI
         }
         else
         {
-            passivePUpIndeces.Remove(slotIndex);
+            int index = passivePUpIndeces.FindIndex( i => i == slotIndex);
         }
     }
 
     private void CreateNewHUDSlot(Sprite sprite)
     {
         activeHUDSlots.Add(Object.Instantiate(HUDSlot, HUDContainer));
-        activeHUDSlots[^1].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-        
+        UpdateHUDSlotSprite(activeHUDSlots.Count - 1, sprite);
+    }
+
+    private void UpdateHUDSlotSprite(int powerupIndex, Sprite sprite)
+    {
+        activeHUDSlots[powerupIndex].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
     }
 }
