@@ -14,13 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jobListings:
   - {fileID: 0}
-  - {fileID: 0}
   requestedItems:
-  - quantity: 3
-    item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
-    debugItemName: Flower
-  - quantity: 4
-    item: {fileID: 11400000, guid: c82897e123caa1847b353824121c0091, type: 2}
-    debugItemName: Seeds
+  - quantity: 1
+    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
+    debugItemName: Bio Mass
   lastPostTime: 0
-  isPersisting: 1
+  isPersisting: 0

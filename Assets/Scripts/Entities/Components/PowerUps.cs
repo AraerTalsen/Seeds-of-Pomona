@@ -191,8 +191,9 @@ public class PowerUps : FlexDDI
 
     private void ScrollPowerups()
     {
-        int scrollDelta = (int)Input.mouseScrollDelta.y;
+        int scrollDelta = 0 - (int)Input.mouseScrollDelta.y;
         int pUpCount = activePUpIndeces.Count;
+        int tempIndex = scrollIndex;
 
         if (pUpCount == 0)
         {
@@ -205,6 +206,22 @@ public class PowerUps : FlexDDI
             if (scrollIndex < 0)
                 scrollIndex += pUpCount;
         }
+
+        if(scrollDelta != 0)
+        {
+            UpdateSelectedHUDSlot(tempIndex);
+        }
+    }
+
+    private void UpdateSelectedHUDSlot(int prevIndex)
+    {
+        ToggleHUDSlot(prevIndex);
+        ToggleHUDSlot(scrollIndex);
+    }
+
+    private void ToggleHUDSlot(int index)
+    {
+        activeHUDSlots[index].GetComponent<SelectSlot>().ToggleHighlight();
     }
 
     private void UsePowerup()
@@ -280,10 +297,14 @@ public class PowerUps : FlexDDI
     {
         activeHUDSlots.Add(Object.Instantiate(HUDSlot, HUDContainer));
         UpdateHUDSlotSprite(activeHUDSlots.Count - 1, sprite);
+        if(activeHUDSlots.Count == 1)
+        {
+            ToggleHUDSlot(0);
+        }
     }
 
     private void UpdateHUDSlotSprite(int powerupIndex, Sprite sprite)
     {
-        activeHUDSlots[powerupIndex].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        activeHUDSlots[powerupIndex].GetComponent<SelectSlot>().SetSprite(sprite);
     }
 }
