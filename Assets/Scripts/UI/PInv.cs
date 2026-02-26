@@ -20,14 +20,15 @@ public class PInv : PersistentObject<PlayerInventoryData>
     private PowerUps powerupSlots;
     //private BoonProfile boonProfile;
     private EntityStats stats;
+    private PowerupHelper powerupHelper;
 
     private void Start()
     {
         stats = GetComponent<EntityStats>();
+        powerupHelper = GetComponent<PowerupHelper>();
         Persist = RetrieveData(persist);
         PullData();
-        bag.PushItems(3, 2);
-        bag.PushItems(4, 1);
+        bag.PushItems(3, 1);
     }
 
     private void Update()
@@ -38,7 +39,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     protected override void PullData()
     {
         bag = new(bagContainer);
-        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer);
+        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer, powerupHelper);
         //boonProfile = new(props, stats.Stats);
 
         if (!Persist.IsPersisting)

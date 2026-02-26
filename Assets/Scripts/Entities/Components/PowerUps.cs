@@ -11,13 +11,15 @@ public class PowerUps : FlexDDI
     private List<GameObject> activeHUDSlots = new();
     private GameObject HUDSlot;
     private Transform HUDContainer;
+    private PowerupHelper powerupHelper;
 
-    public PowerUps(GameObject player, int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill, GameObject HUDSlot, Transform HUDContainer) :
+    public PowerUps(GameObject player, int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill, GameObject HUDSlot, Transform HUDContainer, PowerupHelper helper) :
     base(capacity, invContainer, prefill)
     {
         this.player = player;
         this.HUDSlot = HUDSlot;
         this.HUDContainer = HUDContainer;
+        powerupHelper = helper;
     }
 
     private List<int> activePUpIndeces = new();
@@ -48,6 +50,7 @@ public class PowerUps : FlexDDI
                 DisplayManager.ToggleLock(slotIndex);
                 t.SetExpirationDay(TimerObserver.Instance.CurrentDay + t.Durability);
                 AddToolRefToSecondaryList(t, slotIndex);
+                powerupHelper.TryAddCoolDown(t);
             }            
         }
         else
@@ -97,6 +100,7 @@ public class PowerUps : FlexDDI
         {
             Tool t = (Tool)prevEntry.Item;
             RemoveToolRefFromSecondaryList(t, slotIndex);
+            powerupHelper.TryRemoveCoolDown(t, slotIndex);
         }
     }
 
@@ -110,7 +114,9 @@ public class PowerUps : FlexDDI
         {
             if(isWilderness && !storedData[i].IsEmpty)
             {
-                AddToolRefToSecondaryList((Tool)storedData[i].Item, i);
+                Tool tool = (Tool)storedData[i].Item;
+                AddToolRefToSecondaryList(tool, i);
+                powerupHelper.TryAddCoolDown(tool);
                 if(!lockStates[i])
                 {
                     lockStates[i] = true;
@@ -209,12 +215,10 @@ public class PowerUps : FlexDDI
 
     private void UseActive()
     {
-        //This will need to make a check for powerup cool downs
-        //A powerup payload can be created to save instance data for such a check
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            Tool t = (Tool)Read(activePUpIndeces[scrollIndex]).Item;
-            t.UseAbility(player);
+            int slotIndex = activePUpIndeces[scrollIndex];
+            powerupHelper.TryUseAbility((Tool)Read(slotIndex).Item, slotIndex, player);
         }
     }
 
@@ -222,10 +226,11 @@ public class PowerUps : FlexDDI
     {
         foreach(int i in passivePUpIndeces)
         {
-            Tool t = (Tool)Read(i).Item;
-            t.UseAbility(player);
+            powerupHelper.TryUseAbility((Tool)Read(i).Item, i, player);
         }
     }
+
+    
     public override void ClearInventory()
     {
         base.ClearInventory();

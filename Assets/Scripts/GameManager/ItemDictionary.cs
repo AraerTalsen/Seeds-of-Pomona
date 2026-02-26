@@ -9,7 +9,7 @@ public static class ItemDictionary
         {0, Resources.Load("ScriptableObjects/Items/Seeds") as Item},
         {1, Resources.Load("ScriptableObjects/Items/Flower") as Item},
         {2, Resources.Load("ScriptableObjects/Items/Bio Mass") as Item},
-        {3, Resources.Load("ScriptableObjects/Items/Smoke Screen") as Item},
+        {3, Resources.Load("ScriptableObjects/Items/Smoke Pod") as Item},
         {4, Resources.Load("ScriptableObjects/Items/Sleeping Willow") as Item}
     };
 }

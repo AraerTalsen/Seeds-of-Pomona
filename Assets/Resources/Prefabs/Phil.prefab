@@ -567,6 +567,7 @@ GameObject:
   - component: {fileID: 3528803846361396545}
   - component: {fileID: 6111583763345825998}
   - component: {fileID: 7152939598490239536}
+  - component: {fileID: 1636911816530456410}
   - component: {fileID: 2645968022735046473}
   - component: {fileID: 5997011432069869266}
   - component: {fileID: 7380057304703131252}
@@ -785,6 +786,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     baseStats: 000000000000000000000000
+--- !u!114 &1636911816530456410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290296282669825184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce0bbeea8686ed941a60bd55cc04dc8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2645968022735046473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,16 +818,6 @@ MonoBehaviour:
     isTrashable: 1
     whitelist: 02000000
     iSlot: {fileID: 4059049455684167818, guid: dab61702b5872c34b89614a0a8a157e6, type: 3}
-  props:
-    speedImg: {fileID: 37772145008806457}
-    speedColor: {r: 0.9308176, g: 0.9266985, b: 0.7229935, a: 1}
-    speedText: {fileID: 4285503752444150392}
-    strengthImg: {fileID: 4400359234168902259}
-    strengthColor: {r: 0.9559748, g: 0.6719887, b: 0.6403227, a: 1}
-    strengthText: {fileID: 8773143101377240038}
-    healthImg: {fileID: 6891921825206882874}
-    healthColor: {r: 0.7034531, g: 0.8002979, b: 0.9056604, a: 1}
-    healthText: {fileID: 1898838149593792430}
   bagContainer: {fileID: 747182706675965952}
   powerupContainer: {fileID: 933843650628588085}
   deathMsg: I died and lost all of my possesions in the wilderness.

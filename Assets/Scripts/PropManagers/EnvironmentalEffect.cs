@@ -12,6 +12,6 @@ public class EnvironmentalEffect : MonoBehaviour
     private IEnumerator Decay(int lifespan)
     {
         yield return new WaitForSeconds(lifespan);
-        Destroy(this);
+        Destroy(gameObject);
     }
 }

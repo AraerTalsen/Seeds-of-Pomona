@@ -13,10 +13,10 @@ public class Item : ScriptableObject
       Tool,
       Basic
    }
-
-   [SerializeField][TextArea] protected string toolTip;
-   [SerializeField][TextArea] protected string altToolTip;
+   [SerializeField][TextArea] private string toolTip;
+   [SerializeField][TextArea] private string altToolTip;
    public bool UseAltToolTip { get; set; }
+   public string CurrentToolTip => GetToolTip();
 
    public int id, maxStackSize = 20;
    public Sprite sprite;
@@ -24,11 +24,6 @@ public class Item : ScriptableObject
    public int[] outputItems;
    public int specialOutputID = -1;
    public int specialChance;
-   public virtual string CurrentToolTip
-   {
-      get
-      {
-         return altToolTip.CompareTo("") != 0 && UseAltToolTip ? altToolTip : toolTip;
-      }
-   }
+
+   protected virtual string GetToolTip() => string.IsNullOrEmpty(altToolTip) && ! UseAltToolTip ? toolTip : altToolTip;
 }

@@ -6,18 +6,21 @@ public abstract class Tool : Item
 {
     [SerializeField] private bool isActive = true;
     [SerializeField] private int durability;
+    [SerializeField] private int coolDown;
     public bool IsActive => isActive;
     public int Durability => durability;
+    public int CoolDown => coolDown;
     public int ExpirationDay { get; private set; } = -1;
     public bool IsExpired => ExpirationDay > -1 && ExpirationDay <= TimerObserver.Instance.CurrentDay;
-    public override string CurrentToolTip => altToolTip.CompareTo("") != 0 && UseAltToolTip ? 
-            string.Format(altToolTip, name[..name.IndexOf("(")], ExpirationDay - TimerObserver.Instance.CurrentDay) :
-            string.Format(toolTip, isActive ? "Active" : "Passive", name[..name.IndexOf("(")], durability);
+    private string defaultTip = "[{0}]\n{1} will last for {2} expeditions";
+    private string altTip = "[{0} has {1} expeditions remaining";
 
     public void SetExpirationDay(int day)
     {
         ExpirationDay = day;
         UseAltToolTip = true;
     }
+    protected override string GetToolTip() => UseAltToolTip ? altTip : defaultTip;
+
     public abstract void UseAbility(GameObject user); 
 }
