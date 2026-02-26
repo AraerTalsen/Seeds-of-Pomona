@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: Smoke Pod(Clone)
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -80,7 +80,10 @@ MonoBehaviour:
   - quantity: 1
     item: {fileID: 0}
     debugItemName: Smoke Pod(Clone)
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  lockStates: 0000
+    debugItemName: Smoke Pod(Clone)
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: Smoke Pod(Clone)
+  lockStates: 010101

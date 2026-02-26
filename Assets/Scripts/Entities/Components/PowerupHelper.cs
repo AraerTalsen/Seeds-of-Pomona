@@ -5,23 +5,29 @@ using UnityEngine;
 public class PowerupHelper : MonoBehaviour
 {
     private List<bool> coolDowns = new();
-    private List<Tool> pUpSlots = new();
+    private List<SelectSlot> pUpSlots = new();
+    private List<Tool> powerups = new();
+    private List<float> aggTime = new();
 
     private void Update()
     {
         UpdateCoolDownProgress();
     }
     
-    public void TryAddCoolDown(Tool tool)
+    public void TryAddCoolDown(SelectSlot slot, Tool tool)
     {
         coolDowns.Add(false);
-        pUpSlots.Add(tool);
+        pUpSlots.Add(slot);
+        powerups.Add(tool);
+        aggTime.Add(0);
     }
 
-    public void TryRemoveCoolDown(Tool tool, int index)
+    public void TryRemoveCoolDown(int index)
     {
         coolDowns.RemoveAt(index);
         pUpSlots.RemoveAt(index);
+        powerups.RemoveAt(index);
+        aggTime.RemoveAt(index);
     }
 
     public void ToggleCoolDown(int index) => coolDowns[index] = !coolDowns[index];
@@ -40,6 +46,7 @@ public class PowerupHelper : MonoBehaviour
         tool.UseAbility(player);
         yield return new WaitForSeconds(tool.CoolDown);
         ToggleCoolDown(slotIndex);
+        pUpSlots[slotIndex].CoolDownProgress.value = 0;
     }
 
     private void UpdateCoolDownProgress()
@@ -48,7 +55,9 @@ public class PowerupHelper : MonoBehaviour
         {
             if(coolDowns[i])
             {
-                
+                aggTime[i] += Time.deltaTime;
+                float ratio = aggTime[i] / powerups[i].CoolDown % 1;
+                pUpSlots[i].CoolDownProgress.value =  1.0f - ratio;
             }
         }
     }

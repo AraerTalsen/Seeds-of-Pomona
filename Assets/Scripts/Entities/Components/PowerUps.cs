@@ -50,7 +50,7 @@ public class PowerUps : FlexDDI
                 DisplayManager.ToggleLock(slotIndex);
                 t.SetExpirationDay(TimerObserver.Instance.CurrentDay + t.Durability);
                 AddToolRefToSecondaryList(t, slotIndex);
-                powerupHelper.TryAddCoolDown(t);
+                powerupHelper.TryAddCoolDown(activeHUDSlots[slotIndex].GetComponent<SelectSlot>(), t);
             }            
         }
         else
@@ -100,7 +100,7 @@ public class PowerUps : FlexDDI
         {
             Tool t = (Tool)prevEntry.Item;
             RemoveToolRefFromSecondaryList(t, slotIndex);
-            powerupHelper.TryRemoveCoolDown(t, slotIndex);
+            powerupHelper.TryRemoveCoolDown(slotIndex);
         }
     }
 
@@ -116,7 +116,7 @@ public class PowerUps : FlexDDI
             {
                 Tool tool = (Tool)storedData[i].Item;
                 AddToolRefToSecondaryList(tool, i);
-                powerupHelper.TryAddCoolDown(tool);
+                powerupHelper.TryAddCoolDown(activeHUDSlots[i].GetComponent<SelectSlot>(), tool);
                 if(!lockStates[i])
                 {
                     lockStates[i] = true;
