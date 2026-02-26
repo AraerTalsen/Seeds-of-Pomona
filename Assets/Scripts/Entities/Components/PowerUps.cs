@@ -120,25 +120,14 @@ public class PowerUps : FlexDDI
                 if(!lockStates[i])
                 {
                     lockStates[i] = true;
+                    tool.SetExpirationDay(TimerObserver.Instance.CurrentDay + tool.Durability);
                 }
             }
         }
         
         for(int i = 0; i < ((FlexInvDisplayManager)DisplayManager).SlotCount; i++)
         {
-            bool isSlotInUse = !Read(i).IsEmpty;
-            bool isSlotUnlocked = !lockStates[i];
-
-            if(isWilderness && isSlotInUse && isSlotUnlocked)
-            {
-                DisplayManager.SetSlotLock(i, true);
-                Tool t = (Tool)storedData[i].Item;
-                t.SetExpirationDay(TimerObserver.Instance.CurrentDay + t.Durability);
-            }
-            else
-            {
-                DisplayManager.SetSlotLock(i, lockStates[i]);
-            }
+           DisplayManager.SetSlotLock(i, lockStates[i]);
         }
     }
 
@@ -207,7 +196,7 @@ public class PowerUps : FlexDDI
                 scrollIndex += pUpCount;
         }
 
-        if(scrollDelta != 0)
+        if(scrollDelta != 0 && pUpCount > 0)
         {
             UpdateSelectedHUDSlot(tempIndex);
         }

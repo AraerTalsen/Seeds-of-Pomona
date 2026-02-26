@@ -13,14 +13,25 @@ public abstract class Tool : Item
     public int ExpirationDay { get; private set; } = -1;
     public bool IsExpired => ExpirationDay > -1 && ExpirationDay <= TimerObserver.Instance.CurrentDay;
     private string defaultTip = "[{0}]\n{1} will last for {2} expeditions";
-    private string altTip = "[{0} has {1} expeditions remaining";
+    private string altTip = "{0} has {1} expeditions remaining";
+    private string CleanName =>name[..name.IndexOf("(")];
 
     public void SetExpirationDay(int day)
     {
         ExpirationDay = day;
         UseAltToolTip = true;
     }
-    protected override string GetToolTip() => UseAltToolTip ? altTip : defaultTip;
+    protected override string GetToolTip() => TipFormatter();
+
+    private string TipFormatter()
+    {
+        if(UseAltToolTip)
+        {
+            return string.Format(altTip, CleanName, ExpirationDay - TimerObserver.Instance.CurrentDay);
+        }
+
+        return string.Format(defaultTip, isActive ? "Active" : "Passive", CleanName, Durability);
+    }
 
     public abstract void UseAbility(GameObject user); 
 }

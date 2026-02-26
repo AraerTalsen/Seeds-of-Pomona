@@ -6034,10 +6034,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Phil
       objectReference: {fileID: 0}
-    - target: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3379780439248856600, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6076,10 +6072,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379780439248856600, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3673887739090464027, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
