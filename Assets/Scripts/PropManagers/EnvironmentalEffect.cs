@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EnvironmentalEffect : MonoBehaviour
 {
-    public void StartDecay(int lifespan)
+    public void StartDecay(float lifespan)
     {
         StartCoroutine(nameof(Decay), lifespan);
     }
     
-    private IEnumerator Decay(int lifespan)
+    private IEnumerator Decay(float lifespan)
     {
         yield return new WaitForSeconds(lifespan);
         Destroy(gameObject);

@@ -221,7 +221,7 @@ public class PowerUps : FlexDDI
 
     private void UseActive()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Q) && sceneName.CompareTo("Wilderness") == 0 && Count > 0)
         {
             int slotIndex = activePUpIndeces[scrollIndex];
             powerupHelper.TryUseAbility((Tool)Read(slotIndex).Item, slotIndex, player);

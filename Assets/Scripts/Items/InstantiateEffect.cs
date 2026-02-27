@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Instantiate Effect")]
 public class InstantiateEffect : PowerupEffect
 {
-    [SerializeField] private GameObject node;
-    [SerializeField] private int lifespan;
+    [SerializeField] protected GameObject node;
+    [SerializeField] protected float lifespan;
+    [SerializeField] protected bool spawnForward = true;
 
     public override IEffectRuntime CreateRuntime(PowerupContext context) => new InstantRuntime(context, this);
 
@@ -14,9 +15,9 @@ public class InstantiateEffect : PowerupEffect
     {
         public bool IsFinished { get; private set; }
 
-        public InstantRuntime(PowerupContext context, InstantiateEffect action)
+        public InstantRuntime(PowerupContext context, InstantiateEffect effect)
         {
-            action.Apply(context);
+            effect.Apply(context);
             IsFinished = true;
         }
 
@@ -25,7 +26,9 @@ public class InstantiateEffect : PowerupEffect
 
     protected override void Apply(PowerupContext context)
     {
-        GameObject g = Instantiate(node, context.targetBody.position, Quaternion.identity);
+        GameObject g = Instantiate(node, (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation), Quaternion.identity);
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan); 
     }
+
+    protected Vector2 NormalSpawnDir(Vector2 facing) => spawnForward ? facing : -facing;
 }

@@ -52,11 +52,23 @@ public class EntityStateSupport : MonoBehaviour
         EntityProps.IsResting = false;
     }
 
+    public void Stun(float recoveryTime)
+    {
+        StartCoroutine(StunTimer(recoveryTime));
+    }
+
+    private IEnumerator StunTimer(float recoveryTime)
+    {
+        EntityProps.IsStunned = true;
+        yield return new WaitForSeconds(recoveryTime);
+        EntityProps.IsStunned = false;
+    }
+
     public bool CheckForTargetEntities()
     {
         if (EntityProps.TargetTransform != null)
         {
-            if (EntityProps.IsResting || EntityProps.IsTracking)
+            if (!EntityProps.IsStunned && (EntityProps.IsResting || EntityProps.IsTracking))
             {
                 StopAllCoroutines();
                 EntityProps.IsResting = false;

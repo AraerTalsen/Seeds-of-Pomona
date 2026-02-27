@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa6166ed5447b8348bff29efb0501f9e, type: 3}
-  m_Name: GardenBed
+  m_Script: {fileID: 11500000, guid: 940c68cbdf9c8ec408361cbc16305f9f, type: 3}
+  m_Name: CreateStunContact
   m_EditorClassIdentifier: 
-  itemIds: 
-  plotIndeces: 
-  growthStages: 
-  growthProgress: []
-  unloadTime: 3.58
-  isPersisting: 1
+  node: {fileID: 0}
+  lifespan: 0
+  spawnForward: 1
+  sprite: {fileID: 21300000, guid: 33df389534f7a614a82aaf2bafb73fd7, type: 3}
+  duration: 3

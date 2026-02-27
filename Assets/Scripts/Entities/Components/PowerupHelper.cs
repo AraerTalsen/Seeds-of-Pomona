@@ -8,8 +8,14 @@ public class PowerupHelper : MonoBehaviour
     private List<SelectSlot> pUpSlots = new();
     private List<Tool> powerups = new();
     private List<float> aggTime = new();
+    private EffectRunner runner;
 
     public PowerupContext Context { get; set; }
+
+    private void Start()
+    {
+        runner = GetComponent<EffectRunner>();
+    }
 
     private void Update()
     {
@@ -45,8 +51,7 @@ public class PowerupHelper : MonoBehaviour
     private IEnumerator UseAbility(Tool tool, int slotIndex, GameObject player)
     {
         ToggleCoolDown(slotIndex); 
-        //Implement runner component
-        //tool.UseAbility(Context);
+        runner.Run(tool, Context);
         yield return new WaitForSeconds(tool.CoolDown);
         ToggleCoolDown(slotIndex);
         pUpSlots[slotIndex].CoolDownProgress.value = 0;

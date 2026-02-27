@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toolTip: 
   altToolTip: 
-  id: 4
+  id: 3
   maxStackSize: 1
   sprite: {fileID: 21300000, guid: efcd8f4935a7dfd4bbf90aa60042e330, type: 3}
   categories: 02000000

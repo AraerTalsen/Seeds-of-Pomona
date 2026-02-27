@@ -38,6 +38,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         PullData();
         bag.PushItems(3, 1);
         bag.PushItems(4, 1);
+        bag.PushItems(5, 1);
     }
 
     private void Update()

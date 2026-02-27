@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24a5aafb4f6b3d54d83c92f5cce2e86a, type: 3}
-  m_Name: Leap Seed
+  m_Script: {fileID: 11500000, guid: fd19b826b2556ba41a85b2c64d3cd60d, type: 3}
+  m_Name: Pop Nut
   m_EditorClassIdentifier: 
   toolTip: 
   altToolTip: 
-  id: 4
+  id: 5
   maxStackSize: 1
-  sprite: {fileID: 21300000, guid: f718966829835824cba9d7a293631106, type: 3}
+  sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   categories: 02000000
   outputItems: 
   specialOutputID: -1
   specialChance: 0
   isActive: 1
-  durability: 3
-  coolDown: 10
-  effect: {fileID: 11400000, guid: 712098fcbaae626438d557a1e7e79771, type: 2}
+  durability: 2
+  coolDown: 15
+  effect: {fileID: 11400000, guid: 97557ad6ef740fb4b92ecbdd6f3f7507, type: 2}

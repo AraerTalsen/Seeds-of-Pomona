@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Separator
   m_EditorClassIdentifier: 
   inventory: []
-  isPersisting: 0
-  unloadTime: 3.34
+  isPersisting: 1
+  unloadTime: 3.58
   currentProgress: 0
   input:
   - quantity: 0

@@ -18,7 +18,7 @@ public class EnemyBehaviorContext : BehaviorContext
     public override void PerformAction()
     {
         SearchForTargetEntity();
-        if (!EntityProps.IsResting)
+        if (!EntityProps.IsResting && !EntityProps.IsStunned)
         {
             currentState.PerformAction();
         }

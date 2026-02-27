@@ -16,6 +16,7 @@ public class EntityProperties
     public float HuntRecoveryTime { get; set; }
     
     public bool IsResting { get; set; }
+    public bool IsStunned { get; set; }
     public bool IsTracking { get; set; }
     public bool IsTargetLost { get; set; }
     public Transform Transform { get; set; }
