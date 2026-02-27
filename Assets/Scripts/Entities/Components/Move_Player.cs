@@ -16,6 +16,7 @@ public class Move_Player : MonoBehaviour
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
     public PInv inventory;
+    private EntityOrientation entityOrientation;
     Animator animator;
     private Vector2 lastMoveDirection;
     private bool facingLeft = true;
@@ -30,6 +31,7 @@ public class Move_Player : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
         cow = GetComponent<ClickObjectInWorld>();
         inventory = GetComponent<PInv>();
+        entityOrientation = GetComponent<EntityOrientation>();
 
         playerInteract.Move_Player = this;
 
@@ -89,9 +91,10 @@ public class Move_Player : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        if ((moveX == 0 && moveY == 0) && (input.x != 0 || input.y != 0))
+        if (moveX == 0 && moveY == 0 && (input.x != 0 || input.y != 0))
         {
             lastMoveDirection = input;
+            entityOrientation.CurrentOrientation = lastMoveDirection;
         }
 
         input.x = Input.GetAxisRaw("Horizontal");

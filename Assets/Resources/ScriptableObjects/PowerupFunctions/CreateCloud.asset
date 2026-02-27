@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa6166ed5447b8348bff29efb0501f9e, type: 3}
-  m_Name: GardenBed
+  m_Script: {fileID: 11500000, guid: 74d58a20b8cd2c340a68ff8a36e479f1, type: 3}
+  m_Name: CreateCloud
   m_EditorClassIdentifier: 
-  itemIds: 
-  plotIndeces: 
-  growthStages: 
-  growthProgress: []
-  unloadTime: 3.34
-  isPersisting: 0
+  node: {fileID: 6701905602181293856, guid: 8c8c5252697a16b4aa325e41264a3331, type: 3}
+  lifespan: 15

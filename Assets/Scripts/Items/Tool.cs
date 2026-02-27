@@ -33,5 +33,5 @@ public abstract class Tool : Item
         return string.Format(defaultTip, isActive ? "Active" : "Passive", CleanName, Durability);
     }
 
-    public abstract void UseAbility(GameObject user); 
+    public abstract IEffectRuntime CreateEffectRuntime(PowerupContext context);  
 }
