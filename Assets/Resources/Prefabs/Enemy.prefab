@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-    baseStats: 000000000100000000000000
+    baseStats: 020000000100000000000000
 --- !u!114 &1650557447118419653
 MonoBehaviour:
   m_ObjectHideFlags: 0

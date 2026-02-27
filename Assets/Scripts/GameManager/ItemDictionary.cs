@@ -11,6 +11,7 @@ public static class ItemDictionary
         {2, Resources.Load("ScriptableObjects/Items/Bio Mass") as Item},
         {3, Resources.Load("ScriptableObjects/Items/Smoke Pod") as Item},
         {4, Resources.Load("ScriptableObjects/Items/Leap Seed") as Item},
-        {5, Resources.Load("ScriptableObjects/Items/Pop Nut") as Item}
+        {5, Resources.Load("ScriptableObjects/Items/Pop Nut") as Item},
+        {6, Resources.Load("ScriptableObjects/Items/Bash Bulb") as Item},
     };
 }

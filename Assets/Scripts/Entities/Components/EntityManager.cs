@@ -31,7 +31,7 @@ public class EntityManager : MonoBehaviour
         stats = GetComponent<EntityStats>();
         EntityProps = new()
         {
-            StatBlock = stats.Stats,
+            StatBlock = stats.StatBlock,
             TurnSpeed = turnSpeed,
             PatrolRadius = patrolRadius,
             Persistence = persistence,
@@ -48,7 +48,7 @@ public class EntityManager : MonoBehaviour
         
         evolutionContext = new()
         {
-            stats = stats.Stats,
+            stats = stats.StatBlock,
             stateMachine = enemyBehaviorContext,
             visualEntity = gameObject
         };

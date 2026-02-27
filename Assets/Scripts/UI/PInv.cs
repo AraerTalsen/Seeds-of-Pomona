@@ -30,7 +30,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         powerupContext = new()
         {
           targetBody = transform,
-          stats = stats.Stats,
+          stats = stats.StatBlock,
           orientation = GetComponent<EntityOrientation>()
         };
         powerupHelper.Context = powerupContext;
@@ -39,6 +39,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         bag.PushItems(3, 1);
         bag.PushItems(4, 1);
         bag.PushItems(5, 1);
+        bag.PushItems(6, 1);
     }
 
     private void Update()

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class ContactEffect : InstantiateEffect
 {
-    [SerializeField] private Sprite sprite;
     protected override void Apply(PowerupContext context)
     {
         GameObject g = new();
@@ -14,7 +13,7 @@ public abstract class ContactEffect : InstantiateEffect
         g.AddComponent<ContactCallbackRunner>();
         g.GetComponent<ContactCallbackRunner>().Callback = Callback;
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan);
-        g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation);
+        g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation * 1.25f);
         node = g;
         //base.Apply(context);
     }
