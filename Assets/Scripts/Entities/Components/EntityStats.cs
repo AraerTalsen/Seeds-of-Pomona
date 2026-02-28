@@ -13,14 +13,6 @@ public class EntityStats : MonoBehaviour, IHealth
         set
         {
             currentHealth = value;
-            if(currentHealth <= 0)
-            {
-                print($"{name} is dead");
-            }
-            else
-            {
-                print($"{name}'s current health is {currentHealth}");
-            }
         }
     }
     private int currentHealth;

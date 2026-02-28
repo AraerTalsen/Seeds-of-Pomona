@@ -118,7 +118,9 @@ public class GardenPlot : Interactable, ITimer
 
     private void Harvest(GameObject interactor)
     {
-        interactor.GetComponent<Move_Player>().inventory.GetInventory().PushItems(output.id, 1);
+        BoundedDDI inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
+        inv.PushItems(output.id, 1);
+        TrySpawnSpecial(inv);
         plant.sprite = null;
         output = null;
         seeds = null;
@@ -127,6 +129,15 @@ public class GardenPlot : Interactable, ITimer
         currentStage = 0;
         SetPlantInspectability();
         TimerObserver.Instance.Unsubscribe(this);
+    }
+
+    private void TrySpawnSpecial(BoundedDDI inv)
+    {
+        int specialId = ItemDictionary.items[output.id].SelectSpecialItem();
+        if(specialId > -1)
+        {
+            inv.PushItems(specialId, 1);
+        }
     }
 
     public void RestartGrowth()

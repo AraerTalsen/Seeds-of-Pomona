@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toolTip: 
   altToolTip: 
-  id: 0
-  maxStackSize: 20
-  sprite: {fileID: 0}
-  categories: 03000000
+  id: 6
+  maxStackSize: 1
+  sprite: {fileID: 266895252, guid: 7444c76f67a61ab458e466a912a8481f, type: 3}
+  categories: 02000000
   outputItems: 
   specialOutputID: -1
   specialChance: 0
   isActive: 1
-  durability: 0
-  coolDown: 0
-  effect: {fileID: 0}
+  durability: 1
+  coolDown: 5
+  effect: {fileID: 11400000, guid: f6630f6da90618c4f8f186c29bbda427, type: 2}

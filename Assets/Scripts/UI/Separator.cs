@@ -102,12 +102,12 @@ public class Separator : PersistentObject<SeparatorData>
         }
     }
 
-    private bool IsSpecialGenerating(Item item)
+    /*private bool IsSpecialGenerating(Item item)
     {
         bool hasPowerup = item.specialOutputID > -1;
         int rand = Random.Range(0, 100);
         return hasPowerup && rand <= item.specialChance;
-    }
+    }*/
 
     private void DisplayProgress()
     {

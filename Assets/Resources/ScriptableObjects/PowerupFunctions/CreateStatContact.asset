@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: CreateStatContact
   m_EditorClassIdentifier: 
   node: {fileID: 0}
-  lifespan: 0
+  lifespan: 0.1
   spawnForward: 1
-  sprite: {fileID: 0}
-  modifier: 0
+  modifier: 1

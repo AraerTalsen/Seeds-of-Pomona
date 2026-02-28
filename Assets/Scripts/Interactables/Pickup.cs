@@ -8,7 +8,18 @@ public class Pickup : Interactable
     
     public override void StartInteractiveProcess(GameObject interactor)
     {
-        interactor.GetComponent<Move_Player>().inventory.GetInventory().PushItems(1, 1);
+        BoundedDDI inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
+        inv.PushItems(itemId, 1);
+        TrySpawnSpecial(inv);
         Destroy(transform.parent.gameObject);
+    }
+
+    private void TrySpawnSpecial(BoundedDDI inv)
+    {
+        int specialId = ItemDictionary.items[itemId].SelectSpecialItem();
+        if(specialId > -1)
+        {
+            inv.PushItems(specialId, 1);
+        }
     }
 }

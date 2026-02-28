@@ -36,10 +36,6 @@ public class PInv : PersistentObject<PlayerInventoryData>
         powerupHelper.Context = powerupContext;
         Persist = RetrieveData(persist);
         PullData();
-        bag.PushItems(3, 1);
-        bag.PushItems(4, 1);
-        bag.PushItems(5, 1);
-        bag.PushItems(6, 1);
     }
 
     private void Update()
