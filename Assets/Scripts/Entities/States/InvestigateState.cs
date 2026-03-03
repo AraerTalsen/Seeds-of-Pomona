@@ -18,8 +18,5 @@ public class InvestigateState : BehaviorContext
         }
     }
 
-    public override void PerformAction()
-    {
-        CurrentState.PerformAction();
-    }
+    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => CurrentState.CreateEffectRuntime(effectContext);
 }

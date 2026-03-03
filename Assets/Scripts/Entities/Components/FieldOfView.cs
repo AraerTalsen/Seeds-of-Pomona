@@ -28,7 +28,6 @@ public class FieldOfView : MonoBehaviour
     {
         List<Collider2D> targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius).ToList();
         visibleTargets.RemoveAll(transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
-
         CheckIfTargetVisible(targetsInViewRadius);
 
         UpdateCurrentTarget();

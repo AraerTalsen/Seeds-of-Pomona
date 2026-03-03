@@ -9,7 +9,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
 {    
     [SerializeField] private FlexInvDisplayManager.ISlotPrefill prefill;
     //[SerializeField] private BoonDisplay.BoonDisplayProps props;
-    [SerializeField] private PowerupContext powerupContext;
+    [SerializeField] private EffectContext powerupContext;
     [SerializeField] private Transform bagContainer, powerupContainer;
     [SerializeField][TextArea] private string deathMsg;
     [SerializeField] private GameObject HUDSlot;
@@ -36,6 +36,11 @@ public class PInv : PersistentObject<PlayerInventoryData>
         powerupHelper.Context = powerupContext;
         Persist = RetrieveData(persist);
         PullData();
+
+        bag.PushItems(3, 1);
+        bag.PushItems(4, 1);
+        bag.PushItems(5, 1);
+        bag.PushItems(6, 1);
     }
 
     private void Update()

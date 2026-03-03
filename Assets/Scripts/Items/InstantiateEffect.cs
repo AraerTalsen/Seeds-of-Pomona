@@ -9,13 +9,14 @@ public class InstantiateEffect : PowerupEffect
     [SerializeField] protected float lifespan;
     [SerializeField] protected bool spawnForward = true;
 
-    public override IEffectRuntime CreateRuntime(PowerupContext context) => new InstantRuntime(context, this);
+    public override IEffectRuntime CreateRuntime(EffectContext context) => new InstantRuntime(context, this);
 
     private class InstantRuntime : IEffectRuntime
     {
+        public string EffectName => "PowerupEffect";
         public bool IsFinished { get; private set; }
 
-        public InstantRuntime(PowerupContext context, InstantiateEffect effect)
+        public InstantRuntime(EffectContext context, InstantiateEffect effect)
         {
             effect.Apply(context);
             IsFinished = true;
@@ -24,7 +25,7 @@ public class InstantiateEffect : PowerupEffect
         public void Tick() { }
     }
 
-    protected override void Apply(PowerupContext context)
+    protected override void Apply(EffectContext context)
     {
         GameObject g = Instantiate(node, (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation), Quaternion.identity);
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan); 

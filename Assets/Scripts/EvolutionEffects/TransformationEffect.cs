@@ -9,7 +9,7 @@ public class TransformationEffect : EvolutionEffect
     [SerializeField] private StatEvolutionEffect statEvolutionEffect;
     [SerializeField] private AbilityEvolutionEffect abilityEvolutionEffect;
 
-    protected override void HandleEffect(EvolutionContext context, Payload payload, bool isApplied)
+    protected override void HandleEffect(NPCEffectContext context, Payload payload, bool isApplied)
     {
         TransformationPayload data = (TransformationPayload)payload;
         if(isApplied)
@@ -26,9 +26,9 @@ public class TransformationEffect : EvolutionEffect
         VisualTransformation(context, data.scaleIncrease, isApplied);
     }
 
-    private void VisualTransformation(EvolutionContext context, int scale, bool isApplied)
+    private void VisualTransformation(NPCEffectContext context, int scale, bool isApplied)
     {
         float changeScale = isApplied ? scale : 1f / scale;
-        context.visualEntity.transform.localScale *= changeScale;
+        context.targetBody.transform.localScale *= changeScale;
     }
 }

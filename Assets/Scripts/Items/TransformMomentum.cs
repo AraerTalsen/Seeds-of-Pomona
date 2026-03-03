@@ -10,18 +10,19 @@ public class TransformMomentum : TransformEffect
     [SerializeField] private float force;
     [SerializeField] private float duration;
 
-    public override IEffectRuntime CreateRuntime(PowerupContext context) => new Runtime(context, this);
+    public override IEffectRuntime CreateRuntime(EffectContext context) => new Runtime(context, this);
 
     private class Runtime : IEffectRuntime
     {
-        private readonly PowerupContext context;
+        private readonly EffectContext context;
         private readonly TransformMomentum action;
 
         private float elapsed;
 
+        public string EffectName => "TransformMomentum";
         public bool IsFinished => elapsed >= action.duration;
 
-        public Runtime(PowerupContext context, TransformMomentum action)
+        public Runtime(EffectContext context, TransformMomentum action)
         {
             this.context = context;
             this.action = action;
@@ -41,15 +42,15 @@ public class TransformMomentum : TransformEffect
         }
     }
 
-    protected override void Apply(PowerupContext context)
+    protected override void Apply(EffectContext context)
     {
         context.targetBody.gameObject.GetComponent<Move_Player>().TogglePauseMovement();
         ApplyMomentum(context);
     }
 
-    private void ApplyMomentum(PowerupContext context)
+    private void ApplyMomentum(EffectContext context)
     {
-        Vector2 targetDir = TargetDir(context.stats[Stats.Strength] + force, context.orientation.CurrentOrientation);
+        Vector2 targetDir = TargetDir(context.stats.GetStatLvlConvertVal(Stats.Strength) + force, context.orientation.CurrentOrientation);
         Rigidbody2D rb = context.targetBody.GetComponent<Rigidbody2D>();
         rb.AddForce(targetDir, ForceMode2D.Impulse);
     }

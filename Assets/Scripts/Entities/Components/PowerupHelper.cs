@@ -10,7 +10,7 @@ public class PowerupHelper : MonoBehaviour
     private List<float> aggTime = new();
     private EffectRunner runner;
 
-    public PowerupContext Context { get; set; }
+    public EffectContext Context { get; set; }
 
     private void Start()
     {

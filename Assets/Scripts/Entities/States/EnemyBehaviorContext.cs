@@ -15,13 +15,14 @@ public class EnemyBehaviorContext : BehaviorContext
         InitializeStates();
     }
 
-    public override void PerformAction()
+    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext)
     {
         SearchForTargetEntity();
         if (!EntityProps.IsResting && !EntityProps.IsStunned)
         {
-            currentState.PerformAction();
+            return currentState.CreateEffectRuntime(effectContext);
         }
+        return default;
 
     }
 

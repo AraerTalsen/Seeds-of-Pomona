@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BehaviorState : IBehaviorState
+public abstract class BehaviorState : IBehaviorState
 {
     public IBehaviorContext Context { get; set; }
     public virtual EntityProperties EntityProps { get; set; }
     public EntityStateSupport EntityStateSupport { get; set; }
     public virtual float RecoveryTime { get; }
 
-    public virtual void PerformAction()
-    {
-        throw new System.NotImplementedException();
-    }
+    public abstract IEffectRuntime CreateEffectRuntime(EffectContext effectContext);
+
+    //public abstract void PerformAction();
 
     protected void ResetContextState()
     {

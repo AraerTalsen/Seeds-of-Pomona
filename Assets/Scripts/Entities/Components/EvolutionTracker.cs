@@ -5,7 +5,7 @@ using UnityEngine;
 public class EvolutionTracker : MonoBehaviour
 {
     [SerializeField] private List<EvolutionEntry> evolutions;
-    public EvolutionContext Context;
+    public NPCEffectContext Context;
     [SerializeField] private int currentEvolution = 0;
 
     private void Start()

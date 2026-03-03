@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class PowerupEffect : ScriptableObject
 {
-    public abstract IEffectRuntime CreateRuntime(PowerupContext context);
-    protected abstract void Apply(PowerupContext context);
+    public abstract IEffectRuntime CreateRuntime(EffectContext context);
+    protected abstract void Apply(EffectContext context);
 }

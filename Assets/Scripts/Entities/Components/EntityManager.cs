@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(FieldOfView))]
 [RequireComponent(typeof(EntityStateSupport))]
 [RequireComponent(typeof(EvolutionTracker))]
 public class EntityManager : MonoBehaviour
@@ -15,20 +14,24 @@ public class EntityManager : MonoBehaviour
     private float persistence;
     [SerializeField]
     private float huntRecoveryTime;
+    [SerializeField] private GameObject face;
 
-    public FieldOfView FOV { get; set; }
+    [SerializeField] private FieldOfView fov;
     public EntityProperties EntityProps { get; set; }
 
     private EntityStateSupport entityStateSupport;
     private EnemyBehaviorContext enemyBehaviorContext;
-    private EvolutionContext evolutionContext;
+    private NPCEffectContext evolutionContext;
     private EvolutionTracker evolutionTracker;
     private EntityStats stats;
+    private EffectRunner runner;
+    private EntityOrientation orientation;
     
 
     void Awake()
     {
         stats = GetComponent<EntityStats>();
+        orientation = GetComponent<EnemyOrientation>();
         EntityProps = new()
         {
             StatBlock = stats.StatBlock,
@@ -36,28 +39,33 @@ public class EntityManager : MonoBehaviour
             PatrolRadius = patrolRadius,
             Persistence = persistence,
             HuntRecoveryTime = huntRecoveryTime,
-            Transform = transform
+            Transform = transform,
+            Rigidbody = GetComponent<Rigidbody2D>(),
+            EnemyOrientation = (EnemyOrientation)orientation,
+            Face = face
         };
 
         entityStateSupport = GetComponent<EntityStateSupport>();
         entityStateSupport.EntityProps = EntityProps;
-        FOV = GetComponent<FieldOfView>();
-        FOV.EntityProps = EntityProps;
+        fov.EntityProps = EntityProps;
         enemyBehaviorContext = new(entityStateSupport, EntityProps);
         evolutionTracker = GetComponent<EvolutionTracker>();
+        runner = GetComponent<EffectRunner>();
         
         evolutionContext = new()
         {
             stats = stats.StatBlock,
             stateMachine = enemyBehaviorContext,
-            visualEntity = gameObject
+            targetBody = transform,
+            orientation = orientation
         };
         evolutionTracker.Context = evolutionContext;
     }
 
+    //Pass effect to EffectRUnner
     void Update()
     {
-        enemyBehaviorContext.PerformAction();
+        runner.Run(enemyBehaviorContext, evolutionContext);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

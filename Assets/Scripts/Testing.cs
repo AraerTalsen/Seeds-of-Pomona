@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    void Start()
+    [SerializeField] private float upperBound;
+    [SerializeField] private int speed;
+
+    private void Update()
     {
+        float y = Mathf.PingPong(Time.time * speed, upperBound * 2) - upperBound;
+        transform.position = new Vector2(transform.position.x, y);
     }
 }

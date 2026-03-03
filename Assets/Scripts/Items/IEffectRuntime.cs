@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IEffectRuntime
 {
+    public string EffectName { get; }
     public bool IsFinished { get; }
     public abstract void Tick();
 }

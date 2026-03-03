@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ContactEffect : InstantiateEffect
 {
-    protected override void Apply(PowerupContext context)
+    protected override void Apply(EffectContext context)
     {
         GameObject g = new();
         g.AddComponent<BoxCollider2D>();

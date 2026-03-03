@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Screech")]
-public class Screech : AbilityState
+public class Screech : AbilityState<BehaviorContext>
 {
-    public override void PerformAction()
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    /*public override void PerformAction()
     {
         Debug.Log("Screech");
-    }
+    }*/
 }

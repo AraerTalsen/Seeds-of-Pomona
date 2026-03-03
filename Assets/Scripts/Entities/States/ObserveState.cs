@@ -6,7 +6,23 @@ public class ObserveState : BehaviorState
 
     private Vector2 origin, dirToTarget;
 
-    public override void PerformAction()
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => new InstantRuntime(this);
+
+    private class InstantRuntime : IEffectRuntime
+    {
+        public string EffectName => "Observe";
+        public bool IsFinished { get; private set; }
+
+        public InstantRuntime(ObserveState effect)
+        {
+            effect.Apply();
+            IsFinished = true;
+        }
+
+        public void Tick() { }
+    }
+
+    public void Apply()
     {
         Observe();
         IsLookingAtTarget();
@@ -14,13 +30,13 @@ public class ObserveState : BehaviorState
 
     private void Observe()
     {
-        dirToTarget = EntityProps.Rotate();
+        dirToTarget = EntityProps.LookAt();
         origin = EntityProps.Transform.up;
     }
 
     private void IsLookingAtTarget()
     {
-        if (Quaternion.Angle(EntityProps.Transform.rotation, EntityProps.TargetRotation) <= 5)
+        if (Quaternion.Angle(EntityProps.Face.transform.rotation, EntityProps.TargetRotation) <= 5)
         {
             ResetContextState();
         }

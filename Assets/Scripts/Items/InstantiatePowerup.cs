@@ -7,5 +7,5 @@ public class InstantiatePowerup : Tool
 {
     [SerializeField] private InstantiateEffect effect;
 
-    public override IEffectRuntime CreateEffectRuntime(PowerupContext context) => effect.CreateRuntime(context);
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => effect.CreateRuntime(context);
 }

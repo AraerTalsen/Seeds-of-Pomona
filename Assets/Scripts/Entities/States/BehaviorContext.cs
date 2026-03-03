@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BehaviorContext : BehaviorState, IBehaviorContext
+public abstract class BehaviorContext : BehaviorState, IBehaviorContext
 {
     protected IBehaviorState currentState;
     public virtual IBehaviorState CurrentState 
@@ -63,4 +63,6 @@ public class BehaviorContext : BehaviorState, IBehaviorContext
 
         return default;
     }
+
+    public override abstract IEffectRuntime CreateEffectRuntime(EffectContext effectContext);
 }

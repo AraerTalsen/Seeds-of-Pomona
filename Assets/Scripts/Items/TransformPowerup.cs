@@ -8,5 +8,5 @@ public class TransformPowerup : Tool
 {
     [SerializeField] private TransformEffect effect;
 
-    public override IEffectRuntime CreateEffectRuntime(PowerupContext context) => effect.CreateRuntime(context);
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => effect.CreateRuntime(context);
 }

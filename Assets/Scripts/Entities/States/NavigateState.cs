@@ -7,7 +7,23 @@ public class NavigateState : BehaviorState
     private Vector2 targetPos;
     private Transform trans;
 
-    public override void PerformAction()
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => new InstantRuntime(this);
+
+    private class InstantRuntime : IEffectRuntime
+    {
+        public string EffectName => "Navigate";
+        public bool IsFinished { get; private set; }
+
+        public InstantRuntime(NavigateState effect)
+        {
+            effect.Apply();
+            IsFinished = true;
+        }
+
+        public void Tick() { }
+    }
+
+    public void Apply()
     {
         if (trans == null)
         {
@@ -20,14 +36,17 @@ public class NavigateState : BehaviorState
     private void Move()
     {
         targetPos = (Vector2)EntityProps.TargetPos;
-        EntityProps.Transform.position = Vector2.MoveTowards(trans.position, targetPos, EntityProps.MoveSpeed * Time.deltaTime);
-        EntityProps.Rotate();
+        Vector2 moveDir = (targetPos - (Vector2)trans.position).normalized;
+        EntityProps.Rigidbody.velocity = moveDir * EntityProps.MoveSpeed;
+        EntityProps.LookAt();
     }
 
     private void HasArrived()
     {
         if (Vector2.Distance(EntityProps.Transform.position, targetPos) <= 0.1f)
         {
+            EntityProps.Rigidbody.velocity = Vector2.zero;
+            
             if(EntityProps.IsTargetLost && !EntityProps.IsTracking)
             {
                 EntityStateSupport.QuitSearch();

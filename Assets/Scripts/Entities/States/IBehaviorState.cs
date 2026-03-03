@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBehaviorState
+public interface IBehaviorState : IAbilityEffect
 {
     /*public class BehaviorProperties
     {
@@ -32,5 +32,7 @@ public interface IBehaviorState
     public EntityProperties EntityProps { get; set; }
     public EntityStateSupport EntityStateSupport { get; set; }
     public float RecoveryTime { get; }
-    public void PerformAction();
+    
+    //Do we still need PerformAction after integrating CreateEffectRuntime?
+    //public void PerformAction();
 }

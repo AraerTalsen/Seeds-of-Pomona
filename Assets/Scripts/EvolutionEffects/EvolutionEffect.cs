@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class EvolutionEffect : ScriptableObject
 {
     public abstract System.Type PayloadType { get; }
-    public void Apply(EvolutionContext context, Payload payload) => HandleEffect(context, payload, true);
-    public void Revert(EvolutionContext context, Payload payload) => HandleEffect(context, payload, false);
+    public void Apply(NPCEffectContext context, Payload payload) => HandleEffect(context, payload, true);
+    public void Revert(NPCEffectContext context, Payload payload) => HandleEffect(context, payload, false);
 
-    protected abstract void HandleEffect(EvolutionContext context, Payload payload, bool isApplied);
+    protected abstract void HandleEffect(NPCEffectContext context, Payload payload, bool isApplied);
 }

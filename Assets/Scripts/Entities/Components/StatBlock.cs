@@ -31,6 +31,8 @@ public class StatBlock
         }
     }
 
+    public float GetStatLvlConvertVal(Stats stat) => StatDefinitions.Get(stat).Apply(this[stat]);
+
     /*private void Update()
     {
         DebugModeCheck();

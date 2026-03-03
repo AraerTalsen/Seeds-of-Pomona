@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tool : Item
+public abstract class Tool : Item, IAbilityEffect
 {
     [SerializeField] private bool isActive = true;
     [SerializeField] private int durability;
@@ -33,5 +33,5 @@ public abstract class Tool : Item
         return string.Format(defaultTip, isActive ? "Active" : "Passive", CleanName, Durability);
     }
 
-    public abstract IEffectRuntime CreateEffectRuntime(PowerupContext context);  
+    public abstract IEffectRuntime CreateEffectRuntime(EffectContext context);  
 }

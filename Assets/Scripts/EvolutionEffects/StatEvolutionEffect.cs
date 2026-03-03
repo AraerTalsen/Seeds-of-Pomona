@@ -7,7 +7,7 @@ using UnityEngine;
 public class StatEvolutionEffect : EvolutionEffect
 {
     public override Type PayloadType => typeof(StatPayload);
-    protected override void HandleEffect(EvolutionContext context, Payload payload, bool isApplied)
+    protected override void HandleEffect(NPCEffectContext context, Payload payload, bool isApplied)
     {
         StatPayload data = (StatPayload)payload;
         int sign = isApplied ? 1 : -1;

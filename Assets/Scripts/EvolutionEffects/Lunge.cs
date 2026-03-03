@@ -2,34 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Lunge")]
-public class Lunge : AbilityState
+[CreateAssetMenu(menuName = "Scriptable Objects/Base-Context Ability State")]
+public class BaseContextState : AbilityState<BehaviorContext>
 {
     [SerializeField]
     private float lungeDist;
     [SerializeField]
     private float lungeSpeed;
-    private EntityStateSupport.BehaviorType Behavior;
 
-    public override EntityStateSupport EntityStateSupport
-    {
-        get => entityStateSupport;
-        set
-        {
-            entityStateSupport = value;
-            Behavior = LungeForward;
-        }
-    }
-    private EntityStateSupport entityStateSupport;
+    //public override void PerformAction(EffectContext context) => CreateEffectRuntime(context);
 
-
-    public override void PerformAction()
-    {
-        EntityStateSupport.LaunchBehavior(Behavior, lungeSpeed);
-    }
-
-    private void LungeForward()
-    {
-        Debug.Log("Lunged");
-    }
+    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => effect.CreateRuntime(context);
 }
