@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class AbilityPayload : Payload
 {
-    public AbilityState<BehaviorContext> ability;
+    public AbilityState ability;
     public int probability;
 }

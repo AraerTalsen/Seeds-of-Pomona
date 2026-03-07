@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class ContactEffect : InstantiateEffect
 {
+    [SerializeField] private bool debugShowContactBounds = false;
     protected override void Apply(EffectContext context)
     {
         GameObject g = new();
@@ -13,7 +14,16 @@ public abstract class ContactEffect : InstantiateEffect
         g.AddComponent<ContactCallbackRunner>();
         g.GetComponent<ContactCallbackRunner>().Callback = Callback;
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan);
-        g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation * 1.25f);
+        
+        float range = context.owner.GetComponent<BoxCollider2D>().size.x;
+        g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation) * range;
+
+        if(debugShowContactBounds)
+        {
+            SpriteRenderer sr = g.AddComponent<SpriteRenderer>();
+            sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+        }
+
         node = g;
         //base.Apply(context);
     }

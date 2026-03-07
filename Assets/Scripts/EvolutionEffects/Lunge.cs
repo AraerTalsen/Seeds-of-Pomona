@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Base-Context Ability State")]
-public class BaseContextState : AbilityState<BehaviorContext>
+public class BaseContextState : AbilityState
 {
     [SerializeField]
     private float lungeDist;

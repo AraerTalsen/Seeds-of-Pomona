@@ -19,7 +19,7 @@ public class FieldOfView : MonoBehaviour
         Observe();
         if(EntityProps.TargetTransform != null)
         {
-            EntityProps.TargetPos = EntityProps.TargetTransform.position;   
+            //EntityProps.TargetPos = EntityProps.TargetTransform.position;   
         }
     }
 

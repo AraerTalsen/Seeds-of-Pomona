@@ -21,12 +21,9 @@ public class EffectRunner : MonoBehaviour
         for (int i = runningEffects.Count - 1; i >= 0; i--)
         {
             IEffectRuntime runtime = runningEffects[i];
-
-            //The only state that should have been returning a null value is the EnemyBehaviorContext, but its conditions to return null shouldn't
-            //have succeeded. Find out why we were receiving null IEffectRuntimes
+            
             if(runtime != null)
             {
-                print(runtime.EffectName);
                 runtime.Tick();
 
                 if (runtime.IsFinished)
@@ -34,7 +31,6 @@ public class EffectRunner : MonoBehaviour
             }
             else
             {
-                print("Discarded null runtime");
                 runningEffects.RemoveAt(i);
             }
             

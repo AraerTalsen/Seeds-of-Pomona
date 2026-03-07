@@ -12,7 +12,6 @@ public class EnemyOrientation : EntityOrientation
         get => currentOrientation; 
         set 
         {
-            print(value);
             currentOrientation = value.normalized; 
             spriteRenderer.sprite = AngleToSprite(DirToAngle(currentOrientation));
         }

@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class EnemyBehaviorContext : BehaviorContext
 {
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() { (new InvestigateState(), 50), (new NavigateState(), 0) };
+    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
+    { 
+        (new InvestigateState(), 1),
+        (new CombatState(), 0),
+        (new NavigateState(), 0) 
+    };
+
     public override float RecoveryTime { get; } = 8.0f;
 
     public EnemyBehaviorContext(EntityStateSupport entityStateSupport, EntityProperties entityProps)
@@ -11,29 +17,50 @@ public class EnemyBehaviorContext : BehaviorContext
         EntityStateSupport = entityStateSupport;
         EntityProps = entityProps;
 
-        CurrentState = PossibleStates[0].state;
+        CurrentState = ChooseRandomState();
         InitializeStates();
     }
 
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext)
-    {
-        SearchForTargetEntity();
-        if (!EntityProps.IsResting && !EntityProps.IsStunned)
-        {
-            return currentState.CreateEffectRuntime(effectContext);
-        }
-        return default;
+    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
 
+    public override void SelectNewState()
+    {
+        bool isTargetSpotted = EntityStateSupport.CheckForTargetEntities();
+        
+        if(!EntityProps.IsStunned)
+        {
+            if(!EntityProps.IsResting && !isTargetSpotted && !EntityProps.IsTargetLost)
+            {
+                CurrentState = ChooseRandomState();
+            }
+            else if(isTargetSpotted && EntityProps.DistFromTarget - EntityProps.MeleeRange <= 0.1f)
+            {
+                CurrentState = PossibleStates[1].state;
+            }
+            else if(isTargetSpotted || (!isTargetSpotted && EntityProps.IsTargetLost))
+            {
+                CurrentState = PossibleStates[2].state;
+            }
+            else if(EntityProps.IsResting)
+            {
+                CurrentState = null;
+            }
+        }
+        else
+        {
+            CurrentState = null;
+        }
     }
 
-    private void SearchForTargetEntity()
+    public override IBehaviorState GetCurrentState()
     {
-        bool targetFound = EntityStateSupport.CheckForTargetEntities();
-        if (targetFound && CurrentState != PossibleStates[1].state)
-        {
-            CurrentState = PossibleStates[1].state;
-        }
-        else if (!targetFound && !EntityProps.IsTargetLost)
+        ReassessSystem();
+        return base.GetCurrentState();
+    }
+
+    private void ReassessSystem()
+    {
+        if(EntityProps.IsStunned || EntityStateSupport.CheckForTargetEntities())
         {
             CurrentState = null;
         }

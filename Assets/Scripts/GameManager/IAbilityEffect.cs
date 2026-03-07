@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAbilityEffect
 {
-    public abstract IEffectRuntime CreateEffectRuntime(EffectContext context);  
+    public abstract IEffectRuntime CreateEffectRuntime(EffectContext context); 
 }

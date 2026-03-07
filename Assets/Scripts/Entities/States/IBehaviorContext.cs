@@ -6,4 +6,5 @@ public interface IBehaviorContext
 {
     public IBehaviorState CurrentState { get; set; }
     public List<(IBehaviorState state, int weight)> PossibleStates { get; }
+    public abstract void Escape();
 }

@@ -22,13 +22,13 @@ public class PlayerDeathManager : MonoBehaviour
 
     public void KillPlayer()
     {
-        StartShakeyCam();
+        /*StartShakeyCam();
         screenFX.SetTrigger("hasDied");
         mp.TogglePauseMovement(true);
         inventory.TriggerDeath();
         inventory.GetInventory().ClearInventory();
         inventory.GetPowerups().ClearInventory();
-        inventory.PushDataTemp();
+        inventory.PushDataTemp();*/
     }
 
     private void StartShakeyCam()

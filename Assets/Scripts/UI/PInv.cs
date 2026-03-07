@@ -31,7 +31,8 @@ public class PInv : PersistentObject<PlayerInventoryData>
         {
           targetBody = transform,
           stats = stats.StatBlock,
-          orientation = GetComponent<EntityOrientation>()
+          orientation = GetComponent<EntityOrientation>(),
+          owner = gameObject
         };
         powerupHelper.Context = powerupContext;
         Persist = RetrieveData(persist);

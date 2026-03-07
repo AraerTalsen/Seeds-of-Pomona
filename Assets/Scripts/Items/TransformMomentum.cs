@@ -10,6 +10,9 @@ public class TransformMomentum : TransformEffect
     [SerializeField] private float force;
     [SerializeField] private float duration;
 
+    public Action CallbackOnTick { get; }
+    public Action CallbackOnFinished { get; }
+
     public override IEffectRuntime CreateRuntime(EffectContext context) => new Runtime(context, this);
 
     private class Runtime : IEffectRuntime
@@ -38,6 +41,12 @@ public class TransformMomentum : TransformEffect
             if(elapsed >= action.duration)
             {
                 context.targetBody.gameObject.GetComponent<Move_Player>().TogglePauseMovement();
+            }
+            action.CallbackOnTick?.Invoke();
+
+            if(IsFinished)
+            {
+                action.CallbackOnFinished?.Invoke();
             }
         }
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ObserveState : BehaviorState
 {
-    public override float RecoveryTime { get; } = 2.0f;
+    public override float RecoveryTime => 2.0f;
 
     private Vector2 origin, dirToTarget;
 

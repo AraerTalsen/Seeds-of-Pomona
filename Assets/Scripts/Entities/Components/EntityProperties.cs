@@ -6,15 +6,20 @@ public class EntityProperties
 {
     public delegate Vector2 ResetTarget();
     public delegate void DelayNextAction(float recoveryTime);
+    public delegate void DelayNextMove(IBehaviorState state, float recoveryTime);
 
     public DelayNextAction Recover { get; set; }
+    public DelayNextMove CombatRecover { get; set; }
     public ResetTarget ChoosePatrolPoint { get; set; }
+    public Vector2 PreferredRange { get; set; }
+    public float PreferredTollerance { get; set; }
 
     public float MoveSpeed => StatBlock.GetStatLvlConvertVal(Stats.Speed);
     public float TurnSpeed { get; set; }
     public float PatrolRadius { get; set; }
     public float Persistence { get; set; }
     public float HuntRecoveryTime { get; set; }
+    public float MeleeRange { get; set; }
     public GameObject Face { get; set; }
     public Transform LookAtPoint => Face.transform.GetChild(0);
     
@@ -44,17 +49,30 @@ public class EntityProperties
             targetTransform = value;
             Vector2? temp = targetTransform != null ? targetTransform.position : null;
             //Do we need all of these casts or can we just do (Vector2)temp or even TargetPos ?= temp;
-            TargetPos = temp == null ? temp : new Vector2(((Vector2)temp).x, ((Vector2)temp).y);
+            if(temp == null)
+            {
+                TargetPos = temp;
+            }
+            else
+            {
+                Vector2 pos = (Vector2)temp;
+                Vector2 targetDir = (pos - (Vector2)Transform.position).normalized;
+                float magnitude = Vector2.Distance(Transform.position, pos) - MeleeRange;
+                TargetPos = (Vector2)Transform.position + targetDir * magnitude;
+            }
         }
     }
 
-    private Vector2? targetPos;
+    public float DistFromTarget => TargetTransform != null ? Vector2.Distance(Transform.position, (Vector2)TargetTransform.position) : -1;
+    public float DistFromTargetPos => Vector2.Distance(Transform.position, (Vector2)TargetPos);
+
+    private Vector2 targetPos;
     public Vector2? TargetPos
     {
         get => targetPos;
         set
         {
-            targetPos = value ?? ChoosePatrolPoint();
+            targetPos = value ?? (TargetTransform != null ? TargetTransform.position : ChoosePatrolPoint());
         }
     }
 

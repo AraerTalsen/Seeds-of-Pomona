@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(EntityStateSupport))]
 [RequireComponent(typeof(EvolutionTracker))]
 public class EntityManager : MonoBehaviour
 {
+    [SerializeField] private GameObject debugDisplay;
+    [SerializeField] private TextMeshProUGUI currentState;
+    [SerializeField] private TextMeshProUGUI currentDist;
+    [SerializeField] private bool debugState = false;
+    [SerializeField] private GameObject stopMarker;
+    [SerializeField] private GameObject meleeRange;
     [SerializeField]
     private float turnSpeed;
     [SerializeField]
@@ -26,6 +33,7 @@ public class EntityManager : MonoBehaviour
     private EntityStats stats;
     private EffectRunner runner;
     private EntityOrientation orientation;
+    private IAbilityEffect lastState;
     
 
     void Awake()
@@ -42,7 +50,9 @@ public class EntityManager : MonoBehaviour
             Transform = transform,
             Rigidbody = GetComponent<Rigidbody2D>(),
             EnemyOrientation = (EnemyOrientation)orientation,
-            Face = face
+            Face = face,
+            MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,
+            PreferredRange = new Vector2(2, 3.5f)
         };
 
         entityStateSupport = GetComponent<EntityStateSupport>();
@@ -57,16 +67,63 @@ public class EntityManager : MonoBehaviour
             stats = stats.StatBlock,
             stateMachine = enemyBehaviorContext,
             targetBody = transform,
-            orientation = orientation
+            orientation = orientation,
+            owner = gameObject
         };
         evolutionTracker.Context = evolutionContext;
+
+        if(debugState)
+        {
+            debugDisplay.SetActive(true);
+        }
     }
 
     //Pass effect to EffectRUnner
     void Update()
     {
-        runner.Run(enemyBehaviorContext, evolutionContext);
+        IAbilityEffect effect = CurrentState();
+        
+        UpdateDebugger(effect);
+        
+        if(effect != null)
+        {
+            runner.Run(effect, evolutionContext);
+        }
+        
     }
+
+    private void UpdateDebugger(IAbilityEffect effect)
+    {
+        lastState = effect == null || effect.Equals(lastState?.GetType())  ? lastState : effect;
+        IBehaviorContext context = ((IBehaviorState)lastState).Context;
+        currentState.text = context.GetType().ToString() + "->" + lastState.GetType().ToString();
+
+        currentDist.text = EntityProps.DistFromTargetPos.ToString();
+
+        stopMarker.transform.position = (Vector2)EntityProps.TargetPos;
+
+        Vector2 rangeSize = meleeRange.transform.localScale;
+        Vector2 rangePos = meleeRange.transform.localPosition;
+        meleeRange.transform.localScale = new Vector2(rangeSize.x, EntityProps.MeleeRange);
+        meleeRange.transform.localPosition = new Vector2(rangePos.x, EntityProps.MeleeRange / 2);
+    }
+
+    private IAbilityEffect CurrentState()
+    {
+        IBehaviorState state = enemyBehaviorContext;
+
+        while (state is BehaviorContext context)
+        {
+            if(context.GetCurrentState() == null) 
+            {
+                context.SelectNewState();
+            }
+            state = context.CurrentState;
+        }
+
+        return state;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

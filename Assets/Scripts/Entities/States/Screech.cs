@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Screech")]
-public class Screech : AbilityState<BehaviorContext>
+public class Screech : AbilityState
 {
     public override IEffectRuntime CreateEffectRuntime(EffectContext context)
     {

@@ -15,6 +15,7 @@ public class EntityStateSupport : MonoBehaviour
             entityProps.ChoosePatrolPoint = ChoosePatrolPoint;
             entityProps.Recover = Recover;
             entityProps.TargetPos = null;
+            entityProps.CombatRecover = CombatRecover;
         }
     }
 
@@ -52,6 +53,19 @@ public class EntityStateSupport : MonoBehaviour
         EntityProps.IsResting = false;
     }
 
+    public void CombatRecover(IBehaviorState state, float recoveryTime)
+    {
+        StartCoroutine(CombatRecoveryTimer(state, recoveryTime));
+    }
+
+    private IEnumerator CombatRecoveryTimer(IBehaviorState state, float recoveryTime)
+    {
+        state.IsCoolingDown = true;
+        yield return new WaitForSeconds(recoveryTime);
+        state.IsCoolingDown = false;
+        ((CombatState)state.Context).UpdateMoveSet(state, false);
+    }
+
     public void Stun(float recoveryTime)
     {
         StartCoroutine(StunTimer(recoveryTime));
@@ -70,7 +84,8 @@ public class EntityStateSupport : MonoBehaviour
         {
             if (!EntityProps.IsStunned && (EntityProps.IsResting || EntityProps.IsTracking))
             {
-                StopAllCoroutines();
+                StopCoroutine(nameof(RecoveryTimer));
+                StopCoroutine(nameof(TrackTarget));
                 EntityProps.IsResting = false;
                 EntityProps.IsTracking = false;
             }

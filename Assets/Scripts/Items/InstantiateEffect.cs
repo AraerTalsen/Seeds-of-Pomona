@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,20 +10,33 @@ public class InstantiateEffect : PowerupEffect
     [SerializeField] protected float lifespan;
     [SerializeField] protected bool spawnForward = true;
 
+    public Action CallbackOnTick { get; set; }
+    public Action CallbackOnFinished { get; set; }
+
     public override IEffectRuntime CreateRuntime(EffectContext context) => new InstantRuntime(context, this);
 
     private class InstantRuntime : IEffectRuntime
     {
         public string EffectName => "PowerupEffect";
         public bool IsFinished { get; private set; }
+        public InstantiateEffect Effect { get; set; }
 
         public InstantRuntime(EffectContext context, InstantiateEffect effect)
         {
-            effect.Apply(context);
+            Effect = effect;
+            Effect.Apply(context);
             IsFinished = true;
         }
 
-        public void Tick() { }
+        public void Tick() 
+        {
+            Effect.CallbackOnTick?.Invoke();
+
+            if (IsFinished)
+            {
+                Effect.CallbackOnFinished?.Invoke();
+            }
+        }
     }
 
     protected override void Apply(EffectContext context)
