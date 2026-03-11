@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   isPersisting: 1
-  unloadTime: 1.86
+  unloadTime: 3.02
   currentProgress: 0
   input:
   - quantity: 0

@@ -93,16 +93,7 @@ public class FieldOfView : MonoBehaviour
 
     private void UpdateCurrentTarget()
     {
-        if (visibleTargets.Count > 0)
-        {
-            EntityProps.TargetTransform = visibleTargets[0];
-        }
-        else
-        {
-            Vector2 temp = (Vector2)EntityProps.TargetPos;
-            EntityProps.TargetTransform = null;
-            EntityProps.TargetPos = temp;
-        }
+        EntityProps.TargetTransform = visibleTargets.Count > 0 ? visibleTargets[0] : null;
     }
 
     public Vector2 DirFromAngle(float angleInDegrees)

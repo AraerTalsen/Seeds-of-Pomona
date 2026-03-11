@@ -12,7 +12,7 @@ public class EntityProperties
     public DelayNextMove CombatRecover { get; set; }
     public ResetTarget ChoosePatrolPoint { get; set; }
     public Vector2 PreferredRange { get; set; }
-    public float PreferredTollerance { get; set; }
+    public float PreferredTolerance { get; set; }
 
     public float MoveSpeed => StatBlock.GetStatLvlConvertVal(Stats.Speed);
     public float TurnSpeed { get; set; }
@@ -47,19 +47,6 @@ public class EntityProperties
             }
             
             targetTransform = value;
-            Vector2? temp = targetTransform != null ? targetTransform.position : null;
-            //Do we need all of these casts or can we just do (Vector2)temp or even TargetPos ?= temp;
-            if(temp == null)
-            {
-                TargetPos = temp;
-            }
-            else
-            {
-                Vector2 pos = (Vector2)temp;
-                Vector2 targetDir = (pos - (Vector2)Transform.position).normalized;
-                float magnitude = Vector2.Distance(Transform.position, pos) - MeleeRange;
-                TargetPos = (Vector2)Transform.position + targetDir * magnitude;
-            }
         }
     }
 
@@ -75,6 +62,8 @@ public class EntityProperties
             targetPos = value ?? (TargetTransform != null ? TargetTransform.position : ChoosePatrolPoint());
         }
     }
+
+    public Vector2? MemorizedTargetPos { get; set; }
 
     private Quaternion targetRotation;
     public Quaternion TargetRotation { get => targetRotation; set => targetRotation = value; }

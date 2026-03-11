@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class SizingState : BehaviorContext
 {
+    private bool isRetreating = false;
+    private float min;
+    private float max;
+
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new()
     {
-        (new NavigateState(), 0)
+        (new NavigateState(), 0),
+        (new ObserveState(), 1)
     };
 
     private EntityProperties entityProps;
@@ -17,8 +22,9 @@ public class SizingState : BehaviorContext
         {
             entityProps = value;
             InitializeStates();
-            CurrentState = ChooseRandomState();
-            
+            CurrentState = PossibleStates[0].state;
+            min = EntityProps.PreferredRange.x;
+            max = EntityProps.PreferredRange.y;
         }
     }
 
@@ -26,35 +32,90 @@ public class SizingState : BehaviorContext
 
     public override void SelectNewState()
     {
-        if(!IsInPreferredRange())
+        if(IsInPreferredRange())
         {
             CurrentState = ChooseRandomState();
         }
+        Debug.Log($"SizingState CurrentState: {CurrentState}");
     }
 
     private bool IsInPreferredRange()
     {
         float dist = EntityProps.DistFromTarget;
-        float min = EntityProps.PreferredRange.x;
-        float max = EntityProps.PreferredRange.y;
 
         if(dist > min && dist < max)
         {
-            Debug.Log("Target is out of range");
-            Vector2 dirToTarget = (EntityProps.Transform.position - EntityProps.TargetTransform.position).normalized;
-            float tollerantSpan = max - min;
-            EntityProps.TargetPos = dirToTarget * (min + tollerantSpan / 2);
-            CurrentState = PossibleStates[0].state;
-            return false;
+            return true;
         }
-            Debug.Log("Target is in range");
 
-        return true;
+        TryKeepTargetPosInRange();
+        CurrentState = PossibleStates[0].state;
+
+        return false;
     }
 
-    protected override void ResetContextState()
+    private void TryKeepTargetPosInRange()
+    {
+        float dist = EntityProps.DistFromTarget;
+
+        SetRetreat(dist);
+        CalculateTargetPos(dist);
+    }
+
+    private void SetRetreat(float dist)
+    {
+        if(dist < min && dist > -1)
+        {
+            isRetreating = true;
+            EntityProps.MemorizedTargetPos = EntityProps.TargetTransform.position;
+        }
+        else if(dist > max)
+        {
+            isRetreating = false;
+        }
+    }
+
+    private void CalculateTargetPos(float dist)
+    {
+        Vector2 current = EntityProps.Transform.position;
+        Transform target = EntityProps.TargetTransform;
+
+        if(target != null)
+        {
+            Vector2 targetPos = EntityProps.TargetTransform.position;
+            Vector2 dirToTarget = (targetPos - current).normalized;
+            float tollerantSpan = max - min;
+            EntityProps.TargetPos = current + dirToTarget * (dist - max + tollerantSpan / 2);
+        }
+    }
+
+    public override IBehaviorState GetCurrentState()
+    {
+        if(CurrentState == PossibleStates[0].state)
+        {
+            TryKeepTargetPosInRange();
+        }
+        return base.GetCurrentState();
+    }
+
+    public override void Escape()
     {
         CurrentState = null;
-        ResetContextState();
+        
+        if(isRetreating)
+        {
+            EntityProps.TargetPos = EntityProps.MemorizedTargetPos;
+            CurrentState = PossibleStates[1].state;
+            isRetreating = false;
+        }
+        else
+        {
+            if(EntityProps.MemorizedTargetPos != null)
+            {
+                EntityProps.MemorizedTargetPos = null;
+            }
+            
+            Context.Escape();
+        }
     }
 }

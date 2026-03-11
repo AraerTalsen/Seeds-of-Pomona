@@ -8,7 +8,18 @@ using UnityEngine.TextCore.LowLevel;
 public abstract class BehaviorContext : BehaviorState, IBehaviorContext
 {
     protected IBehaviorState currentState;
-    public virtual IBehaviorState CurrentState { get => currentState; set => currentState = value; }
+    public virtual IBehaviorState CurrentState 
+    { 
+        get => currentState;
+        set
+        {
+            currentState = value;
+            if(currentState == null)
+            {
+                EntityProps.Rigidbody.velocity = Vector2.zero;
+            } 
+        }
+    }
 
     public virtual List<(IBehaviorState state, int weight)> PossibleStates { get; } = new();
 
@@ -72,6 +83,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             }
         }
 
+        EntityProps.Rigidbody.velocity = Vector2.zero;
         return null;
     }
 

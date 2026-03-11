@@ -6,8 +6,7 @@ public class EnemyBehaviorContext : BehaviorContext
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
         (new InvestigateState(), 1),
-        (new CombatState(), 0),
-        (new NavigateState(), 0) 
+        (new PursuitState(), 0)
     };
 
     public override float RecoveryTime { get; } = 8.0f;
@@ -29,26 +28,24 @@ public class EnemyBehaviorContext : BehaviorContext
         
         if(!EntityProps.IsStunned)
         {
-            if(!EntityProps.IsResting && !isTargetSpotted && !EntityProps.IsTargetLost)
+            if(!EntityProps.IsResting && !isTargetSpotted && EntityProps.MemorizedTargetPos == null)
             {
                 CurrentState = ChooseRandomState();
             }
-            else if(isTargetSpotted && EntityProps.DistFromTarget - EntityProps.MeleeRange <= 0.1f)
+            else if(isTargetSpotted || EntityProps.MemorizedTargetPos != null)
             {
                 CurrentState = PossibleStates[1].state;
-            }
-            else if(isTargetSpotted || (!isTargetSpotted && EntityProps.IsTargetLost))
-            {
-                CurrentState = PossibleStates[2].state;
             }
             else if(EntityProps.IsResting)
             {
                 CurrentState = null;
+                //EntityProps.Rigidbody.velocity = Vector2.zero;
             }
         }
         else
         {
             CurrentState = null;
+            //EntityProps.Rigidbody.velocity = Vector2.zero;
         }
     }
 

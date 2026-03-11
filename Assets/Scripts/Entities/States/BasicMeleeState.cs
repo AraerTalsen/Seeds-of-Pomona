@@ -9,7 +9,7 @@ public class BasicMeleeState : BehaviorState
     protected override string LoadEffect => "ScriptableObjects/PowerupFunctions/CreateStatContact";
     public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) 
     {
-        ((CombatState)Context).UpdateMoveSet(this, true);
+        ((CombatState)Context).UpdateMoveSetExhaustian(this, true);
         ResetContextState();
         return powerupEffect.CreateRuntime(effectContext);
     }

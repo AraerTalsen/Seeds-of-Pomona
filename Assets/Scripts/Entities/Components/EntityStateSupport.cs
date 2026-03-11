@@ -14,6 +14,7 @@ public class EntityStateSupport : MonoBehaviour
             entityProps = value;
             entityProps.ChoosePatrolPoint = ChoosePatrolPoint;
             entityProps.Recover = Recover;
+            //Is this assignment for TargetPos necessary?
             entityProps.TargetPos = null;
             entityProps.CombatRecover = CombatRecover;
         }
@@ -63,7 +64,7 @@ public class EntityStateSupport : MonoBehaviour
         state.IsCoolingDown = true;
         yield return new WaitForSeconds(recoveryTime);
         state.IsCoolingDown = false;
-        ((CombatState)state.Context).UpdateMoveSet(state, false);
+        ((CombatState)state.Context).UpdateMoveSetExhaustian(state, false);
     }
 
     public void Stun(float recoveryTime)

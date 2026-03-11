@@ -7,7 +7,10 @@ public abstract class ContactEffect : InstantiateEffect
     [SerializeField] private bool debugShowContactBounds = false;
     protected override void Apply(EffectContext context)
     {
-        GameObject g = new();
+        GameObject g = new()
+        {
+            layer = 2
+        };
         g.AddComponent<BoxCollider2D>();
         g.GetComponent<BoxCollider2D>().isTrigger = true;
         g.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
