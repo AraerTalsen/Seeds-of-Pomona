@@ -53,7 +53,7 @@ public class EntityManager : MonoBehaviour
             Face = face,
             MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,
             PreferredRange = new Vector2(2, 3.5f),
-            PreferredTollerance = 1
+            PreferredTolerance = 1
         };
 
         entityStateSupport = GetComponent<EntityStateSupport>();
