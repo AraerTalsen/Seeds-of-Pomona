@@ -23,4 +23,36 @@ public class InvestigateState : BehaviorContext
     }
 
     public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
+
+    public override IBehaviorState GetCurrentState()
+    {
+        Debug.Log($"SuspiciousSpot: {EntityProps.SuspiciousSpot}");
+        if(EntityProps.SuspiciousSpot != null)
+        {
+            EntityProps.TargetPos = EntityProps.SuspiciousSpot;
+            CurrentState = PossibleStates[1].state;
+        }
+
+        return base.GetCurrentState();
+    }
+    
+    public override void SelectNewState()
+    {
+        if(EntityProps.SuspiciousSpot != null)
+        {
+            EntityProps.TargetPos = EntityProps.SuspiciousSpot;
+            CurrentState = PossibleStates[1].state;
+        }
+        else
+        {
+           base.SelectNewState(); 
+        }
+        Debug.Log($"Investigate state will: {CurrentState}");
+    }
+
+    public override void Escape()
+    {
+        EntityProps.TargetPos = null;
+        base.Escape();
+    }
 }

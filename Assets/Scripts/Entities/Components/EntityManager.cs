@@ -83,14 +83,12 @@ public class EntityManager : MonoBehaviour
     void Update()
     {
         IAbilityEffect effect = CurrentState();
-        
         UpdateDebugger(effect);
         
         if(effect != null)
         {
             runner.Run(effect, evolutionContext);
         }
-        
     }
 
     private void UpdateDebugger(IAbilityEffect effect)

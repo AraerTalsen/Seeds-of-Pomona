@@ -14,7 +14,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         set
         {
             currentState = value;
-            if(currentState == null)
+            if(currentState == null && EntityProps.IsVelocityVoid)
             {
                 EntityProps.Rigidbody.velocity = Vector2.zero;
             } 
@@ -22,6 +22,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
     }
 
     public virtual List<(IBehaviorState state, int weight)> PossibleStates { get; } = new();
+    public bool IsAggro { get; }
 
     public virtual void AddState(IBehaviorState state, int weight)
     {
@@ -71,6 +72,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         int currentWeight = 0;
         foreach((IBehaviorState state, int weight) in PossibleStates)
         {
+            Debug.Log($"State {state} is valid: {state.IsValid} and has a weight of: {weight}");
             if(!state.IsValid || weight == 0) 
             {
                 continue;

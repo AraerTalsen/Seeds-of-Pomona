@@ -13,6 +13,8 @@ public class EntityProperties
     public ResetTarget ChoosePatrolPoint { get; set; }
     public Vector2 PreferredRange { get; set; }
     public float PreferredTolerance { get; set; }
+    public bool IsVelocityVoid { get; set; } = true;
+    public Vector2? SuspiciousSpot { get; set; }
 
     public float MoveSpeed => StatBlock.GetStatLvlConvertVal(Stats.Speed);
     public float TurnSpeed { get; set; }

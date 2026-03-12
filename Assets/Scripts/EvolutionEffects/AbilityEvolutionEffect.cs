@@ -18,7 +18,7 @@ public class AbilityEvolutionEffect : EvolutionEffect
             hostContext.RemoveState(data.ability, data.probability);
     }
 
-    private BehaviorContext GetHostContextFromPayload(BehaviorContext startNode, BehaviorContext targetContextType)
+    private BehaviorContext GetHostContextFromPayload(BehaviorContext startNode, Type targetContextType)
     {
         Stack<BehaviorContext> stack = new();
         stack.Push(startNode);

@@ -19,7 +19,6 @@ public abstract class BehaviorState : IBehaviorState
 
     protected virtual void ResetContextState()
     {
-        EntityProps.TargetPos = null;
         Context.Escape();
         
         if(powerupEffect == null)

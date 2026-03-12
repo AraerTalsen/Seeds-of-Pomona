@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0f090acac08f4049a734324c9c8dc07, type: 3}
-  m_Name: New Screech
+  m_Script: {fileID: 11500000, guid: 74d58a20b8cd2c340a68ff8a36e479f1, type: 3}
+  m_Name: CreateBeakon
   m_EditorClassIdentifier: 
+  node: {fileID: 6030208515789500573, guid: e9c56a1bdc0876b4288272f1316eba47, type: 3}
+  lifespan: 1
+  spawnForward: 1

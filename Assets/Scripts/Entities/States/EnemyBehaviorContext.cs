@@ -6,7 +6,7 @@ public class EnemyBehaviorContext : BehaviorContext
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
         (new InvestigateState(), 1),
-        (new PursuitState(), 0)
+        (new AggroState(), 0)
     };
 
     public override float RecoveryTime { get; } = 8.0f;
@@ -39,13 +39,11 @@ public class EnemyBehaviorContext : BehaviorContext
             else if(EntityProps.IsResting)
             {
                 CurrentState = null;
-                //EntityProps.Rigidbody.velocity = Vector2.zero;
             }
         }
         else
         {
             CurrentState = null;
-            //EntityProps.Rigidbody.velocity = Vector2.zero;
         }
     }
 
@@ -57,9 +55,16 @@ public class EnemyBehaviorContext : BehaviorContext
 
     private void ReassessSystem()
     {
-        if(EntityProps.IsStunned || EntityStateSupport.CheckForTargetEntities())
+        bool isTargetSpotted = EntityStateSupport.CheckForTargetEntities();
+
+        if(EntityProps.IsStunned || isTargetSpotted)
         {
             CurrentState = null;
+        }
+
+        if(isTargetSpotted)
+        {
+            EntityProps.SuspiciousSpot = null;
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IBehaviorContext
 {
     public IBehaviorState CurrentState { get; set; }
+    public bool IsAggro { get; }
     public List<(IBehaviorState state, int weight)> PossibleStates { get; }
     public abstract void Escape();
 }

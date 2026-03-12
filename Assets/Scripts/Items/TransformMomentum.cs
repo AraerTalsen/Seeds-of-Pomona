@@ -40,7 +40,17 @@ public class TransformMomentum : TransformEffect
 
             if(elapsed >= action.duration)
             {
-                context.targetBody.gameObject.GetComponent<Move_Player>().TogglePauseMovement();
+                if(context.targetBody.gameObject.TryGetComponent(out Move_Player mp))
+                {
+                    mp.TogglePauseMovement();
+                }
+                else
+                {
+                    Debug.Log("Unpausing movement");
+                    EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
+                    props.IsStunned = false;
+                    props.IsVelocityVoid = true;
+                }
             }
             action.CallbackOnTick?.Invoke();
 
@@ -53,12 +63,25 @@ public class TransformMomentum : TransformEffect
 
     protected override void Apply(EffectContext context)
     {
-        context.targetBody.gameObject.GetComponent<Move_Player>().TogglePauseMovement();
+        Debug.Log("Using lunge effect");
+        if(context.targetBody.gameObject.TryGetComponent(out Move_Player mp))
+        {
+            mp.TogglePauseMovement();
+        }
+        else
+        {
+            Debug.Log("Pausing movement");
+            EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
+            props.IsStunned = true;
+            props.IsVelocityVoid = false;
+        }
+        
         ApplyMomentum(context);
     }
 
     private void ApplyMomentum(EffectContext context)
     {
+        Debug.Log("Applying momentum");
         Vector2 targetDir = TargetDir(context.stats.GetStatLvlConvertVal(Stats.Strength) + force, context.orientation.CurrentOrientation);
         Rigidbody2D rb = context.targetBody.GetComponent<Rigidbody2D>();
         rb.AddForce(targetDir, ForceMode2D.Impulse);

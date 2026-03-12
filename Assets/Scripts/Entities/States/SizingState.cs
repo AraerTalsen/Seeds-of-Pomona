@@ -36,7 +36,6 @@ public class SizingState : BehaviorContext
         {
             CurrentState = ChooseRandomState();
         }
-        Debug.Log($"SizingState CurrentState: {CurrentState}");
     }
 
     private bool IsInPreferredRange()
