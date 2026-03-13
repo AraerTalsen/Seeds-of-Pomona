@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Beakon : MonoBehaviour
+public class Beacon : MonoBehaviour
 {
     public float radius;
 
