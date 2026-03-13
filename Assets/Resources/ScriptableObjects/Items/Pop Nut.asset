@@ -19,9 +19,9 @@ MonoBehaviour:
   sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   categories: 02000000
   outputItems: 
-  specialOutputID: -1
-  specialChance: 0
+  specialSpawnChance: 0
+  specialOutputs: []
   isActive: 1
   durability: 2
   coolDown: 15
-  effect: {fileID: 11400000, guid: 97557ad6ef740fb4b92ecbdd6f3f7507, type: 2}
+  effect: {fileID: 11400000, guid: c7e3bbaddb515d34ea03c07957f402bf, type: 2}
