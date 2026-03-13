@@ -59,6 +59,7 @@ public class EntityManager : MonoBehaviour
         entityStateSupport = GetComponent<EntityStateSupport>();
         entityStateSupport.EntityProps = EntityProps;
         fov.EntityProps = EntityProps;
+        name = "Enemy " + GetHashCode();
         enemyBehaviorContext = new(entityStateSupport, EntityProps);
         evolutionTracker = GetComponent<EvolutionTracker>();
         runner = GetComponent<EffectRunner>();

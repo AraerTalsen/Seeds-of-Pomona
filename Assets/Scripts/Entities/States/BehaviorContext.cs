@@ -14,6 +14,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         set
         {
             currentState = value;
+            //Debug.Log($"{this} [{GetHashCode()}]'s CurrentState has just been set to {value} [{value?.GetHashCode()}]. Confirmation, currentState: {currentState} [{currentState?.GetHashCode()}]");
             if(currentState == null && EntityProps.IsVelocityVoid)
             {
                 EntityProps.Rigidbody.velocity = Vector2.zero;
@@ -21,8 +22,10 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         }
     }
 
+    public virtual Dictionary<System.Type, IBehaviorContext> ContextRegistry { get; set; }
+
     public virtual List<(IBehaviorState state, int weight)> PossibleStates { get; } = new();
-    public bool IsAggro { get; }
+    public virtual bool IsAggro { get; }
 
     public virtual void AddState(IBehaviorState state, int weight)
     {
@@ -51,7 +54,8 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
 
     public void RemoveState(IBehaviorState state, int weight)
     {
-        PossibleStates.Remove((state, weight));
+        int index = PossibleStates.FindIndex( e => e.state.GetType().Equals(state.GetType()));
+        PossibleStates.RemoveAt(index);
     }
 
     protected void InitializeState(IBehaviorState state)
@@ -72,7 +76,6 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         int currentWeight = 0;
         foreach((IBehaviorState state, int weight) in PossibleStates)
         {
-            Debug.Log($"State {state} is valid: {state.IsValid} and has a weight of: {weight}");
             if(!state.IsValid || weight == 0) 
             {
                 continue;
@@ -97,4 +100,6 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         CurrentState = null;
         Context?.Escape();
     }
+
+    public virtual void AddToRegistry(IBehaviorContext context) => ContextRegistry.Add(context.GetType(), context);
 }

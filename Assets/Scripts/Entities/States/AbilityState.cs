@@ -31,7 +31,7 @@ public abstract class AbilityState : ScriptableObject, IBehaviorState, IAbilityE
     public IBehaviorContext Context { get; set; }
     public EntityProperties EntityProps { get; set; }
 
-    public float RecoveryTime { get; }
+    public virtual float RecoveryTime { get; }
 
     public System.Type HostContext => ContextEnumToType[contextType];
     public bool IsCoolingDown { get; set; }

@@ -7,6 +7,7 @@ public class SizingState : BehaviorContext
     private bool isRetreating = false;
     private float min;
     private float max;
+    public override bool IsAggro => true;
 
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new()
     {
@@ -21,6 +22,8 @@ public class SizingState : BehaviorContext
         set
         {
             entityProps = value;
+            ContextRegistry = Context.ContextRegistry;
+            AddToRegistry(this);
             InitializeStates();
             CurrentState = PossibleStates[0].state;
             min = EntityProps.PreferredRange.x;
@@ -68,6 +71,7 @@ public class SizingState : BehaviorContext
             isRetreating = true;
             EntityProps.MemorizedTargetPos = EntityProps.TargetTransform.position;
         }
+        //Do we need this condition? I think the entity should arrive at its target before it can realize it should no longer retreat
         else if(dist > max)
         {
             isRetreating = false;
@@ -113,7 +117,6 @@ public class SizingState : BehaviorContext
             {
                 EntityProps.MemorizedTargetPos = null;
             }
-            
             Context.Escape();
         }
     }

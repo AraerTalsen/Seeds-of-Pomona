@@ -5,6 +5,7 @@ using UnityEngine;
 public class CombatState : BehaviorContext
 {
     private IBehaviorState preparedMove = null;
+    public override bool IsAggro => true;
 
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
@@ -21,6 +22,8 @@ public class CombatState : BehaviorContext
         set
         {
             entityProps = value;
+            ContextRegistry = Context.ContextRegistry;
+            AddToRegistry(this);
             InitializeStates();
             CurrentState = null;
             moveSetExhaustian.Add(PossibleStates[1].state, false);

@@ -64,7 +64,10 @@ public class EntityStateSupport : MonoBehaviour
         state.IsCoolingDown = true;
         yield return new WaitForSeconds(recoveryTime);
         state.IsCoolingDown = false;
-        ((CombatState)state.Context).UpdateMoveSetExhaustian(state, false);
+        if(state.Context is CombatState combatState)
+        {
+            combatState.UpdateMoveSetExhaustian(state, false);
+        }
     }
 
     public void Stun(float recoveryTime)

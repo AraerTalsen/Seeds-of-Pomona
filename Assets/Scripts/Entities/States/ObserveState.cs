@@ -32,6 +32,7 @@ public class ObserveState : BehaviorState
     {
         dirToTarget = EntityProps.LookAt();
         origin = EntityProps.Transform.up;
+        EntityProps.Rigidbody.velocity = Vector2.zero;
     }
 
     private void IsLookingAtTarget()

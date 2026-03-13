@@ -812,7 +812,7 @@ MonoBehaviour:
     - rid: 5430164783518187520
       type: {class: AbilityPayload, ns: , asm: Assembly-CSharp}
       data:
-        ability: {fileID: 11400000, guid: f216b6165920c6f44811e6965a270fc4, type: 2}
+        ability: {fileID: 11400000, guid: d458af5bb174b5e42ac9a5ac0c1be08e, type: 2}
         probability: 50
     - rid: 5430164804645683200
       type: {class: TransformationPayload, ns: , asm: Assembly-CSharp}

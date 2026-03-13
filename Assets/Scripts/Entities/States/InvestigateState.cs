@@ -17,6 +17,8 @@ public class InvestigateState : BehaviorContext
         set
         {
             entityProps = value;
+            ContextRegistry = Context.ContextRegistry;
+            AddToRegistry(this);
             InitializeStates();
             CurrentState = ChooseRandomState();
         }
@@ -26,7 +28,7 @@ public class InvestigateState : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        Debug.Log($"SuspiciousSpot: {EntityProps.SuspiciousSpot}");
+        //Debug.Log($"SuspiciousSpot: {EntityProps.SuspiciousSpot}");
         if(EntityProps.SuspiciousSpot != null)
         {
             EntityProps.TargetPos = EntityProps.SuspiciousSpot;
@@ -47,7 +49,7 @@ public class InvestigateState : BehaviorContext
         {
            base.SelectNewState(); 
         }
-        Debug.Log($"Investigate state will: {CurrentState}");
+        //Debug.Log($"Investigate state will: {CurrentState}");
     }
 
     public override void Escape()

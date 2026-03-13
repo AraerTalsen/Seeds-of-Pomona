@@ -10,6 +10,7 @@ public class EnemyBehaviorContext : BehaviorContext
     };
 
     public override float RecoveryTime { get; } = 8.0f;
+    public override Dictionary<System.Type, IBehaviorContext> ContextRegistry { get; set; } = new();
 
     public EnemyBehaviorContext(EntityStateSupport entityStateSupport, EntityProperties entityProps)
     {

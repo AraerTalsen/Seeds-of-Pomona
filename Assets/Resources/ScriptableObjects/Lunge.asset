@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effect: {fileID: 11400000, guid: 712098fcbaae626438d557a1e7e79771, type: 2}
   contextType: 2
+  coolDown: 15

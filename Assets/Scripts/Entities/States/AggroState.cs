@@ -7,6 +7,8 @@ public class AggroState : BehaviorContext
     private float max;
     private float tolerance;
 
+    public override bool IsAggro => true;
+
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
         (new PursuitState(), 0),
@@ -21,6 +23,8 @@ public class AggroState : BehaviorContext
         set
         {
             entityProps = value;
+            ContextRegistry = Context.ContextRegistry;
+            AddToRegistry(this);
             InitializeStates();
             CurrentState = PossibleStates[0].state;
             tolerance = EntityProps.PreferredTolerance;

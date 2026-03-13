@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PursuitState : BehaviorContext
 {
+    public override bool IsAggro => true;
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
         (new NavigateState(), 1)
@@ -16,6 +17,8 @@ public class PursuitState : BehaviorContext
         set
         {
             entityProps = value;
+            ContextRegistry = Context.ContextRegistry;
+            AddToRegistry(this);
             InitializeStates();
             CurrentState = PossibleStates[0].state;
         }

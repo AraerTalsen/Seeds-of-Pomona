@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CreateBeakon
   m_EditorClassIdentifier: 
   node: {fileID: 6030208515789500573, guid: e9c56a1bdc0876b4288272f1316eba47, type: 3}
-  lifespan: 1
+  lifespan: 10
   spawnForward: 1

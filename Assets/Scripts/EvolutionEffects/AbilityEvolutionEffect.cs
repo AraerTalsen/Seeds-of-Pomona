@@ -11,32 +11,12 @@ public class AbilityEvolutionEffect : EvolutionEffect
     protected override void HandleEffect(NPCEffectContext context, Payload payload, bool isApplied)
     {
         AbilityPayload data = (AbilityPayload)payload;
-        BehaviorContext hostContext = GetHostContextFromPayload(context.stateMachine, data.ability.HostContext);
+        IBehaviorContext hostContext = GetHostContextFromPayload(context.stateMachine, data.ability.HostContext);
         if(isApplied)
-            hostContext.AddState(data.ability, data.probability);
+            hostContext.AddState(Instantiate(data.ability), data.probability);
         else
             hostContext.RemoveState(data.ability, data.probability);
     }
 
-    private BehaviorContext GetHostContextFromPayload(BehaviorContext startNode, Type targetContextType)
-    {
-        Stack<BehaviorContext> stack = new();
-        stack.Push(startNode);
-
-        while (stack.Count > 0)
-        {
-            BehaviorContext current = stack.Pop();
-
-            if (targetContextType.Equals(current.GetType()))
-                return current;
-
-            foreach ((IBehaviorState state, _) in current.PossibleStates)
-            {
-                if (state is BehaviorContext childContext)
-                    stack.Push(childContext);
-            }
-        }
-
-        return null;
-    }
+    private IBehaviorContext GetHostContextFromPayload(BehaviorContext startNode, Type targetContextType) => startNode.ContextRegistry[targetContextType];
 }
