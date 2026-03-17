@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3929280178002051687}
   - component: {fileID: 6890134449001971824}
   - component: {fileID: 1522238136998306748}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SoundOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

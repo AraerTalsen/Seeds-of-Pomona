@@ -30,16 +30,14 @@ public class EntityManager : MonoBehaviour
     private EnemyBehaviorContext enemyBehaviorContext;
     private NPCEffectContext evolutionContext;
     private EvolutionTracker evolutionTracker;
-    private EntityStats stats;
+    [SerializeField] private EntityStats stats;
     private EffectRunner runner;
-    private EntityOrientation orientation;
+    [SerializeField] private EntityOrientation orientation;
     private IAbilityEffect lastState;
     
 
     void Awake()
     {
-        stats = GetComponent<EntityStats>();
-        orientation = GetComponent<EnemyOrientation>();
         EntityProps = new()
         {
             StatBlock = stats.StatBlock,
@@ -122,13 +120,5 @@ public class EntityManager : MonoBehaviour
         }
 
         return state;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerDeathManager>().KillPlayer();
-        }
     }
 }

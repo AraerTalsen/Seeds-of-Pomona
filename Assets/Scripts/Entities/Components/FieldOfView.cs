@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    //[SerializeField] private Collider2D ignoreSelf;
     public EntityProperties EntityProps { get; set; }
     public int viewAngle;
     public float viewRadius;
@@ -17,16 +18,13 @@ public class FieldOfView : MonoBehaviour
     void Update()
     {
         Observe();
-        if(EntityProps.TargetTransform != null)
-        {
-            //EntityProps.TargetPos = EntityProps.TargetTransform.position;   
-        }
     }
 
     //Remove from visible targets any entities outside of view radius
     private void Observe()
     {
-        List<Collider2D> targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius).ToList();
+        //Hurtbox layermask here allows us to only check the correct 'Player-Tagged' objects below
+        List<Collider2D> targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, LayerMask.GetMask("Hurtbox")).ToList();
         visibleTargets.RemoveAll(transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
         CheckIfTargetVisible(targetsInViewRadius);
 
@@ -56,7 +54,7 @@ public class FieldOfView : MonoBehaviour
             if (hit && hit.collider.CompareTag("Player") && !isInList)
             {
                 GameObject player = target.gameObject;
-                Move_Player mp = player.GetComponent<Move_Player>();
+                Move_Player mp = player.GetComponent<Move_PlayerConnector>().Move_Player;
                 DifficultyScaler ds = player.GetComponent<DifficultyScaler>();
                 if (!mp.IsHidden) 
                 {

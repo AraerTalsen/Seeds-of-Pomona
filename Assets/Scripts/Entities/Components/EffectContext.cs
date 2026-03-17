@@ -8,4 +8,5 @@ public class EffectContext
     public StatBlock stats;
     public EntityOrientation orientation;
     public GameObject owner;
+    public Move_Player move_Player;
 }

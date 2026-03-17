@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(ClickObjectInWorld))]
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(PlayerInteract))]
+[RequireComponent(typeof(EntityOrientation))]
 public class Move_Player : MonoBehaviour
 {
     public float moveSpeed, runModifier;
     private bool pauseMovement = false, isHidden = false;
 
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
     public PInv inventory;
     private EntityOrientation entityOrientation;
-    Animator animator;
+    [SerializeField] private Animator animator;
     private Vector2 lastMoveDirection;
     private bool facingLeft = true;
     private Vector2 input;
@@ -27,15 +27,12 @@ public class Move_Player : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         playerInteract = GetComponent<PlayerInteract>();
         cow = GetComponent<ClickObjectInWorld>();
         inventory = GetComponent<PInv>();
         entityOrientation = GetComponent<EntityOrientation>();
 
         playerInteract.Move_Player = this;
-
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame

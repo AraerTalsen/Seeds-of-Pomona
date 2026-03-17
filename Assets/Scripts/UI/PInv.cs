@@ -14,25 +14,28 @@ public class PInv : PersistentObject<PlayerInventoryData>
     [SerializeField][TextArea] private string deathMsg;
     [SerializeField] private GameObject HUDSlot;
     [SerializeField] private Transform HUDContainer;
+    [SerializeField] private Move_Player move_Player;
     public PlayerInventoryData persist;
     public int bagCapacity, powerupCapacity;
     public Wallet wallet;
     private BoundedDDI bag;
     private PowerUps powerupSlots;
     //private BoonProfile boonProfile;
-    private EntityStats stats;
+    [SerializeField] private EntityStats stats;
+    [SerializeField] private EntityOrientation orientation;
     private PowerupHelper powerupHelper;
 
     private void Start()
     {
-        stats = GetComponent<EntityStats>();
         powerupHelper = GetComponent<PowerupHelper>();
         powerupContext = new()
         {
           targetBody = transform,
           stats = stats.StatBlock,
-          orientation = GetComponent<EntityOrientation>(),
-          owner = gameObject
+          orientation = orientation,
+          owner = gameObject,
+          move_Player = move_Player
+
         };
         powerupHelper.Context = powerupContext;
         Persist = RetrieveData(persist);

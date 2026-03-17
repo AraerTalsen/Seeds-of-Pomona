@@ -5179,6 +5179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1792677202}
   - component: {fileID: 1792677201}
+  - component: {fileID: 1792677203}
   m_Layer: 0
   m_Name: PlantGameMap
   m_TagString: Untagged
@@ -5253,6 +5254,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1792677203
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792677200}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -50.98577, y: -8.23085}
+  - {x: -45.978786, y: -10.627797}
+  - {x: -30.17131, y: -8.068317}
+  - {x: -17.645144, y: -10.223482}
+  - {x: -7.094432, y: -23.060688}
+  - {x: 11.243919, y: -24.514166}
+  - {x: 13.398218, y: -17.396229}
+  - {x: 3.0409708, y: -9.403364}
+  - {x: 2.5098476, y: -5.2129526}
+  - {x: 35.866234, y: -6.081479}
+  - {x: 38.566364, y: -2.589559}
+  - {x: 33.800854, y: 9.112434}
+  - {x: 19.210987, y: 13.5968895}
+  - {x: 0.5518532, y: 13.964909}
+  - {x: -2.1427088, y: 15.025608}
+  - {x: -11.319012, y: 13.991098}
+  - {x: -13.712122, y: 12.459171}
+  - {x: -15.84328, y: 13.20154}
+  - {x: -18.15577, y: 12.371489}
+  - {x: -24.376987, y: 11.528588}
+  - {x: -32.355247, y: 3.9238534}
+  - {x: -31.453331, y: 0.5619192}
+  - {x: -35.175137, y: -1.8225858}
+  - {x: -42.579216, y: -1.8463335}
+  - {x: -47.73079, y: -3.6542416}
+  - {x: -50.965866, y: -8.2024765}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &1816504818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5704,8 +5770,8 @@ PrefabInstance:
       insertIndex: 0
       addedObject: {fileID: 966175564}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
-      insertIndex: 8
+    - targetCorrespondingSourceObject: {fileID: 6008345116674660926, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1915950275}
   m_SourcePrefab: {fileID: 100100000, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
 --- !u!114 &1915950272 stripped
@@ -5713,7 +5779,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2645968022735046473, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
   m_PrefabInstance: {fileID: 1915950271}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915950273}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57f1563592439314ba24f47c6e4ff2f5, type: 3}
@@ -5721,7 +5787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!1 &1915950273 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3290296282669825184, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6008345116674660926, guid: 3a8d23ebe1852234faf2d68e8a4779e8, type: 3}
   m_PrefabInstance: {fileID: 1915950271}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1915950274 stripped

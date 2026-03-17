@@ -21,10 +21,13 @@ MonoBehaviour:
     debugItemName: Leap Seed(Clone)
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: Smoke Pod(Clone)
+    debugItemName: Pop Nut(Clone)
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: Bash Bulb(Clone)
+    debugItemName: Smoke Pod(Clone)
   - quantity: 1
     item: {fileID: 0}
     debugItemName: Leap Seed(Clone)
@@ -70,17 +73,14 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: Empty
   isPersisting: 1
   balance: 0
   hasDied: 0
   powerups:
   - quantity: 1
     item: {fileID: 0}
-    debugItemName: Pop Nut(Clone)
+    debugItemName: Bash Bulb(Clone)
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  lockStates: 0100
+  lockStates: 00

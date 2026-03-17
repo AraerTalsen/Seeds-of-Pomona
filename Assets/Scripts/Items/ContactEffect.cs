@@ -9,16 +9,18 @@ public abstract class ContactEffect : InstantiateEffect
     {
         GameObject g = new()
         {
-            layer = 2
+            layer = 3
         };
         g.AddComponent<BoxCollider2D>();
         g.GetComponent<BoxCollider2D>().isTrigger = true;
         g.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+        g.GetComponent<BoxCollider2D>().includeLayers = LayerMask.GetMask("Hurtbox");
+        g.GetComponent<BoxCollider2D>().excludeLayers = LayerMask.GetMask("Default", "TransparentFX", "Ignore Raycast", "Water", "UI");
         g.AddComponent<ContactCallbackRunner>();
         g.GetComponent<ContactCallbackRunner>().Callback = Callback;
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan);
         
-        float range = context.owner.GetComponent<BoxCollider2D>().size.x;
+        float range = 1.625f;//context.owner.GetComponent<BoxCollider2D>().size.x;
         g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation) * range;
 
         if(debugShowContactBounds)
