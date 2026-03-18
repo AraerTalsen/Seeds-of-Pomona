@@ -20,7 +20,6 @@ public class EntityHealthDisplay : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        Debug.Log($"Current: {stats.CurrentHealth}, Max: {stats.MaxHealth}, Solution: {1.0f - stats.CurrentHealth / (float)stats.MaxHealth}");
         health.value = 1.0f - stats.CurrentHealth / (float)stats.MaxHealth;
     }
 }

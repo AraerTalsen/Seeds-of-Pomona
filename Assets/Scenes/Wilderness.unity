@@ -2116,6 +2116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 690291428}
   - component: {fileID: 690291427}
+  - component: {fileID: 690291429}
   m_Layer: 0
   m_Name: PropGenerator
   m_TagString: Untagged
@@ -2138,13 +2139,13 @@ MonoBehaviour:
   checkForCollisions:
     serializedVersion: 2
     m_Bits: 1
-  width: 39
-  height: 29
+  width: 51
+  height: 51
+  origin: {x: 0, y: 0}
   props:
-  - {fileID: 3382091087196703825, guid: efc75ccb4d37f0e4d90aaf04146a4a08, type: 3}
   - {fileID: 5428211342321066594, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
-  baseSpawnQty: 0300000001000000
-  spawnQtyMods: 0200000001000000
+  baseSpawnQty: 04000000
+  spawnQtyMods: 02000000
 --- !u!4 &690291428
 Transform:
   m_ObjectHideFlags: 0
@@ -2160,6 +2161,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &690291429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690291426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5718ad12752c9234abbae2a40d8ca644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkForCollisions:
+    serializedVersion: 2
+    m_Bits: 1
+  width: 0
+  height: 0
+  origin: {x: 0, y: 0}
+  props:
+  - {fileID: 3382091087196703825, guid: efc75ccb4d37f0e4d90aaf04146a4a08, type: 3}
+  baseSpawnQty: 03000000
+  spawnQtyMods: 02000000
+  boundBoxes:
+  - topLeft: {x: -35, y: 3}
+    botRight: {x: -25, y: -5}
+  - topLeft: {x: -20, y: 10}
+    botRight: {x: 0, y: -5}
+  - topLeft: {x: 0, y: -5}
+    botRight: {x: 20, y: -15}
+  - topLeft: {x: 12, y: 20}
+    botRight: {x: 25, y: 12}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
