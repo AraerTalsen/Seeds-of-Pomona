@@ -26,10 +26,12 @@ public class BoonProfile
         }
     }
 
+    //We'll likely want to change how we access statBlock here if we reimplement this as we may not want to increment
+    //statBlock by an entire whole number every time
     public void BoostStat(Stats stat, int amount)
     {
         modifiers[stat] += amount;
-        statBlock[stat] += amount;
+        statBlock.AddTo(stat, amount);
         boonDisplay.UpdateStatDisplay(stat, modifiers[stat]);
     }
 

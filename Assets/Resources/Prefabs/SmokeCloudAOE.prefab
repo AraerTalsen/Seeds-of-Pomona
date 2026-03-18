@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8742637409661968394}
   - component: {fileID: 368618108616553692}
   - component: {fileID: 4505264356766990425}
-  - component: {fileID: 90904667656212263}
   - component: {fileID: 3678684007301642899}
+  - component: {fileID: 90904667656212263}
   - component: {fileID: 8024768209813812777}
   m_Layer: 0
   m_Name: SmokeCloudAOE
@@ -4886,18 +4886,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &90904667656212263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6701905602181293856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb56dfb6aa035b4fac6e071897b8d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &3678684007301642899
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4933,6 +4921,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 4
+--- !u!114 &90904667656212263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701905602181293856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb56dfb6aa035b4fac6e071897b8d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8024768209813812777
 MonoBehaviour:
   m_ObjectHideFlags: 0

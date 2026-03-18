@@ -15,11 +15,13 @@ public class StatBlock
     //private bool debugMode = false;
     //private TextMeshProUGUI statDisplay;
 
-    public int this[Stats stat]
-    {
-        get => baseStats[(int)stat] + modifiers[(int)stat];
-        set => modifiers[(int)stat] = value;
-    }
+    public int this[Stats stat] => baseStats[(int)stat];
+
+    public int GetModdedStat(Stats stat) => baseStats[(int)stat] + modifiers[(int)stat];
+
+    public void AddTo(Stats stat, int val) => UpdateStatMod(stat, val);
+    public void SubtractFrom(Stats stat, int val) => UpdateStatMod(stat, -val);
+    private void UpdateStatMod(Stats stat, int val) => modifiers[(int)stat] += val;
 
     public void ValidateSize()
     {
@@ -31,7 +33,7 @@ public class StatBlock
         }
     }
 
-    public float GetStatLvlConvertVal(Stats stat) => StatDefinitions.Get(stat).Apply(this[stat]);
+    public float GetStatLvlConvertVal(Stats stat) => StatDefinitions.Get(stat).Apply(GetModdedStat(stat));
 
     /*private void Update()
     {

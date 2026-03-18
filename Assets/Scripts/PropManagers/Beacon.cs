@@ -5,6 +5,13 @@ using UnityEngine;
 public class Beacon : MonoBehaviour
 {
     public float radius;
+    private CircleCollider2D col;
+
+    private void Start()
+    {
+        col = GetComponent<CircleCollider2D>();
+        col.radius = radius;
+    }
 
     private void Update()
     {

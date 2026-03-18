@@ -13,7 +13,7 @@ public class EntityStats : MonoBehaviour, IHealth
 
     private void Start()
     {
-        MaxHealth = StatBlock[Stats.Health];
+        MaxHealth = StatBlock.GetModdedStat(Stats.Health);
         CurrentHealth = MaxHealth;
     }
 }
