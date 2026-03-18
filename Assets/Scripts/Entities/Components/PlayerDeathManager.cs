@@ -4,31 +4,34 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(Move_Player))]
-public class PlayerDeathManager : MonoBehaviour
+public class PlayerDeathManager : EntityDeathManager
 {
     [SerializeField]
     private Animator screenFX;
     [SerializeField]
     private CinemachineVirtualCamera vcam;
 
-    private PInv inventory;
+    [SerializeField] private PInv inventory;
     private Move_Player mp;
 
     private void Start()
     {
-        inventory = GetComponent<PInv>();
         mp = GetComponent<Move_Player>();
     }
 
-    public void KillPlayer()
+    protected override void KillEntity()
     {
-        /*StartShakeyCam();
-        screenFX.SetTrigger("hasDied");
-        mp.TogglePauseMovement(true);
-        inventory.TriggerDeath();
-        inventory.GetInventory().ClearInventory();
-        inventory.GetPowerups().ClearInventory();
-        inventory.PushDataTemp();*/
+        if(stats.CurrentHealth <= 0)
+        {
+            isDying = true;
+            StartShakeyCam();
+            screenFX.SetTrigger("hasDied");
+            mp.TogglePauseMovement(true);
+            inventory.TriggerDeath();
+            inventory.GetInventory().ClearInventory();
+            inventory.GetPowerups().ClearInventory();
+            inventory.PushDataTemp();
+        }
     }
 
     private void StartShakeyCam()

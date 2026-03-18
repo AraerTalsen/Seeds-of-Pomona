@@ -702,8 +702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75db36f70dfcb9409f7886c44ecee37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 6885839411265403885}
   screenFX: {fileID: 6153523676053749218}
   vcam: {fileID: 0}
+  inventory: {fileID: 2645968022735046473}
 --- !u!114 &557800979997160630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,6 +1388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     baseStats: 050000000500000002000000
+  deathManager: {fileID: 0}
 --- !u!1 &6923983598069193363
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,4 +16,4 @@ MonoBehaviour:
   lifespan: 0.5
   spawnForward: 1
   debugShowContactBounds: 1
-  modifier: 1
+  modifier: -1

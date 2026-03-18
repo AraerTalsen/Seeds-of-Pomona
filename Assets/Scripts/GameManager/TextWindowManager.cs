@@ -11,7 +11,7 @@ public class TextWindowManager : MonoBehaviour
     private TMP_Text text;
     private string[] fragments;
     private int fragmentIndex = 0;
-    private GameObject player;
+    private Move_Player player;
 
     public static TextWindowManager Instance { get; private set; }
 
@@ -27,12 +27,12 @@ public class TextWindowManager : MonoBehaviour
         }
     }
 
-    public void SetMessage(string message, GameObject player)
+    public void SetMessage(string message, Move_Player player)
     {
         fragmentIndex = 0;
         dialogueWindow.SetActive(true);
         this.player = player;
-        player.GetComponent<Move_Player>().TogglePauseMovement();
+        player.TogglePauseMovement();
         BeginDialogueChain(message);
     }
 
@@ -50,7 +50,7 @@ public class TextWindowManager : MonoBehaviour
         if (isFinished)
         {
             dialogueWindow.SetActive(false);
-            player.GetComponent<Move_Player>().TogglePauseMovement();
+            player.TogglePauseMovement();
             player = null;
         }
     }

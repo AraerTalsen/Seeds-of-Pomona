@@ -18,7 +18,7 @@ public class StatEffect : ContactEffect
     {
         if(other.TryGetComponent(out EntityStats entityStats))
         {
-            entityStats.CurrentHealth = modifier;
+            entityStats.CurrentHealth += modifier;
             return true;
         }
         return false;

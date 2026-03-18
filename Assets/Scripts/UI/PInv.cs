@@ -113,7 +113,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     private void LogDeathMessage()
     {
         Persist.HasDied = false;
-        TextWindowManager.Instance.SetMessage(deathMsg, gameObject);
+        TextWindowManager.Instance.SetMessage(deathMsg, move_Player);
     }
 
     private void OnDisable()

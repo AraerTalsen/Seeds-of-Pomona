@@ -22,21 +22,21 @@ MonoBehaviour:
   - quantity: 1
     item: {fileID: 0}
     debugItemName: Pop Nut(Clone)
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Smoke Pod(Clone)
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Leap Seed(Clone)
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Pop Nut(Clone)
   - quantity: 1
     item: {fileID: 0}
     debugItemName: Bash Bulb(Clone)
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -77,9 +77,6 @@ MonoBehaviour:
   balance: 0
   hasDied: 0
   powerups:
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Bash Bulb(Clone)
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty

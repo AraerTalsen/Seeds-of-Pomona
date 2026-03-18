@@ -17,7 +17,7 @@ public class Inspectable : MonoBehaviour, IClickable
         if (isInspectable && IsInRange(player))
         {
             OnHoverExit(player);
-            TextWindowManager.Instance.SetMessage(message, player);
+            TextWindowManager.Instance.SetMessage(message, player.GetComponent<Move_PlayerConnector>().Move_Player);
         }
     }
 
