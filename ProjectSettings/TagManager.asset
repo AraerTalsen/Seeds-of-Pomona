@@ -11,7 +11,7 @@ TagManager:
   - Hurtbox
   - Water
   - UI
-  - 
+  - InteractZone
   - 
   - 
   - 
@@ -46,9 +46,6 @@ TagManager:
     locked: 0
   - name: Foreground_Upper
     uniqueID: 1965770505
-    locked: 0
-  - name: Highlights
-    uniqueID: 2622665357
     locked: 0
   - name: Default
     uniqueID: 0

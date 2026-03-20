@@ -31,7 +31,7 @@ public class ClickObjectInWorld : MonoBehaviour
     private void CheckForClickables()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, LayerMask.GetMask("InteractZone"));
 
         if (hits.Length > 0)
         {

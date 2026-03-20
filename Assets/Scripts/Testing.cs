@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    [SerializeField] private float upperBound;
-    [SerializeField] private int speed;
-
     private void Update()
     {
-        float y = Mathf.PingPong(Time.time * speed, upperBound * 2) - upperBound;
-        transform.position = new Vector2(transform.position.x, y);
+        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
     }
 }

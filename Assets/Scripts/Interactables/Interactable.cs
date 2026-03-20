@@ -14,11 +14,11 @@ public abstract class Interactable : MonoBehaviour, IClickable
     private bool isHighlightable = true;
 
     private (float x, float y) spriteRange;
-    public SpriteRenderer sr;
+    private SpriteRenderer sr;
     protected bool isInteractable = true;
-    private Color highlight = new(255, 235, 0, 255);
-    private Color hilightOutOfRange = new(255, 255, 255, 255);
-    private Color unselected = new(255, 255, 255, 0);
+    [SerializeField] private Sprite unselected;
+    [SerializeField] private Sprite highlight;
+    [SerializeField] private Sprite highlightOutOfRange;
 
     public float Range { get => range; }
 
@@ -66,7 +66,7 @@ public abstract class Interactable : MonoBehaviour, IClickable
         if (isInteractable)
         {
             player.GetComponent<PlayerInteract>().RemoveInteraction(this);
-            UpdateHighlightColor(unselected);
+            UpdateHighlightVisual(unselected);
             CursorManager.CurrentCursor = CursorManager.CursorType.DEFAULT;
         }
     }
@@ -82,15 +82,15 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     private void UpdateVisualCues(GameObject player)
     {
-        UpdateHighlightColor(IsInRange(player) ? highlight : hilightOutOfRange);
+        UpdateHighlightVisual(IsInRange(player) ? highlight : highlightOutOfRange);
         CursorManager.CurrentCursor = IsInRange(player) ? CursorManager.CursorType.INTERACT : CursorManager.CursorType.INTERACT_GHOST;
     }
 
-    private void UpdateHighlightColor(Color c)
+    private void UpdateHighlightVisual(Sprite sprite)
     {
         if (isHighlightable)
         {
-            sr.color = c;
+            sr.sprite = sprite;
         }
     }
 
