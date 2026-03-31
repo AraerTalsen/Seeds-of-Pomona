@@ -17,7 +17,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             //Debug.Log($"{this} [{GetHashCode()}]'s CurrentState has just been set to {value} [{value?.GetHashCode()}]. Confirmation, currentState: {currentState} [{currentState?.GetHashCode()}]");
             if(currentState == null && EntityProps.IsVelocityVoid)
             {
-                EntityProps.Rigidbody.velocity = Vector2.zero;
+                EntityProps.NavMeshAgent.velocity = Vector2.zero;
             } 
         }
     }
@@ -88,7 +88,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             }
         }
 
-        EntityProps.Rigidbody.velocity = Vector2.zero;
+        EntityProps.NavMeshAgent.velocity = Vector2.zero;
         return null;
     }
 

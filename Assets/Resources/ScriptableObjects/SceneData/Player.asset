@@ -73,7 +73,7 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  isPersisting: 1
+  isPersisting: 0
   balance: 0
   hasDied: 0
   powerups:

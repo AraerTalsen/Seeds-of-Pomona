@@ -16,7 +16,7 @@ MonoBehaviour:
   - {fileID: 0}
   requestedItems:
   - quantity: 5
-    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
-    debugItemName: Bio Mass
+    item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
+    debugItemName: Flower
   lastPostTime: 0
-  isPersisting: 1
+  isPersisting: 0

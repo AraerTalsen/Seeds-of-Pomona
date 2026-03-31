@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &7513194505277843853
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,7 +145,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   isHighlightable: 1
-  sr: {fileID: 0}
+  unselected: {fileID: 0}
+  highlight: {fileID: 0}
+  highlightOutOfRange: {fileID: 0}
   itemId: 1
 --- !u!1 &3186187630912925783
 GameObject:

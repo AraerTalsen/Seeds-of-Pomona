@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ProceduralGenerator : MonoBehaviour
 {
-    [SerializeField]
-    private LayerMask checkForCollisions;
+    [SerializeField] private LayerMask checkForCollisions;
     public int width, height;
     public Vector2 origin;
     public GameObject[] props;
@@ -30,7 +30,9 @@ public class ProceduralGenerator : MonoBehaviour
                 int x = Random.Range(-width / 2 + 1, width / 2);
                 int y = Random.Range(-height / 2 + 1, height / 2);
                 Vector2 spawnPoint = origin + new Vector2(x - 0.5f, y - 0.5f);
-                if (Physics.OverlapSphere(spawnPoint, 0.9f, checkForCollisions).Length == 0)
+                bool isUnobstructed = Physics.OverlapSphere(spawnPoint, 0.9f, checkForCollisions).Length == 0;
+                bool isWalkable = NavMesh.SamplePosition(spawnPoint, out _, 0.1f, NavMesh.AllAreas);
+                if (isUnobstructed && isWalkable)
                 {
                     Instantiate(props[i], spawnPoint, Quaternion.identity);
                 }
@@ -47,7 +49,7 @@ public class ProceduralGenerator : MonoBehaviour
     {
         float x = firstAttempt.x;
         float y = firstAttempt.y;
-        Vector2[] mods = {Vector2.right -Vector2.right}; 
+        Vector2[] mods = { Vector2.up, Vector2.right, Vector2.down, Vector2.left }; 
         Vector2 newSpawn = firstAttempt;
         int attempts = 100;
 
@@ -59,7 +61,9 @@ public class ProceduralGenerator : MonoBehaviour
             {
                 Vector2 temp = newSpawn + mods[i];
                 Collider[] objs = Physics.OverlapSphere(temp, 0.45f, checkForCollisions);
-                if (objs.Length == 0)
+                bool isUnobstructed = objs.Length == 0;
+                bool isWalkable = NavMesh.SamplePosition(temp, out _, 0.1f, NavMesh.AllAreas);
+                if (isUnobstructed && isWalkable)
                 {
                     Instantiate(g, temp, Quaternion.identity);
                     return;

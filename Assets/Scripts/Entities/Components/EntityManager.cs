@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(EntityStateSupport))]
 [RequireComponent(typeof(EvolutionTracker))]
@@ -46,7 +47,7 @@ public class EntityManager : MonoBehaviour
             Persistence = persistence,
             HuntRecoveryTime = huntRecoveryTime,
             Transform = transform,
-            Rigidbody = GetComponent<Rigidbody2D>(),
+            NavMeshAgent = GetComponent<NavMeshAgent>(),
             EnemyOrientation = (EnemyOrientation)orientation,
             Face = face,
             MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,

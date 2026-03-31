@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EntityProperties
 {
@@ -30,7 +33,7 @@ public class EntityProperties
     public bool IsTracking { get; set; }
     public bool IsTargetLost { get; set; }
     public Transform Transform { get; set; }
-    public Rigidbody2D Rigidbody { get; set; }
+    public NavMeshAgent NavMeshAgent { get; set; }
     [SerializeField]
     private List<Transform> spottedTargets = new();
     public List<Transform> SpottedTargets => spottedTargets;
@@ -61,7 +64,14 @@ public class EntityProperties
         get => targetPos;
         set
         {
-            targetPos = value ?? (TargetTransform != null ? TargetTransform.position : ChoosePatrolPoint());
+            if(value != null)
+            {
+                targetPos = ClampToNavMesh((Vector2)value);
+            }
+            else
+            {
+                targetPos = TargetTransform != null ? TargetTransform.position : ClampToNavMesh(ChoosePatrolPoint());
+            }
         }
     }
 
@@ -89,5 +99,47 @@ public class EntityProperties
     public void LostTargets()
     {
         spottedTargets.Clear();
+    }
+
+    private Vector2 ClampToNavMesh(Vector2 origin) => NavMesh.SamplePosition(origin, out _, 0.1f, NavMesh.AllAreas) ? origin : FindNearestOnMesh(origin);
+
+    private Vector2 FindNearestOnMesh(Vector2 origin)
+    {
+        Vector2[] mods = { Vector2.up, Vector2.right, Vector2.down, Vector2.left }; 
+        int maxDist = 10;
+        int currentDist = 1;
+        List<Vector2> prevChecks = new() { origin };
+        List<Vector2> allChecks = new() { origin };
+        List<Vector2> curChecks = new();
+
+        while (currentDist < maxDist)
+        {
+            for (int i = 0; i < prevChecks.Count; i++)
+            {
+                for (int j = 0; j < mods.Length; j++)
+                {
+                    Vector2 newPoint = prevChecks[i] + mods[j];
+
+                    if(!allChecks.Contains(newPoint))
+                    {
+                        curChecks.Add(newPoint);
+                        allChecks.Add(newPoint);
+                    }
+
+                    bool isWalkable = NavMesh.SamplePosition(newPoint, out _, 0.1f, NavMesh.AllAreas);
+                    if (isWalkable)
+                    {
+                        return newPoint;
+                    }
+                }
+            }
+            
+            prevChecks = new(curChecks);
+            curChecks.Clear();
+            
+            currentDist++;
+        }
+        Debug.Log($"NavMesh is not within range of origin: {origin}");
+        return origin;
     }
 }
