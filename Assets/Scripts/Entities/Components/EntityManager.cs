@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(EntityStateSupport))]
 [RequireComponent(typeof(EvolutionTracker))]
-public class EntityManager : MonoBehaviour
+public class EntityManager : MonoBehaviour, IStatReact
 {
     [SerializeField] private GameObject debugDisplay;
     [SerializeField] private TextMeshProUGUI currentState;
@@ -77,6 +77,9 @@ public class EntityManager : MonoBehaviour
         {
             debugDisplay.SetActive(true);
         }
+
+        stats.SubscribeToStatChange(Stats.Speed, this);
+        EntityProps.NavMeshAgent.speed = EntityProps.MoveSpeed;
     }
 
     //Pass effect to EffectRUnner
@@ -121,5 +124,15 @@ public class EntityManager : MonoBehaviour
         }
 
         return state;
+    }
+
+    public void ReactToStatChange(Stats stat)
+    {
+        EntityProps.NavMeshAgent.speed = EntityProps.MoveSpeed;
+    }
+
+    private void OnDisable()
+    {
+        stats.UnsubscribeFromStatChange(Stats.Speed, this);
     }
 }

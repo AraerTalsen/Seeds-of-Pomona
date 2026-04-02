@@ -12,6 +12,7 @@ public class AbilityEvolutionEffect : EvolutionEffect
     {
         AbilityPayload data = (AbilityPayload)payload;
         IBehaviorContext hostContext = GetHostContextFromPayload(context.stateMachine, data.ability.HostContext);
+        Debug.Log($"Attempting to inject/revert {hostContext}");
         if(isApplied)
             hostContext.AddState(Instantiate(data.ability), data.probability);
         else

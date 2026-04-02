@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class FieldOfView : MonoBehaviour
 
     [HideInInspector]
     public List<Transform> visibleTargets = new();
+    public List<Collider2D> targetsInViewRadius;
     private List<Transform> lastTargets = new();
 
     // Update is called once per frame
@@ -24,7 +26,8 @@ public class FieldOfView : MonoBehaviour
     private void Observe()
     {
         //Hurtbox layermask here allows us to only check the correct 'Player-Tagged' objects below
-        List<Collider2D> targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, LayerMask.GetMask("Hurtbox")).ToList();
+        targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, LayerMask.GetMask("Hurtbox")).ToList();
+        targetsInViewRadius.Remove(GetComponent<BoxCollider2D>());
         visibleTargets.RemoveAll(transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
         CheckIfTargetVisible(targetsInViewRadius);
 

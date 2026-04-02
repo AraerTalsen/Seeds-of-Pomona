@@ -32,7 +32,8 @@ public class ObserveState : BehaviorState
     {
         dirToTarget = EntityProps.LookAt();
         origin = EntityProps.Transform.up;
-        EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        EntityProps.NavMeshAgent.isStopped = true;
     }
 
     private void IsLookingAtTarget()

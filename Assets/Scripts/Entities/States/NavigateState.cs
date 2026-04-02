@@ -35,17 +35,19 @@ public class NavigateState : BehaviorState
 
     private void Move()
     {
-        targetPos = (Vector2)EntityProps.TargetPos;
-        Vector2 moveDir = (targetPos - (Vector2)trans.position).normalized;
-        EntityProps.NavMeshAgent.velocity = moveDir * EntityProps.MoveSpeed;
+        //Vector2 moveDir = ((Vector2)EntityProps.LookAtPoint.position - (Vector2)trans.position).normalized;
+        //EntityProps.NavMeshAgent.velocity = moveDir * EntityProps.MoveSpeed;
+        EntityProps.NavMeshAgent.isStopped = false;
         EntityProps.LookAt();
     }
 
     private void HasArrived()
     {
-        if (Vector2.Distance(EntityProps.Transform.position, targetPos) <= 0.1f)
+        //Debug.Log($"Target Pos: {EntityProps.TargetPos}, Current Pos: {EntityProps.Transform.position}, Distance: {}")
+        if (EntityProps.DistFromTargetPos <= 0.1f)
         {
-            EntityProps.NavMeshAgent.velocity = Vector2.zero;
+            //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+            EntityProps.NavMeshAgent.isStopped = true;
 
             Vector2? susSpot = EntityProps.SuspiciousSpot;
             if(susSpot != null && Vector2.Distance((Vector2)EntityProps.TargetPos, (Vector2)susSpot) <= 0.1f)

@@ -72,17 +72,30 @@ public class EntityProperties
             {
                 targetPos = TargetTransform != null ? TargetTransform.position : ClampToNavMesh(ChoosePatrolPoint());
             }
+            
+            UpdateDestination();
         }
     }
+
+    public Vector2? ObservePoint => TargetPos == null ? TargetPos : (Vector2)Transform.position + DirToTarget.normalized * (DistFromTargetPos + 1);
+    public Vector2 DirToTarget => (Vector2)TargetPos - (Vector2)Transform.position;
 
     public Vector2? MemorizedTargetPos { get; set; }
 
     private Quaternion targetRotation;
     public Quaternion TargetRotation { get => targetRotation; set => targetRotation = value; }
 
+    private void UpdateDestination()
+    {
+        if(Vector2.Distance(NavMeshAgent.destination, (Vector2)TargetPos) > 1)
+        {
+            NavMeshAgent.destination = (Vector2)TargetPos;
+        }
+    }
+
     public Vector2 LookAt()
     {
-        Vector2 dirToTarget = (Vector2)TargetPos - (Vector2)Face.transform.position;
+        Vector2 dirToTarget = (Vector2)ObservePoint - (Vector2)Face.transform.position;
         float angle = Mathf.Atan2(dirToTarget.x, dirToTarget.y) * Mathf.Rad2Deg;
         targetRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
         Face.transform.rotation = Quaternion.RotateTowards(Face.transform.rotation, targetRotation, TurnSpeed);

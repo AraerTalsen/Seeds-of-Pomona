@@ -28,7 +28,6 @@ public class InvestigateState : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        //Debug.Log($"SuspiciousSpot: {EntityProps.SuspiciousSpot}");
         if(EntityProps.SuspiciousSpot != null)
         {
             EntityProps.TargetPos = EntityProps.SuspiciousSpot;

@@ -14,10 +14,10 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         set
         {
             currentState = value;
-            //Debug.Log($"{this} [{GetHashCode()}]'s CurrentState has just been set to {value} [{value?.GetHashCode()}]. Confirmation, currentState: {currentState} [{currentState?.GetHashCode()}]");
             if(currentState == null && EntityProps.IsVelocityVoid)
             {
-                EntityProps.NavMeshAgent.velocity = Vector2.zero;
+                //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+                EntityProps.NavMeshAgent.isStopped = true;
             } 
         }
     }
@@ -76,6 +76,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         int currentWeight = 0;
         foreach((IBehaviorState state, int weight) in PossibleStates)
         {
+            //Debug.Log($"State {state} is valid {state.IsValid} and weighs more than 0: {weight > 0}");
             if(!state.IsValid || weight == 0) 
             {
                 continue;
@@ -88,7 +89,8 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             }
         }
 
-        EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        EntityProps.NavMeshAgent.isStopped = true;
         return null;
     }
 

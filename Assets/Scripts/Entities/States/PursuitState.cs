@@ -25,4 +25,18 @@ public class PursuitState : BehaviorContext
     }
 
     public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
+
+    public override void SelectNewState()
+    {
+        base.SelectNewState();
+        Debug.Log("Pursuit is choosing a new state. Possible states are:");
+        PossibleStates.ForEach(s => Debug.Log(s.state));
+        Debug.Log($"Selected state is {CurrentState}");
+    }
+
+    public override void Escape()
+    {
+        Debug.Log("Escaping pursuit");
+        base.Escape();
+    }
 }

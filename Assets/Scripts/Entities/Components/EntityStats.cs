@@ -16,4 +16,7 @@ public class EntityStats : MonoBehaviour, IHealth
         MaxHealth = StatBlock.GetModdedStat(Stats.Health);
         CurrentHealth = MaxHealth;
     }
+
+    public void SubscribeToStatChange(Stats stat, IStatReact subscriber) => StatBlock.SubscribeToStat(stat, subscriber);
+    public void UnsubscribeFromStatChange(Stats stat, IStatReact subscriber) => StatBlock.UnsubscribeFromStat(stat, subscriber);
 }

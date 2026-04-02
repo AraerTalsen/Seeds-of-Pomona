@@ -49,6 +49,7 @@ public class TransformMomentum : TransformEffect
                     EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
                     props.IsStunned = false;
                     props.IsVelocityVoid = true;
+                    props.NavMeshAgent.isStopped = false;
                 }
             }
             action.CallbackOnTick?.Invoke();
@@ -71,6 +72,7 @@ public class TransformMomentum : TransformEffect
             EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
             props.IsStunned = true;
             props.IsVelocityVoid = false;
+            props.NavMeshAgent.isStopped = true;
         }
         
         ApplyMomentum(context);
