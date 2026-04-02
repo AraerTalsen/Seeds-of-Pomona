@@ -12,4 +12,5 @@ public interface IBehaviorContext
     public Dictionary<System.Type, IBehaviorContext> ContextRegistry { get; set; }
     public abstract void AddState(IBehaviorState state, int weight);
     public abstract void RemoveState(IBehaviorState state, int weight);
+    public string Print();
 }

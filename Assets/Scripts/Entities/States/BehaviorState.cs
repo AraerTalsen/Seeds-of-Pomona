@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BehaviorState : IBehaviorState
 {
-    public IBehaviorContext Context { get; set; }
+    public BehaviorContext Context { get; set; }
     public virtual EntityProperties EntityProps { get; set; }
     public EntityStateSupport EntityStateSupport { get; set; }
     public virtual float RecoveryTime { get; }

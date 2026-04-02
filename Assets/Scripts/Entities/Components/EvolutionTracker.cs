@@ -7,21 +7,42 @@ public class EvolutionTracker : MonoBehaviour
     [SerializeField] private List<EvolutionEntry> evolutions;
     public NPCEffectContext Context;
     [SerializeField] private int currentEvolution = 0;
+    [SerializeField] private bool isSetLvlManually = false;
+    [SerializeField] private int currentLevel = 0;
+    private int prevLevel = 0;
 
     private void Start()
     {
         StageDifficulty.Instance.Subscribe(this);
     }
 
+    private void Update()
+    {
+        if(isSetLvlManually && currentLevel != prevLevel)
+        {
+            if(prevLevel > currentLevel)
+            {
+                if(TryChangeEvolution(currentLevel, forward: false, out int stage))
+                    RevertEvolution(stage);
+            }
+            else
+            {
+                if(TryChangeEvolution(currentLevel, forward: true, out int stage))
+                    ApplyEvolution(stage);
+            }
+            prevLevel = currentLevel;
+        }
+    }
+
     public void NextEvolution(int difficultyLvl)
     {
-        if(TryChangeEvolution(difficultyLvl, forward: true, out int stage))
+        if(!isSetLvlManually && TryChangeEvolution(difficultyLvl, forward: true, out int stage))
             ApplyEvolution(stage);
     }
 
     public void PrevEvolution(int difficultyLvl)
     {
-        if(TryChangeEvolution(difficultyLvl, forward: false, out int stage))
+        if(!isSetLvlManually && TryChangeEvolution(difficultyLvl, forward: false, out int stage))
             RevertEvolution(stage);
     }
 

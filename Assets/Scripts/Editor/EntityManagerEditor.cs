@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 [CustomEditor (typeof (EntityManager))]
 public class EntityManagerEditor : Editor
 {
     private EntityProperties props;
+    private List<Vector3> points = new();
     private void OnSceneGUI()
     {
         if (Event.current.type != EventType.Repaint) return;
@@ -29,6 +32,8 @@ public class EntityManagerEditor : Editor
             LabelObservePos(observePos);
             VectorToTarget(observePos);
         }
+
+        ShowNavMeshPath();
     }
 
     private void LabelTargetPos(Vector2 center)
@@ -61,5 +66,26 @@ public class EntityManagerEditor : Editor
 
         Handles.color = Color.cyan;
         Handles.ArrowHandleCap(0, facePos, Quaternion.LookRotation(endPoint - facePos), 1, EventType.Repaint);
+    }
+
+    private void ShowNavMeshPath()
+    {
+        NavMeshPath path = props.NavMeshAgent.path;
+        
+        if(path != null && path.corners.Length > 1)
+        {
+            Handles.color = Color.cyan;
+            points.Clear();
+            Handles.DrawWireDisc(path.corners[0], Vector3.forward, 0.35f);
+
+            for(int i = 1; i < path.corners.Length; i++)
+            {
+                Vector3 corner = path.corners[i];
+                Handles.DrawWireDisc(corner, Vector3.forward, 0.35f);
+                points.Add(corner);
+                points.Add(path.corners[i - 1]);
+            }
+            Handles.DrawDottedLines(points.ToArray(), 1);
+        }
     }
 }

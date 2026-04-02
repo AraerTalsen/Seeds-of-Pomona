@@ -34,6 +34,7 @@ public class EntityProperties
     public bool IsTargetLost { get; set; }
     public Transform Transform { get; set; }
     public NavMeshAgent NavMeshAgent { get; set; }
+    public Rigidbody2D Rigidbody { get; set; }
     [SerializeField]
     private List<Transform> spottedTargets = new();
     public List<Transform> SpottedTargets => spottedTargets;
@@ -87,19 +88,20 @@ public class EntityProperties
 
     private void UpdateDestination()
     {
-        if(Vector2.Distance(NavMeshAgent.destination, (Vector2)TargetPos) > 1)
+        if(Vector2.Distance(NavMeshAgent.destination, (Vector2)TargetPos) > 0.1f)
         {
-            NavMeshAgent.destination = (Vector2)TargetPos;
+            NavMeshAgent.SetDestination((Vector2)TargetPos);
         }
     }
 
     public Vector2 LookAt()
     {
-        Vector2 dirToTarget = (Vector2)ObservePoint - (Vector2)Face.transform.position;
+        Vector2 dirToTarget = (Vector2)NavMeshAgent.steeringTarget - (Vector2)Face.transform.position;
         float angle = Mathf.Atan2(dirToTarget.x, dirToTarget.y) * Mathf.Rad2Deg;
         targetRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
         Face.transform.rotation = Quaternion.RotateTowards(Face.transform.rotation, targetRotation, TurnSpeed);
-        EnemyOrientation.CurrentOrientation = LookAtPoint.position - Face.transform.position;
+        EnemyOrientation.CurrentOrientation = NavMeshAgent.velocity.magnitude > 0 ? 
+            NavMeshAgent.velocity.normalized : LookAtPoint.position - Face.transform.position;
 
         return dirToTarget;
     }

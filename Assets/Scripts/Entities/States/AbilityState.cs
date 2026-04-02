@@ -28,7 +28,7 @@ public abstract class AbilityState : ScriptableObject, IBehaviorState, IAbilityE
     [SerializeField] private ContextType contextType;
     public virtual EntityStateSupport EntityStateSupport { get; set; }
 
-    public IBehaviorContext Context { get; set; }
+    public BehaviorContext Context { get; set; }
     public EntityProperties EntityProps { get; set; }
 
     public virtual float RecoveryTime { get; }

@@ -48,6 +48,7 @@ public class EntityManager : MonoBehaviour, IStatReact
             HuntRecoveryTime = huntRecoveryTime,
             Transform = transform,
             NavMeshAgent = GetComponent<NavMeshAgent>(),
+            Rigidbody = GetComponent<Rigidbody2D>(),
             EnemyOrientation = (EnemyOrientation)orientation,
             Face = face,
             MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,
@@ -80,6 +81,9 @@ public class EntityManager : MonoBehaviour, IStatReact
 
         stats.SubscribeToStatChange(Stats.Speed, this);
         EntityProps.NavMeshAgent.speed = EntityProps.MoveSpeed;
+
+        //EntityProps.NavMeshAgent.updatePosition = false;
+        //EntityProps.NavMeshAgent.updateRotation = false;
     }
 
     //Pass effect to EffectRUnner
@@ -92,6 +96,12 @@ public class EntityManager : MonoBehaviour, IStatReact
         {
             runner.Run(effect, evolutionContext);
         }
+        
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            PrintStateDirectory();
+        }
+        //EntityProps.NavMeshAgent.nextPosition = transform.position;
     }
 
     private void UpdateDebugger(IAbilityEffect effect)
@@ -134,5 +144,11 @@ public class EntityManager : MonoBehaviour, IStatReact
     private void OnDisable()
     {
         stats.UnsubscribeFromStatChange(Stats.Speed, this);
+    }
+
+    private void PrintStateDirectory()
+    {
+        string msg = $"-----{name}'s State Directory-----\n{enemyBehaviorContext}\n{enemyBehaviorContext.Print()}";
+        print(msg);
     }
 }

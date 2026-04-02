@@ -21,7 +21,6 @@ public class EffectRunner : MonoBehaviour
         for (int i = runningEffects.Count - 1; i >= 0; i--)
         {
             IEffectRuntime runtime = runningEffects[i];
-            
             if(runtime != null)
             {
                 runtime.Tick();

@@ -32,7 +32,7 @@ public class ObserveState : BehaviorState
     {
         dirToTarget = EntityProps.LookAt();
         origin = EntityProps.Transform.up;
-        //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        //EntityProps.Rigidbody.velocity = Vector2.zero;
         EntityProps.NavMeshAgent.isStopped = true;
     }
 

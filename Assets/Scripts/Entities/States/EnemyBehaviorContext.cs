@@ -51,6 +51,7 @@ public class EnemyBehaviorContext : BehaviorContext
     public override IBehaviorState GetCurrentState()
     {
         EntityProps.NavMeshAgent.isStopped = true;
+        //EntityProps.Rigidbody.velocity = Vector2.zero;
         ReassessSystem();
         return base.GetCurrentState();
     }

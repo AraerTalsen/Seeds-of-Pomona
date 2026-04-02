@@ -12,7 +12,7 @@ public class SizingState : BehaviorContext
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new()
     {
         (new NavigateState(), 0),
-        (new ObserveState(), 1)
+        (new ObserveState(), 9)
     };
 
     private EntityProperties entityProps;

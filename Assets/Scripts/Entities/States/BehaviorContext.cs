@@ -16,7 +16,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             currentState = value;
             if(currentState == null && EntityProps.IsVelocityVoid)
             {
-                //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+                //EntityProps.Rigidbody.velocity = Vector2.zero;
                 EntityProps.NavMeshAgent.isStopped = true;
             } 
         }
@@ -89,7 +89,7 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             }
         }
 
-        //EntityProps.NavMeshAgent.velocity = Vector2.zero;
+        //EntityProps.Rigidbody.velocity = Vector2.zero;
         EntityProps.NavMeshAgent.isStopped = true;
         return null;
     }
@@ -104,4 +104,30 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
     }
 
     public virtual void AddToRegistry(IBehaviorContext context) => ContextRegistry.Add(context.GetType(), context);
+
+    public string Print()
+    {
+        int layer = 1;
+        BehaviorContext layerContext = Context;
+
+        while(layerContext != null)
+        {
+            layerContext = layerContext.Context;
+            layer++;
+        }
+
+        string depDash = new('-', layer);
+        string currentDirectory = "";
+
+        foreach((IBehaviorState state, _) in PossibleStates)
+        {
+            currentDirectory += depDash + state + "\n";
+            if(state is IBehaviorContext context)
+            {
+                currentDirectory += context.Print();
+            }
+        }
+        
+        return currentDirectory;
+    }
 }
