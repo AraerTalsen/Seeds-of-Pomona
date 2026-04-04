@@ -29,7 +29,6 @@ public class Move_Player : MonoBehaviour
     {
         playerInteract = GetComponent<PlayerInteract>();
         cow = GetComponent<ClickObjectInWorld>();
-        inventory = GetComponent<PInv>();
         entityOrientation = GetComponent<EntityOrientation>();
 
         playerInteract.Move_Player = this;

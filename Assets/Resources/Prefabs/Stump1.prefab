@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3523633055230763412}
   - component: {fileID: 5944438168227417981}
-  - component: {fileID: 6715407588442056620}
+  - component: {fileID: 8227545335655303848}
   - component: {fileID: 1319137469313278553}
   m_Layer: 0
   m_Name: Stump1
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!58 &6715407588442056620
+  m_SpriteSortPoint: 1
+--- !u!58 &8227545335655303848
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,9 +118,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.03125}
+  m_Offset: {x: 0, y: 0.6929698}
   serializedVersion: 2
-  m_Radius: 1.21875
+  m_Radius: 0.75
 --- !u!114 &1319137469313278553
 MonoBehaviour:
   m_ObjectHideFlags: 0

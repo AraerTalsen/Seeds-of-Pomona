@@ -16,11 +16,11 @@ MonoBehaviour:
   altToolTip: 
   id: 6
   maxStackSize: 1
-  sprite: {fileID: 266895252, guid: 7444c76f67a61ab458e466a912a8481f, type: 3}
+  sprite: {fileID: -609161354, guid: 5826e2489ff360d488ce512adf8552af, type: 3}
   categories: 02000000
   outputItems: 
-  specialOutputID: -1
-  specialChance: 0
+  specialSpawnChance: 0
+  specialOutputs: []
   isActive: 1
   durability: 1
   coolDown: 5

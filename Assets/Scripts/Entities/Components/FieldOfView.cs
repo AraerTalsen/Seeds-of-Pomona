@@ -27,7 +27,6 @@ public class FieldOfView : MonoBehaviour
     {
         //Hurtbox layermask here allows us to only check the correct 'Player-Tagged' objects below
         targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, LayerMask.GetMask("Hurtbox")).ToList();
-        targetsInViewRadius.Remove(GetComponent<BoxCollider2D>());
         visibleTargets.RemoveAll(transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
         CheckIfTargetVisible(targetsInViewRadius);
 

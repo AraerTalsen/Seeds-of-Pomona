@@ -78,7 +78,7 @@ public class EntityProperties
         }
     }
 
-    public Vector2? ObservePoint => TargetPos == null ? TargetPos : (Vector2)Transform.position + DirToTarget.normalized * (DistFromTargetPos + 1);
+    //public Vector2? ObservePoint => TargetPos == null ? TargetPos : (Vector2)Transform.position + DirToTarget.normalized * (DistFromTargetPos + 1);
     public Vector2 DirToTarget => (Vector2)TargetPos - (Vector2)Transform.position;
 
     public Vector2? MemorizedTargetPos { get; set; }

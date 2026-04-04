@@ -23,14 +23,7 @@ public class EntityManagerEditor : Editor
         {
             Vector2 targetPos = (Vector2)targetPosNullable;
             LabelTargetPos(targetPos);
-        }
-
-        Vector2? observePosNullable = props?.ObservePoint;
-        if(observePosNullable != null)
-        {
-            Vector2 observePos = (Vector2)observePosNullable;
-            LabelObservePos(observePos);
-            VectorToTarget(observePos);
+            VectorToNextPos();
         }
 
         ShowNavMeshPath();
@@ -51,17 +44,11 @@ public class EntityManagerEditor : Editor
         Handles.DrawWireArc(center, Vector3.forward, Vector2.up, 360, 0.35f, 2);
     }
 
-    private void LabelObservePos(Vector2 pos)
+    private void VectorToNextPos()
     {
-        Handles.color = Color.cyan;
-        Handles.DrawSolidDisc(pos, Vector3.forward, 0.35f);
-        Handles.DrawWireArc(pos, Vector3.forward, Vector2.up, 360, 0.5f, 2);
-    }
-
-    private void VectorToTarget(Vector2 targetPos)
-    {
-        Vector2 facePos = (Vector2)props.Face.transform.position;
-        Vector2 dirToTarget = (targetPos - facePos).normalized;
+        Vector2 nextPos = props.NavMeshAgent.steeringTarget;
+        Vector2 facePos = props.Face.transform.position;
+        Vector2 dirToTarget = (nextPos - facePos).normalized;
         Vector2 endPoint = facePos + dirToTarget;
 
         Handles.color = Color.cyan;

@@ -17,4 +17,4 @@ MonoBehaviour:
   growthStages: 
   growthProgress: []
   unloadTime: 36.78
-  isPersisting: 0
+  isPersisting: 1

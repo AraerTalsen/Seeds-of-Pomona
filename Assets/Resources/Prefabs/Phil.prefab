@@ -752,11 +752,13 @@ GameObject:
   - component: {fileID: 7696766261451863052}
   - component: {fileID: 6920718101542296579}
   - component: {fileID: 5742771467124524928}
+  - component: {fileID: 7100847396543631931}
   - component: {fileID: 1898119018714637122}
   - component: {fileID: 1636911816530456410}
   - component: {fileID: 2645968022735046473}
   - component: {fileID: 5997011432069869266}
   - component: {fileID: 7380057304703131252}
+  - component: {fileID: 8502245501863666428}
   m_Layer: 0
   m_Name: Phil
   m_TagString: Player
@@ -881,6 +883,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7100847396543631931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290296282669825184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646d68c34334abe44bb05cf2f10a53a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMovable: 1
+  renderBelowAll: 0
+  sortType: 0
+  SorterPositionOffset: {x: 0, y: 0}
+  SorterPositionOffset2: {x: 0, y: 0}
+  renderersToSort:
+  - {fileID: 7696766261451863052}
 --- !u!114 &1898119018714637122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,6 +986,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayBalance: {fileID: 7200842781387211217}
+--- !u!114 &8502245501863666428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290296282669825184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f7650a416eeae4fa493f9a7f48147c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move_Player: {fileID: 8394567971416588847}
 --- !u!1 &3673887739090464027
 GameObject:
   m_ObjectHideFlags: 0

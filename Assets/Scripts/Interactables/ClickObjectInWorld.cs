@@ -31,7 +31,7 @@ public class ClickObjectInWorld : MonoBehaviour
     private void CheckForClickables()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, LayerMask.GetMask("InteractZone"));
+        Collider2D[] hits = Physics2D.OverlapPointAll(mousePos);
 
         if (hits.Length > 0)
         {
@@ -52,7 +52,7 @@ public class ClickObjectInWorld : MonoBehaviour
         }
     }
 
-    private IClickable FindFirstInteractable(RaycastHit2D[] hits)
+    private IClickable FindFirstInteractable(Collider2D[] hits)
     {
         return hits.Select(hit => hit.transform.gameObject.GetComponent<IClickable>()).FirstOrDefault(interact => interact != null);
     }

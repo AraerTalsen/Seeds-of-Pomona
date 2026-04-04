@@ -6,8 +6,8 @@ public class InvestigateState : BehaviorContext
 {
     public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
     { 
-        (new ObserveState(), 1),
-        (new NavigateState(), 2) 
+        (new ObserveState(), 3),
+        (new NavigateState(), 1) 
     };
 
     private EntityProperties entityProps;

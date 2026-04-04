@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15c7b59012f58c47ab6282294480b46, type: 3}
   m_Name: Seeds
   m_EditorClassIdentifier: 
+  toolTip: 
+  altToolTip: 
   id: 0
   maxStackSize: 20
-  sprite: {fileID: 21300000, guid: 14d8fc34e5a7f0d44bbbfc75389bcffb, type: 3}
+  sprite: {fileID: 1855921817, guid: 5826e2489ff360d488ce512adf8552af, type: 3}
   categories: 00000000
   outputItems: 01000000
+  specialSpawnChance: 0
+  specialOutputs: []
   growthStages:
   - {fileID: 21300000, guid: 18fc9a6406d431e4bb83f9003990d6c3, type: 3}
   - {fileID: 21300000, guid: 643dc8874df1f524782a32645f9df4cc, type: 3}
