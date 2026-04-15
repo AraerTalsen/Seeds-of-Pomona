@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e682667418009ab43a4f6b74b116e05b, type: 3}
+  m_Name: New P Up
+  m_EditorClassIdentifier: 
+  effectLabel: 0
+  effect:
+    rid: 5131463896468553741
+  references:
+    version: 2
+    RefIds:
+    - rid: 5131463896468553739
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5131463896468553740
+      type: {class: LifetimeLogic, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5131463896468553741
+      type: {class: Effect, ns: , asm: Assembly-CSharp}
+      data:
+        lifetimeLabel: 0
+        lifetime:
+          rid: 5131463896468553740
+        repeatLabel: 0
+        runs:
+          rid: 5131463896468553739
+        targetLabel: 0
+        coordinator:
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
