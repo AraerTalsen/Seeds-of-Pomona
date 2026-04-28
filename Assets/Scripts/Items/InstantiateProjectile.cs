@@ -11,7 +11,7 @@ public class InstantiateProjectile : InstantiateEffect
     protected override void Apply(EffectContext context)
     {
         Vector2 dir = NormalSpawnDir(context.orientation.CurrentOrientation);
-        GameObject g = Instantiate(node, (Vector2)context.targetBody.position + dir * 1.625f, Quaternion.identity);
+        GameObject g = Instantiate(node, (Vector2)context.target.position + dir * 1.625f, Quaternion.identity);
         g.GetComponent<Projectile>().FireProjectile(dir * magnitude, damage);
     }
 }

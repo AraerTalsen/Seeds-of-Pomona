@@ -46,11 +46,11 @@ public class TransformMomentum : TransformEffect
                 }
                 else
                 {
-                    EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
+                    EntityProperties props = context.target.gameObject.GetComponent<EntityManager>().EntityProps;
                     props.IsStunned = false;
                     props.IsVelocityVoid = true;
                     props.NavMeshAgent.isStopped = false;
-                    Rigidbody2D rb = context.targetBody.GetComponent<Rigidbody2D>();
+                    Rigidbody2D rb = context.target.GetComponent<Rigidbody2D>();
                     rb.isKinematic = true;
                     rb.velocity = Vector2.zero;
                 }
@@ -72,7 +72,7 @@ public class TransformMomentum : TransformEffect
         }
         else
         {
-            EntityProperties props = context.targetBody.gameObject.GetComponent<EntityManager>().EntityProps;
+            EntityProperties props = context.target.gameObject.GetComponent<EntityManager>().EntityProps;
             props.IsStunned = true;
             props.IsVelocityVoid = false;
             props.NavMeshAgent.isStopped = true;
@@ -84,7 +84,7 @@ public class TransformMomentum : TransformEffect
     private void ApplyMomentum(EffectContext context)
     {
         Vector2 targetDir = TargetDir(context.stats.GetStatLvlConvertVal(Stats.Strength) + force, context.orientation.CurrentOrientation);
-        Rigidbody2D rb = context.targetBody.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = context.target.GetComponent<Rigidbody2D>();
         rb.isKinematic = false;
         rb.AddForce(targetDir, ForceMode2D.Impulse);
     }

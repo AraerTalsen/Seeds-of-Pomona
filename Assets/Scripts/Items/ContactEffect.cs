@@ -21,7 +21,7 @@ public abstract class ContactEffect : InstantiateEffect
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan);
         
         float range = 1.625f;//context.owner.GetComponent<BoxCollider2D>().size.x;
-        g.transform.position = (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation) * range;
+        g.transform.position = (Vector2)context.target.position + NormalSpawnDir(context.orientation.CurrentOrientation) * range;
 
         if(debugShowContactBounds)
         {

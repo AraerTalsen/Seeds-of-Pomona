@@ -41,7 +41,7 @@ public class InstantiateEffect : PowerupEffect
 
     protected override void Apply(EffectContext context)
     {
-        GameObject g = Instantiate(node, (Vector2)context.targetBody.position + NormalSpawnDir(context.orientation.CurrentOrientation), Quaternion.identity);
+        GameObject g = Instantiate(node, (Vector2)context.target.position + NormalSpawnDir(context.orientation.CurrentOrientation), Quaternion.identity);
         g.GetComponent<EnvironmentalEffect>().StartDecay(lifespan); 
     }
 

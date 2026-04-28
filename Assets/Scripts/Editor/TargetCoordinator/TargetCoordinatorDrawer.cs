@@ -40,26 +40,12 @@ public class TargetCoordinatorDrawer : PropertyDrawer
                 iter.NextVisible(true);
 
                 bool isEnviro = TargetCoordinatorContext.SuppressAreaConfig;
-                bool hasBounds = true;
-                bool isDynamic = true;
+                bool hasBounds = !TargetCoordinatorContext.SuppressAreaConfig && property.FindPropertyRelative("hasBounds").boolValue;
+                bool isDynamic = property.FindPropertyRelative("isDynamic").boolValue;
                 
                 while (!SerializedProperty.EqualContents(iter, end))
                 {
-                    if(iter.name == "hasBounds") 
-                    {
-                        if(TargetCoordinatorContext.SuppressAreaConfig)
-                        {
-                            hasBounds = false;
-                            iter.NextVisible(false);
-                            continue;
-                        }
-                        hasBounds = iter.boolValue;
-                    }
-                    else if(iter.name == "isDynamic")
-                    {
-                        isDynamic = iter.boolValue;
-                    }
-                    else if(iter.name == "area" && !hasBounds) 
+                    if(iter.name == "area" && !hasBounds) 
                     {
                         iter.NextVisible(false);
                         continue;
@@ -78,7 +64,8 @@ public class TargetCoordinatorDrawer : PropertyDrawer
                     CreateCoordinationPanel(position, y);
                     TCControls.MouseControls(position, lastArea, out lastArea);
                     UpdateTargetUnits(hasBounds);
-                } 
+                }
+                EditorGUI.indentLevel--;
             }
 
             EditorGUI.EndProperty();
@@ -89,46 +76,36 @@ public class TargetCoordinatorDrawer : PropertyDrawer
     {
         float lineH = EditorGUIUtility.singleLineHeight;
         float pad = 2f;
-        float total = lineH + pad; // foldout header
+        float total = 0;
 
-        if (!property.isExpanded) return total;
+        if (TargetCoordinatorContext.SuppressCoordinatorPanel) return total;
+        total += lineH + pad;
+        if(!property.isExpanded) return total;
 
         SerializedProperty iter = property.Copy();
         SerializedProperty end = property.GetEndProperty();
         iter.NextVisible(true);
 
         bool isEnviro = TargetCoordinatorContext.SuppressAreaConfig;
-        bool hasBounds = true;
-        bool isDynamic = true;
+        bool hasBounds = !TargetCoordinatorContext.SuppressAreaConfig && property.FindPropertyRelative("hasBounds").boolValue;
+        bool isDynamic = property.FindPropertyRelative("isDynamic").boolValue;
 
-        if(!TargetCoordinatorContext.SuppressCoordinatorPanel)
+        while (!SerializedProperty.EqualContents(iter, end))
         {
-            while (!SerializedProperty.EqualContents(iter, end))
+            if(iter.name == "area" && !hasBounds) 
             {
-                if(iter.name == "area" && !hasBounds) 
-                {
-                    iter.NextVisible(false);
-                    continue;
-                }
-
-                float h = EditorGUI.GetPropertyHeight(iter, true);
-
-                if (h > 0f) total += h + pad;
-
-                if(iter.name == "hasBounds") 
-                {
-                    hasBounds = iter.boolValue;
-                }
-                else if(iter.name == "isDynamic")
-                {
-                    isDynamic = iter.boolValue;
-                }
-                
                 iter.NextVisible(false);
+                continue;
             }
 
-            if((!isEnviro && hasBounds) || (isEnviro && !isDynamic)) total += panelHeight + pad;
+            float h = EditorGUI.GetPropertyHeight(iter, true);
+
+            if (h > 0f) total += h + pad;
+            
+            iter.NextVisible(false);
         }
+
+        if((!isEnviro && hasBounds) || (isEnviro && !isDynamic)) total += panelHeight + pad;
 
         return total;
     }

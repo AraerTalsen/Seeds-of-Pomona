@@ -1,9 +1,8 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public abstract class LifetimeRule : ScriptableObject
 {
-    public abstract bool IsBroken();
+    public abstract bool IsBroken(EffectContext context);
 }

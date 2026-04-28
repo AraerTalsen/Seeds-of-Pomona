@@ -30,7 +30,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
         powerupHelper = GetComponent<PowerupHelper>();
         powerupContext = new()
         {
-          targetBody = transform,
+          target = transform,
           stats = stats.StatBlock,
           orientation = orientation,
           owner = gameObject,
@@ -41,10 +41,10 @@ public class PInv : PersistentObject<PlayerInventoryData>
         Persist = RetrieveData(persist);
         PullData();
 
-        bag.PushItems(3, 1);
+        //bag.PushItems(3, 1);
         bag.PushItems(4, 1);
-        bag.PushItems(5, 1);
-        bag.PushItems(6, 1);
+        //bag.PushItems(5, 1);
+        //bag.PushItems(6, 1);
     }
 
     private void Update()

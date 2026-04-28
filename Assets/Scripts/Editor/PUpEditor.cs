@@ -11,7 +11,7 @@ public class PUpEditor : Editor
         serializedObject.Update();
 
         SerializedProperty labelProp = serializedObject.FindProperty("effectLabel");
-        SerializedProperty effectProp = serializedObject.FindProperty("effect");
+        SerializedProperty effectProp = serializedObject.FindProperty("affector");
 
         EditorGUI.BeginChangeCheck();
         EditorGUILayout.PropertyField(labelProp);
@@ -23,7 +23,9 @@ public class PUpEditor : Editor
         if (effectProp.managedReferenceValue != null)
         {
             EditorGUILayout.PropertyField(effectProp, true);
-        }
+        };
+
+        DrawPropertiesExcluding(serializedObject, "effectLabel", "affector", "m_Script");
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -34,8 +36,10 @@ public class PUpEditor : Editor
 
         effectProp.managedReferenceValue = selected switch
         {
-            PUp.EffectLabel.transform => new Effect(effectProp.managedReferenceValue as Effect),
-            PUp.EffectLabel.stat => new Stat(effectProp.managedReferenceValue as Effect),
+            PUp.EffectLabel.stat => new StatAffector(effectProp.managedReferenceValue as Affector),
+            PUp.EffectLabel.transform => new TransformAffector(effectProp.managedReferenceValue as Affector),
+            PUp.EffectLabel.instantiate => new InstantiationAffector(effectProp.managedReferenceValue as Affector),
+            PUp.EffectLabel.status => new StatusAffector(effectProp.managedReferenceValue as Affector),
             _ => null
         };
 

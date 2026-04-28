@@ -68,7 +68,7 @@ public class EntityManager : MonoBehaviour, IStatReact
         {
             stats = stats.StatBlock,
             stateMachine = enemyBehaviorContext,
-            targetBody = transform,
+            target = transform,
             orientation = orientation,
             owner = gameObject
         };

@@ -6,15 +6,15 @@ public class PowerupHelper : MonoBehaviour
 {
     private List<bool> coolDowns = new();
     private List<SelectSlot> pUpSlots = new();
-    private List<Tool> powerups = new();
+    private List<PUp> powerups = new();
     private List<float> aggTime = new();
-    private EffectRunner runner;
+    //private EffectRunner runner;
 
     public EffectContext Context { get; set; }
 
     private void Start()
     {
-        runner = GetComponent<EffectRunner>();
+        //runner = GetComponent<EffectRunner>();
     }
 
     private void Update()
@@ -22,7 +22,7 @@ public class PowerupHelper : MonoBehaviour
         UpdateCoolDownProgress();
     }
     
-    public void TryAddCoolDown(SelectSlot slot, Tool tool)
+    public void TryAddCoolDown(SelectSlot slot, PUp tool)
     {
         coolDowns.Add(false);
         pUpSlots.Add(slot);
@@ -40,7 +40,7 @@ public class PowerupHelper : MonoBehaviour
 
     public void ToggleCoolDown(int index) => coolDowns[index] = !coolDowns[index];
 
-    public void TryUseAbility(Tool tool, int slotIndex, GameObject player)
+    public void TryUseAbility(PUp tool, int slotIndex, GameObject player)
     {
         if(!coolDowns[slotIndex] && tool.CoolDown > 0)
         {
@@ -48,10 +48,10 @@ public class PowerupHelper : MonoBehaviour
         }
     }
     
-    private IEnumerator UseAbility(Tool tool, int slotIndex, GameObject player)
+    private IEnumerator UseAbility(PUp tool, int slotIndex, GameObject player)
     {
         ToggleCoolDown(slotIndex); 
-        runner.Run(tool, Context);
+        EventRunner.Run(tool.LaunchEffect(Context));
         yield return new WaitForSeconds(tool.CoolDown);
         ToggleCoolDown(slotIndex);
         pUpSlots[slotIndex].CoolDownProgress.value = 0;
