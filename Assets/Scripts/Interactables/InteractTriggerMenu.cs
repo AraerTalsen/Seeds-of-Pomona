@@ -29,6 +29,6 @@ public class InteractTriggerMenu : Interactable
             menu = GetComponent<BasicMenu>();
             menu.ToggleMenu(menu2, interactor.GetComponent<Move_Player>());
         }
-        else if (menu != null) menu.ToggleMenu(menu2);
+        else if (menu != null) menu.ToggleMenu(menu2, interactor.GetComponent<Move_Player>());
     }
 }

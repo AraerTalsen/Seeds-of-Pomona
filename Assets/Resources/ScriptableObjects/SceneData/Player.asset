@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Leap Seed(Clone)
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: 
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: 
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -78,8 +78,8 @@ MonoBehaviour:
   hasDied: 0
   powerups:
   - quantity: 1
-    item: {fileID: 0}
-    debugItemName: Leap Seed(Clone)
+    item: {fileID: 11400000, guid: eee3706e3bcc028428971da86c139933, type: 2}
+    debugItemName: Leap Seed
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty

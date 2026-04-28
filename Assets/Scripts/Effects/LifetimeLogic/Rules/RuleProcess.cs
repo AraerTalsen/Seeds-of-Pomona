@@ -22,10 +22,6 @@ public abstract class RuleProcess<T> : LifetimeRule where T : IComparable<T>
 
     public override bool IsBroken(EffectContext context)
     {
-        T value = GetValue(context);
-        T threshold = GetThreshold();
-        Debug.Log($"ComparisonMode: {comparisonMode}, Value: {value}, Threshold: {threshold}");
-        return compareLookup[comparisonMode](value, threshold);
-        //return !compareLookup[comparisonMode](GetValue(context), GetThreshold());
+        return compareLookup[comparisonMode](GetValue(context), GetThreshold());
     }
 }

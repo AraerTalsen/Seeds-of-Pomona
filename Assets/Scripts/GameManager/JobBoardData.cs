@@ -6,7 +6,7 @@ using UnityEngine;
 public class JobBoardData : PersistentDataBase
 {
     [SerializeField]
-    private List<JobRequest> jobListings;
+    private List<JobRequestContainer> jobListings;
     [SerializeField]
     private List<InventoryEntry> requestedItems;
     [SerializeField]
@@ -14,8 +14,7 @@ public class JobBoardData : PersistentDataBase
     [SerializeField]
     private bool isPersisting = false;
 
-    public List<JobRequest> JobListings {get => jobListings; set => jobListings = value;}
+    public List<JobRequestContainer> JobListings {get => jobListings; set => jobListings = value;}
     public List<InventoryEntry> RequestedItems {get => requestedItems; set => requestedItems = value;}
-    //public float LastPostTime {get => lastPostTime; set => lastPostTime = value;}
     public bool IsPersisting {get => isPersisting; set => isPersisting = value;}
 }

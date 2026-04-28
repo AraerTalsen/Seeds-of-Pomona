@@ -1621,8 +1621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persist: {fileID: 11400000, guid: 767b44c998abf824890f67a93883ad68, type: 2}
-  intervalInDays: 2
-  postDelayInSec: 15
+  intervalInDays: 1
   maxJobCapacity: 3
 --- !u!114 &568185456
 MonoBehaviour:

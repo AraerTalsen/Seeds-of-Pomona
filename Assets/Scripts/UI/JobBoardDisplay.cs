@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class JobBoardDisplay : BasicMenu
 {
-    public List<JobRequest> JobListings { get; set; }
+    public List<JobRequestContainer> JobListings { get; set; }
     private Transform jobPostingGroup;
     public TMP_Text Description { get; private set; }
     public TMP_Text ItemQty { get; private set; }
@@ -100,12 +100,12 @@ public class JobBoardDisplay : BasicMenu
     //Display current job player has cycled to on the job board
     public void LoadJob()
     {
-        JobRequest job = JobListings[currentListingIndex];
+        JobRequestContainer job = JobListings[currentListingIndex];
 
-        Description.text = job.description;
-        ItemQty.text = job.ChosenItemQty.ToString();
-        Reward.text = "Reward: $" + job.ChosenReward.ToString();
-        itemImg.sprite = job.requestedItem.sprite;
+        Description.text = job.Description;
+        ItemQty.text = job.ItemQty.ToString();
+        Reward.text = "Reward: $" + job.Reward.ToString();
+        itemImg.sprite = job.RequestedItem.sprite;
         UpdateCompleteButton();
     }
 

@@ -22,7 +22,7 @@ public class PUp : Item
     public bool IsExpired => ExpirationDay > -1 && ExpirationDay <= TimerObserver.Instance.CurrentDay;
     private string defaultTip = "[{0}]\n{1} will last for {2} expeditions";
     private string altTip = "{0} has {1} expeditions remaining";
-    private string CleanName =>name[..name.IndexOf("(")];
+    //private string CleanName => name[..name.IndexOf("(")];
 
     public void SetExpirationDay(int day)
     {
@@ -35,10 +35,10 @@ public class PUp : Item
     {
         if(UseAltToolTip)
         {
-            return string.Format(altTip, CleanName, ExpirationDay - TimerObserver.Instance.CurrentDay);
+            return string.Format(altTip, name, ExpirationDay - TimerObserver.Instance.CurrentDay);
         }
 
-        return string.Format(defaultTip, isActive ? "Active" : "Passive", CleanName, Durability);
+        return string.Format(defaultTip, isActive ? "Active" : "Passive", name, Durability);
     }
 
     public IRuntimeEvent LaunchEffect(EffectContext context) => affector.CreateRuntimeEvent(context);

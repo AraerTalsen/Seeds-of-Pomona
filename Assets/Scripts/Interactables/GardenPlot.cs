@@ -105,8 +105,8 @@ public class GardenPlot : Interactable, ITimer
         plant.sprite = seeds.growthStages[currentStage];
         growthRate = seeds.growthRate;
         growthOdds = seeds.growthOdds;
-        output = Instantiate(ItemDictionary.items[seeds.outputItems[0]]);
-        plantInspection.PlantName = output.name.Split("(")[0];
+        output = ItemDictionary.items[seeds.outputItems[0]];
+        plantInspection.PlantName = output.name;//.Split("(")[0];
         SetPlantInspectability();
     }
 

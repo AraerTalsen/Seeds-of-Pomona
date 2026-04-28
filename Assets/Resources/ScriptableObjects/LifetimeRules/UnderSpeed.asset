@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: UnderSpeed
   m_EditorClassIdentifier: 
   comparisonMode: 3
-  threshold: 1
+  threshold: 5

@@ -45,11 +45,11 @@ public class JobRequest : ScriptableObject
         }
     }
 
-    public int Deadline
+    public void Deconstruct(out string description, out int itemQty, out int reward, out Item item)
     {
-        get
-        {
-            return (int)postedTime + timeline;
-        }
+        description = this.description;
+        itemQty = ChosenItemQty;
+        reward = ChosenReward;
+        item = requestedItem;
     }
 }

@@ -81,7 +81,7 @@ public class GardenBed : MonoBehaviour
         for(int i = 0; i < n; i++)
         {
             int index = persist.PlotIndeces[i];
-            Seeds s = (Seeds)Instantiate(ItemDictionary.items[persist.ItemIds[i]]);
+            Seeds s = (Seeds)ItemDictionary.items[persist.ItemIds[i]];
             plots[index].Seeds = s;
             plots[index].CurrentStage = persist.GrowthStages[i];
             plots[index].growthProgress = persist.GrowthProgress[i];

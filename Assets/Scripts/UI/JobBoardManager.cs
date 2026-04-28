@@ -8,7 +8,7 @@ using UnityEngine.UIElements.Experimental;
 public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 {
     [SerializeField] private JobBoardData persist;
-    private List<JobRequest> jobListings;
+    private List<JobRequestContainer> jobListings;
     private List<InventoryEntry> requestedItems;
     private List<(int requestedItmIndex, int itemId)?> fulfilledItems;
 
@@ -16,7 +16,6 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     [SerializeField]
     private int intervalInDays;
     public int IntervalInDays {get => intervalInDays;}
-    public int postDelayInSec;
     private PInv inv;
     public int maxJobCapacity;
     private JobBoardDisplay jobBoardDisplay;
@@ -77,7 +76,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     //What's a more streamlined way of dynamically removing all items from a list that meet a certain condition? Can it be done in a single pass?
     private void ClearOldJobs()
     {
-        List<JobRequest> removeJobs = new();
+        List<JobRequestContainer> removeJobs = new();
         for (int i = 0; i < jobListings.Count; i++)
         {
             if (jobListings[i].Deadline <= TimerObserver.Instance.CurrentDay/*WorldClock.WorldTimeInSeconds*/)
@@ -95,14 +94,16 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     private void CreateNewJobRequest()
     {
         int rand = Random.Range(0, JobDictionary.jobs.Count);
-        JobRequest newJob = Instantiate(JobDictionary.jobs[rand]);
-        newJob.postedTime = TimerObserver.Instance.CurrentDay;
+        JobRequestContainer newJob = new(JobDictionary.jobs[rand])
+        {
+            Deadline = TimerObserver.Instance.CurrentDay + JobDictionary.jobs[rand].timeline
+        };
         AddJobRequest(newJob);
     }
 
-    private void AddJobRequest(JobRequest job)
+    private void AddJobRequest(JobRequestContainer job)
     {
-        requestedItems.Add(new InventoryEntry(job.ChosenItemQty, job.requestedItem));
+        requestedItems.Add(new InventoryEntry(job.ItemQty, job.RequestedItem));
         jobListings.Add(job);
 
         //Should no longer be possible
@@ -175,7 +176,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 
     public void CompleteJobRequest()
     {
-        inv.wallet.IncrementBalance(jobListings[jobBoardDisplay.currentListingIndex].ChosenReward);
+        inv.wallet.IncrementBalance(jobListings[jobBoardDisplay.currentListingIndex].Reward);
         TakeItemsFromPlayer();
         RemoveJobRequest();
     }
@@ -208,9 +209,9 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         }
     }
 
-    private void RemoveJobRequest(JobRequest job)
+    private void RemoveJobRequest(JobRequestContainer job)
     {
-        int index = jobListings.FindIndex(j => j == job);
+        int index = jobListings.FindIndex(j => j.Equals(job));
         jobListings.RemoveAt(index);
         requestedItems.RemoveAt(index);
         //foreach(JobRequest j in jobListings) print($"Job, Request: {j.requestedItem}, {j.ChosenItemQty} Reward: {j.ChosenReward}");

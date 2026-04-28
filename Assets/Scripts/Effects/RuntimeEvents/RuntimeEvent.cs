@@ -32,5 +32,5 @@ public class RuntimeEvent<T> : IRuntimeEvent where T : IRuntimeFactory
         this.affector.Apply(context);
     }
 
-    public void Tick() => tickProc(context, affector);
+    public void Tick() => tickProc?.Invoke(context, affector);
 }

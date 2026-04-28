@@ -38,7 +38,7 @@ public abstract class DragNDropInventory : ItemInventory
     public void PushItems(int id, int insertQty)
     {
         InventoryEntry matchingItem = Find(id);
-        Item item = matchingItem != null ? matchingItem.Item : UnityEngine.Object.Instantiate(ItemDictionary.items[id]);
+        Item item = matchingItem != null ? matchingItem.Item : ItemDictionary.items[id];
         
         PushQty(insertQty, item, out int remainder);
         DisplayManager.UpdateDisplayAll();
