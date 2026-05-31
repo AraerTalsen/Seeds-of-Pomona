@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityState : ScriptableObject, IBehaviorState, IAbilityEffect
+public class AbilityState : BehaviorState//ScriptableObject, IBehaviorState, IAbilityEffect
 {
     private enum ContextType
     {
@@ -26,21 +26,21 @@ public abstract class AbilityState : ScriptableObject, IBehaviorState, IAbilityE
     
     [SerializeField] protected PowerupEffect effect;
     [SerializeField] private ContextType contextType;
-    public virtual EntityStateSupport EntityStateSupport { get; set; }
+    //public virtual EntityStateSupport EntityStateSupport { get; set; }
 
-    public BehaviorContext Context { get; set; }
-    public EntityProperties EntityProps { get; set; }
+    //public BehaviorContext Context { get; set; }
+    //public EntityProperties EntityProps { get; set; }
 
-    public virtual float RecoveryTime { get; }
+    //public virtual float RecoveryTime { get; }
 
     public System.Type HostContext => ContextEnumToType[contextType];
-    public bool IsCoolingDown { get; set; }
+    //public bool IsCoolingDown { get; set; }
 
-    public virtual bool IsValid { get; } = true;
+    //public virtual bool IsValid { get; } = true;
 
-    public abstract IEffectRuntime CreateEffectRuntime(EffectContext context);
+    //public abstract IEffectRuntime CreateEffectRuntime(EffectContext context);
 
-    protected virtual void ResetContextState()
+    /*protected virtual void ResetContextState()
     {
         Context.Escape();
         
@@ -65,5 +65,5 @@ public abstract class AbilityState : ScriptableObject, IBehaviorState, IAbilityE
     private void CombatRecover()
     {
         EntityProps.CombatRecover(this, RecoveryTime);
-    }
+    }*/
 }

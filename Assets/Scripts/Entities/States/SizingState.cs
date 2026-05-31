@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Sizing")]
 public class SizingState : BehaviorContext
 {
-    private bool isRetreating = false;
     private float min;
     private float max;
     public override bool IsAggro => true;
 
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new()
-    {
-        (new NavigateState(), 0),
-        (new ObserveState(), 9)
-    };
+    [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
+    public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
+
+    [BranchCondition] private bool InRange { get; set; }
+    [BranchCondition] private bool IsRetreating { get; set; }
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -25,13 +25,11 @@ public class SizingState : BehaviorContext
             ContextRegistry = Context.ContextRegistry;
             AddToRegistry(this);
             InitializeStates();
-            CurrentState = PossibleStates[0].state;
+            CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
             min = EntityProps.PreferredRange.x;
             max = EntityProps.PreferredRange.y;
         }
     }
-
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
 
     public override void SelectNewState()
     {
@@ -45,13 +43,14 @@ public class SizingState : BehaviorContext
     {
         float dist = EntityProps.DistFromTarget;
 
-        if(dist > min && dist < max)
+        InRange = dist > min && dist < max;
+        if(InRange)
         {
             return true;
         }
 
         TryKeepTargetPosInRange();
-        CurrentState = PossibleStates[0].state;
+        CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
 
         return false;
     }
@@ -68,13 +67,13 @@ public class SizingState : BehaviorContext
     {
         if(dist < min && dist > -1)
         {
-            isRetreating = true;
+            IsRetreating = true;
             EntityProps.MemorizedTargetPos = EntityProps.TargetTransform.position;
         }
         //Do we need this condition? I think the entity should arrive at its target before it can realize it should no longer retreat
         else if(dist > max)
         {
-            isRetreating = false;
+            IsRetreating = false;
         }
     }
 
@@ -94,7 +93,7 @@ public class SizingState : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        if(CurrentState == PossibleStates[0].state)
+        if(CurrentState == PossibleStates[0].State)
         {
             TryKeepTargetPosInRange();
         }
@@ -105,11 +104,11 @@ public class SizingState : BehaviorContext
     {
         CurrentState = null;
         
-        if(isRetreating)
+        if(IsRetreating)
         {
             EntityProps.TargetPos = EntityProps.MemorizedTargetPos;
-            CurrentState = PossibleStates[1].state;
-            isRetreating = false;
+            CurrentState = PossibleStates.Find(w => w.State is ObserveState).State;
+            IsRetreating = false;
         }
         else
         {

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Investigate")]
 public class InvestigateState : BehaviorContext
 {
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
-    { 
-        (new ObserveState(), 3),
-        (new NavigateState(), 1) 
-    };
+    [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
+    public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
+
+    [BranchCondition] private bool IsSuspicious { get; set; }
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -24,14 +24,14 @@ public class InvestigateState : BehaviorContext
         }
     }
 
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
-
     public override IBehaviorState GetCurrentState()
     {
-        if(EntityProps.SuspiciousSpot != null)
+        IsSuspicious = EntityProps.SuspiciousSpot == null;
+        
+        if(!IsSuspicious)
         {
             EntityProps.TargetPos = EntityProps.SuspiciousSpot;
-            CurrentState = PossibleStates[1].state;
+            CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
         }
 
         return base.GetCurrentState();
@@ -39,16 +39,17 @@ public class InvestigateState : BehaviorContext
     
     public override void SelectNewState()
     {
-        if(EntityProps.SuspiciousSpot != null)
+        IsSuspicious = EntityProps.SuspiciousSpot == null;
+        
+        if(!IsSuspicious)
         {
             EntityProps.TargetPos = EntityProps.SuspiciousSpot;
-            CurrentState = PossibleStates[1].state;
+            CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
         }
         else
         {
-           base.SelectNewState(); 
+           base.SelectNewState();
         }
-        //Debug.Log($"Investigate state will: {CurrentState}");
     }
 
     public override void Escape()

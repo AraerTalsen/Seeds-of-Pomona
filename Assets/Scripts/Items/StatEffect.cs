@@ -9,7 +9,7 @@ public class StatEffect : ContactEffect
 
     protected override void Apply(EffectContext context)
     {
-        Rigidbody2D rb = context.target.gameObject.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = context.Targets[0].Body.GetComponent<Rigidbody2D>();
         rb.velocity = Vector2.zero;
         base.Apply(context);
     }

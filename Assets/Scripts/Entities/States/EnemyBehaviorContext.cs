@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Enemy Behavior Base")]
 public class EnemyBehaviorContext : BehaviorContext
-{
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
-    { 
-        (new InvestigateState(), 1),
-        (new AggroState(), 0)
-    };
+{    
+    [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
+    public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
 
     public override float RecoveryTime { get; } = 8.0f;
     public override Dictionary<System.Type, IBehaviorContext> ContextRegistry { get; set; } = new();
 
-    public EnemyBehaviorContext(EntityStateSupport entityStateSupport, EntityProperties entityProps)
+    [BranchCondition] private bool IsResting { get; set; }
+    [BranchCondition] private bool IsStunned { get; set; }
+    [BranchCondition] private bool HasSpotted { get; set; }
+    [BranchCondition] private bool RecallsTargetPos { get; set; }
+
+    public void Initialize(EntityStateSupport entityStateSupport, EntityProperties entityProps)
     {
         EntityStateSupport = entityStateSupport;
         EntityProps = entityProps;
@@ -21,23 +24,24 @@ public class EnemyBehaviorContext : BehaviorContext
         InitializeStates();
     }
 
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
-
     public override void SelectNewState()
     {
-        bool isTargetSpotted = EntityStateSupport.CheckForTargetEntities();
+        HasSpotted = EntityStateSupport.CheckForTargetEntities();
+        IsStunned = EntityProps.IsStunned;
+        IsResting = EntityProps.IsResting;
+        RecallsTargetPos = EntityProps.MemorizedTargetPos != null;
         
-        if(!EntityProps.IsStunned)
+        if(!IsStunned)
         {
-            if(!EntityProps.IsResting && !isTargetSpotted && EntityProps.MemorizedTargetPos == null)
+            if(!IsResting && !HasSpotted && !RecallsTargetPos)
             {
                 CurrentState = ChooseRandomState();
             }
-            else if(isTargetSpotted || EntityProps.MemorizedTargetPos != null)
+            else if(HasSpotted || RecallsTargetPos)
             {
-                CurrentState = PossibleStates[1].state;
+                CurrentState = PossibleStates.Find(w => w.State is AggroState).State;
             }
-            else if(EntityProps.IsResting)
+            else if(IsResting)
             {
                 CurrentState = null;
             }
@@ -50,22 +54,22 @@ public class EnemyBehaviorContext : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        EntityProps.NavMeshAgent.isStopped = true;
-        //EntityProps.Rigidbody.velocity = Vector2.zero;
         ReassessSystem();
+        
         return base.GetCurrentState();
     }
 
     private void ReassessSystem()
     {
-        bool isTargetSpotted = EntityStateSupport.CheckForTargetEntities();
+        HasSpotted = EntityStateSupport.CheckForTargetEntities();
+        IsStunned = EntityProps.IsStunned;
 
-        if(EntityProps.IsStunned || isTargetSpotted)
+        if(IsStunned || HasSpotted)
         {
             CurrentState = null;
         }
 
-        if(isTargetSpotted)
+        if(HasSpotted)
         {
             EntityProps.SuspiciousSpot = null;
         }

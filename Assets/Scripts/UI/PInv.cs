@@ -30,12 +30,13 @@ public class PInv : PersistentObject<PlayerInventoryData>
         powerupHelper = GetComponent<PowerupHelper>();
         powerupContext = new()
         {
-          target = transform,
-          stats = stats.StatBlock,
-          orientation = orientation,
-          owner = gameObject,
-          move_Player = move_Player
-
+          Owner = new()
+          {
+            Body = gameObject,
+            Worldbox = transform.GetChild(0).GetChild(0).gameObject,
+            Stats = stats.StatBlock,
+            Orientation = orientation
+          }
         };
         powerupHelper.Context = powerupContext;
         Persist = RetrieveData(persist);

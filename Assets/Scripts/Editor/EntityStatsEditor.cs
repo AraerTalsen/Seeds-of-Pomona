@@ -8,33 +8,18 @@ public class EntityStatsEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        if (target == null)
-            return;
+        DrawPropertiesExcluding(serializedObject, "stats", "m_Script");
 
-        serializedObject.Update();
+        DrawStatBlock();
 
+        serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawStatBlock()
+    {
         SerializedProperty statsProp = serializedObject.FindProperty("stats");
-
-        if (statsProp == null)
-        {
-            EditorGUILayout.HelpBox("Could not find 'stats' property.", MessageType.Error);
-            serializedObject.ApplyModifiedProperties();
-            return;
-        }
-
         SerializedProperty baseStatsArrayProp = statsProp.FindPropertyRelative("baseStats");
-
-        if (baseStatsArrayProp == null)
-        {
-            EditorGUILayout.HelpBox("Stat array missing.", MessageType.Error);
-            serializedObject.ApplyModifiedProperties();
-            return;
-        }
-
         int enumCount = Enum.GetValues(typeof(Stats)).Length;
-
-        if (baseStatsArrayProp.arraySize != enumCount)
-            baseStatsArrayProp.arraySize = enumCount;
 
         EditorGUILayout.LabelField("Base Stats", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
@@ -50,7 +35,5 @@ public class EntityStatsEditor : Editor
         }
 
         EditorGUI.indentLevel--;
-
-        serializedObject.ApplyModifiedProperties();
     }
 }

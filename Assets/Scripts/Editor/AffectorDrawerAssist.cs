@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public static class AffectorDrawerAssist
+public static class AffecterDrawerAssist
 {
     public delegate float PropertyHandler(Rect position, SerializedProperty property, SerializedProperty element);
     public static Dictionary<string, PropertyHandler> handlerMap;
@@ -30,13 +30,13 @@ public static class AffectorDrawerAssist
 
     private static void UpdateLifetimeInstance(SerializedProperty labelProp, SerializedProperty lifeProp)
     {
-        Affector.LifetimeLabel selected = (Affector.LifetimeLabel)labelProp.enumValueIndex;
+        Affecter.LifetimeLabel selected = (Affecter.LifetimeLabel)labelProp.enumValueIndex;
         
         lifeProp.managedReferenceValue = selected switch
         {
-            Affector.LifetimeLabel.instant => new InstantLifetime(),
-            Affector.LifetimeLabel.limited => new LimitedLifetime(),
-            Affector.LifetimeLabel.conditional => new ConditionalLifetime(),
+            Affecter.LifetimeLabel.instant => new InstantLifetime(),
+            Affecter.LifetimeLabel.limited => new LimitedLifetime(),
+            Affecter.LifetimeLabel.conditional => new ConditionalLifetime(),
             _ => null
         };
         
@@ -45,15 +45,15 @@ public static class AffectorDrawerAssist
 
     private static void UpdateRepeatInstance(SerializedProperty labelProp, SerializedProperty repeatProp)
     {
-        Affector.RepeatLabel selected = (Affector.RepeatLabel)labelProp.enumValueIndex;
+        Affecter.RepeatLabel selected = (Affecter.RepeatLabel)labelProp.enumValueIndex;
         
         repeatProp.managedReferenceValue = selected switch
         {
-            Affector.RepeatLabel.once => new RepeatLogic(),
-            Affector.RepeatLabel.continunous => new ContinuousRepeat(),
-            Affector.RepeatLabel.iterate => new IterateRepeat(),
-            Affector.RepeatLabel.period => new PeriodRepeat(),
-            Affector.RepeatLabel.persist => new PersistRepeat(),
+            Affecter.RepeatLabel.once => new RepeatLogic(),
+            Affecter.RepeatLabel.continunous => new ContinuousRepeat(),
+            Affecter.RepeatLabel.iterate => new IterateRepeat(),
+            Affecter.RepeatLabel.period => new PeriodRepeat(),
+            Affecter.RepeatLabel.persist => new PersistRepeat(),
             _ => null
         };
         
@@ -109,10 +109,10 @@ public static class AffectorDrawerAssist
             EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, lineH), element);
 
             SerializedProperty sibling = property.FindPropertyRelative(siblingName);
-            Affector.TargetLabel selected = (Affector.TargetLabel)element.enumValueIndex;
+            Affecter.TargetLabel selected = (Affecter.TargetLabel)element.enumValueIndex;
             
-            if(selected == Affector.TargetLabel.self) TargetCoordinatorContext.SuppressCoordinatorPanel = true;
-            else if(selected == Affector.TargetLabel.environment) TargetCoordinatorContext.SuppressAreaConfig = true;
+            if(selected == Affecter.TargetLabel.self) TargetCoordinatorContext.SuppressCoordinatorPanel = true;
+            else if(selected == Affecter.TargetLabel.environment) TargetCoordinatorContext.SuppressAreaConfig = true;
             
             return lineH;
         };

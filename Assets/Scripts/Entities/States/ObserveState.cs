@@ -1,46 +1,29 @@
 using UnityEngine;
 
-public class ObserveState : BehaviorState
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/States/Observe State")]
+public class ObserveState : BehaviorStateRuntime
 {
     public override float RecoveryTime => 2.0f;
 
     private Vector2 origin, dirToTarget;
 
-    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => new InstantRuntime(this);
-
-    private class InstantRuntime : IEffectRuntime
-    {
-        public string EffectName => "Observe";
-        public bool IsFinished { get; private set; }
-
-        public InstantRuntime(ObserveState effect)
-        {
-            effect.Apply();
-            IsFinished = true;
-        }
-
-        public void Tick() { }
-    }
-
-    public void Apply()
-    {
-        Observe();
-        IsLookingAtTarget();
-    }
-
     private void Observe()
     {
-        dirToTarget = EntityProps.LookAt();
-        origin = EntityProps.Transform.up;
-        //EntityProps.Rigidbody.velocity = Vector2.zero;
-        EntityProps.NavMeshAgent.isStopped = true;
+        if(EntityProps.NavMeshAgent.isActiveAndEnabled)
+        {
+            dirToTarget = EntityProps.LookAt();
+            origin = EntityProps.Transform.up;
+            EntityProps.NavMeshAgent.isStopped = true;
+        }
+        else Debug.Log("Agent is not active and enabled");
     }
 
-    private void IsLookingAtTarget()
+    private bool IsLookingAtTarget()
     {
-        if (Quaternion.Angle(EntityProps.Face.transform.rotation, EntityProps.TargetRotation) <= 5)
-        {
-            ResetContextState();
-        }
+        return Quaternion.Angle(EntityProps.Face.transform.rotation, EntityProps.TargetRotation) <= 5;
     }
+
+    public override void TickProcess(EffectContext context) => Observe();
+
+    public override bool EndCondition(EffectContext context) => IsLookingAtTarget();
 }

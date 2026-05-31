@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Aggro")]
 public class AggroState : BehaviorContext
 {
     private float max;
@@ -9,14 +10,11 @@ public class AggroState : BehaviorContext
 
     public override bool IsAggro => true;
 
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
-    { 
-        (new PursuitState(), 0),
-        (new CombatState(), 1),
-        (new SizingState(), 1)
-    };
+    [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
+    public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
 
     private EntityProperties entityProps;
+    [BranchCondition] private bool DistMoreTolerance { get; set; }
     public override EntityProperties EntityProps
     {
         get => entityProps;
@@ -26,20 +24,19 @@ public class AggroState : BehaviorContext
             ContextRegistry = Context.ContextRegistry;
             AddToRegistry(this);
             InitializeStates();
-            CurrentState = PossibleStates[0].state;
+            CurrentState = PossibleStates.Find(w => w.State is PursuitState).State;
             tolerance = EntityProps.PreferredTolerance;
             max = EntityProps.PreferredRange.y;
         }
     }
-    
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
 
     public override void SelectNewState()
     {
-        if(EntityProps.DistFromTarget > max + tolerance)
+        DistMoreTolerance = EntityProps.DistFromTarget > max + tolerance;
+        if(DistMoreTolerance)
         {
             CalculateTargetPos();
-            CurrentState = PossibleStates[0].state;
+            CurrentState = PossibleStates.Find(w => w.State is PursuitState).State;
         }
         else
         {
@@ -59,7 +56,8 @@ public class AggroState : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        if(EntityProps.DistFromTarget > max + tolerance)
+        DistMoreTolerance = EntityProps.DistFromTarget > max + tolerance;
+        if(DistMoreTolerance)
         {
             CurrentState = null;
         }

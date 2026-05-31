@@ -44,7 +44,8 @@ public class EventRunner : MonoBehaviour
         for (int i = runningEvents.Count - 1; i >= 0; i--)
         {
             IRuntimeEvent runtime = runningEvents[i];
-            if(runtime != null)
+            
+            if(runtime != null && runtime.Owner != null)
             {
                 runtime.Tick();
 
@@ -55,7 +56,6 @@ public class EventRunner : MonoBehaviour
             {
                 runningEvents.RemoveAt(i);
             }
-            
         }
     }
 }

@@ -1,52 +1,26 @@
 using UnityEngine;
 
-public class NavigateState : BehaviorState
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/States/Navigate State")]
+public class NavigateState : BehaviorStateRuntime
 {
     public override float RecoveryTime { get; } = 4.0f;
 
-    private Vector2 targetPos;
-    private Transform trans;
-
-    public override IEffectRuntime CreateEffectRuntime(EffectContext context) => new InstantRuntime(this);
-
-    private class InstantRuntime : IEffectRuntime
-    {
-        public string EffectName => "Navigate";
-        public bool IsFinished { get; private set; }
-
-        public InstantRuntime(NavigateState effect)
-        {
-            effect.Apply();
-            IsFinished = true;
-        }
-
-        public void Tick() { }
-    }
-
-    public void Apply()
-    {
-        if (trans == null)
-        {
-            trans = EntityProps.Transform;
-        }
-        Move();
-        HasArrived();
-    }
-
     private void Move()
     {
-        //Vector2 moveDir = ((Vector2)EntityProps.LookAtPoint.position - (Vector2)trans.position).normalized;
-        //EntityProps.Rigidbody.velocity = moveDir * EntityProps.MoveSpeed;
-        EntityProps.NavMeshAgent.isStopped = false;
-        EntityProps.LookAt();
+        if(EntityProps.NavMeshAgent.isActiveAndEnabled)
+        {
+            EntityProps.NavMeshAgent.isStopped = false;
+            EntityProps.LookAt();
+        }
+        else Debug.Log("Agent is not active and enabled");
     }
 
-    private void HasArrived()
+    private bool HasArrived()
     {
-        if (EntityProps.DistFromTargetPos <= 0.1f)
+        bool inRange = EntityProps.DistFromTargetPos <= 0.1f;
+        if (inRange)
         {
             EntityProps.NavMeshAgent.isStopped = true;
-            //EntityProps.Rigidbody.velocity = Vector2.zero;
 
             Vector2? susSpot = EntityProps.SuspiciousSpot;
             if(susSpot != null && Vector2.Distance((Vector2)EntityProps.TargetPos, (Vector2)susSpot) <= 0.1f)
@@ -58,7 +32,12 @@ public class NavigateState : BehaviorState
             {
                 EntityStateSupport.QuitSearch();
             }
-            ResetContextState();
         }
+
+        return inRange;
     }
+
+    public override void TickProcess(EffectContext context) => Move();
+
+    public override bool EndCondition(EffectContext context) => HasArrived();
 }

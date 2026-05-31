@@ -4,9 +4,42 @@ using UnityEngine;
 
 public class EffectContext
 {
-    public Transform target;//How will we get the target for here?
-    public StatBlock stats;
-    public EntityOrientation orientation;//It would be more helpful to select the target's orientation
-    public GameObject owner;
-    public Move_Player move_Player;
+    public struct Entity
+    {
+        public GameObject Body { get; set; }
+        public GameObject Worldbox { get; set; }
+        public StatBlock Stats { get; set; }
+        public EntityOrientation Orientation { get; set; }
+    }
+
+    public Entity Owner;
+    public List<Entity> Targets = new();
+
+    public void AddTarget(GameObject target)
+    {
+        if(target.GetComponent<EntityStats>() && Targets.FindIndex(e => e.Body == target) == -1)
+        {
+            if(target.TryGetComponent(out EntityManager manager))
+            {
+                EntityProperties props = manager.EntityProps;
+                Targets.Add( new()
+                {
+                    Body = target,
+                    Worldbox = target.transform.GetChild(0).GetChild(0).gameObject,
+                    Stats = props.StatBlock,
+                    Orientation = props.Orientation
+                });
+            }
+            else
+            {
+                Targets.Add( new()
+                {
+                    Body = target,
+                    Worldbox = target.transform.GetChild(0).GetChild(0).gameObject,
+                    Stats = Owner.Stats,
+                    Orientation = Owner.Orientation
+                });
+            }
+        }
+    }
 }

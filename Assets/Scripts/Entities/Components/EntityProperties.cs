@@ -39,7 +39,7 @@ public class EntityProperties
     private List<Transform> spottedTargets = new();
     public List<Transform> SpottedTargets => spottedTargets;
     public StatBlock StatBlock { get; set; }
-    public EnemyOrientation EnemyOrientation { get; set; }
+    public EnemyOrientation Orientation { get; set; }
 
     private Transform targetTransform;
     public Transform TargetTransform
@@ -100,7 +100,7 @@ public class EntityProperties
         float angle = Mathf.Atan2(dirToTarget.x, dirToTarget.y) * Mathf.Rad2Deg;
         targetRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
         Face.transform.rotation = Quaternion.RotateTowards(Face.transform.rotation, targetRotation, TurnSpeed);
-        EnemyOrientation.CurrentOrientation = NavMeshAgent.velocity.magnitude > 0 ? 
+        Orientation.CurrentOrientation = NavMeshAgent.velocity.magnitude > 0 ? 
             NavMeshAgent.velocity.normalized : LookAtPoint.position - Face.transform.position;
 
         return dirToTarget;

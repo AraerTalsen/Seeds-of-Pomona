@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBehaviorState : IAbilityEffect
+public interface IBehaviorState
 {
     public BehaviorContext Context { get; set; }
     public EntityProperties EntityProps { get; set; }

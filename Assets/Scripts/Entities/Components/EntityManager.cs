@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,29 +15,25 @@ public class EntityManager : MonoBehaviour, IStatReact
     [SerializeField] private bool debugState = false;
     [SerializeField] private GameObject stopMarker;
     [SerializeField] private GameObject meleeRange;
-    [SerializeField]
-    private float turnSpeed;
-    [SerializeField]
-    private float patrolRadius;
-    [SerializeField]
-    private float persistence;
-    [SerializeField]
-    private float huntRecoveryTime;
+    [SerializeField] private float turnSpeed;
+    [SerializeField] private float patrolRadius;
+    [SerializeField] private float persistence;
+    [SerializeField] private float huntRecoveryTime;
     [SerializeField] private GameObject face;
 
     [SerializeField] private FieldOfView fov;
     public EntityProperties EntityProps { get; set; }
 
     private EntityStateSupport entityStateSupport;
-    private EnemyBehaviorContext enemyBehaviorContext;
+    
     private NPCEffectContext evolutionContext;
     private EvolutionTracker evolutionTracker;
     [SerializeField] private EntityStats stats;
-    private EffectRunner runner;
+    //private EffectRunner runner;
     [SerializeField] private EntityOrientation orientation;
-    private IAbilityEffect lastState;
+    private IRuntimeEvent lastState;
+    [SerializeField] private BehaviorLaunchPoint behaviorLaunch;
     
-
     void Awake()
     {
         EntityProps = new()
@@ -49,28 +46,30 @@ public class EntityManager : MonoBehaviour, IStatReact
             Transform = transform,
             NavMeshAgent = GetComponent<NavMeshAgent>(),
             Rigidbody = GetComponent<Rigidbody2D>(),
-            EnemyOrientation = (EnemyOrientation)orientation,
+            Orientation = (EnemyOrientation)orientation,
             Face = face,
             MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,
             PreferredRange = new Vector2(2, 3.5f),
             PreferredTolerance = 1
         };
-
         entityStateSupport = GetComponent<EntityStateSupport>();
         entityStateSupport.EntityProps = EntityProps;
         fov.EntityProps = EntityProps;
         name = "Enemy " + GetHashCode();
-        enemyBehaviorContext = new(entityStateSupport, EntityProps);
+        behaviorLaunch = GetComponent<BehaviorLaunchPoint>();
+        behaviorLaunch.Initialize(entityStateSupport, EntityProps);
         evolutionTracker = GetComponent<EvolutionTracker>();
-        runner = GetComponent<EffectRunner>();
+        //runner = GetComponent<EffectRunner>();
         
         evolutionContext = new()
         {
-            stats = stats.StatBlock,
-            stateMachine = enemyBehaviorContext,
-            target = transform,
-            orientation = orientation,
-            owner = gameObject
+            Owner = new()
+            {
+                Body = gameObject,
+                Worldbox = transform.GetChild(0).GetChild(0).gameObject,
+                Stats = stats.StatBlock,
+                Orientation = orientation
+            }
         };
         evolutionTracker.Context = evolutionContext;
 
@@ -89,26 +88,42 @@ public class EntityManager : MonoBehaviour, IStatReact
     //Pass effect to EffectRUnner
     void Update()
     {
-        IAbilityEffect effect = CurrentState();
-        UpdateDebugger(effect);
-        
-        if(effect != null)
-        {
-            runner.Run(effect, evolutionContext);
-        }
+        TryRunCurrentState();
         
         if(Input.GetKeyDown(KeyCode.P))
         {
             PrintStateDirectory();
         }
-        //EntityProps.NavMeshAgent.nextPosition = transform.position;
     }
 
-    private void UpdateDebugger(IAbilityEffect effect)
+    private async void TryRunCurrentState()
     {
-        lastState = effect == null || effect.Equals(lastState?.GetType())  ? lastState : effect;
+        IRuntimeLauncher launcher = CurrentState();
+        
+        if(launcher != null)
+        {
+            try
+            {
+                IRuntimeEvent effect = await launcher.LaunchEffect(evolutionContext);
+                UpdateDebugger(effect);
+                
+                if(effect != null)
+                {
+                    EventRunner.Run(effect);
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.LogError($"Failed to retrieve event: {e.Message}");
+            }
+        }
+    }
+
+    private void UpdateDebugger(IRuntimeEvent effect)
+    {
+        /*lastState = effect == null || effect.Equals(lastState?.GetType()) ? lastState : effect;
         IBehaviorContext context = ((IBehaviorState)lastState).Context;
-        currentState.text = context.GetType().ToString() + "->" + lastState.GetType().ToString();
+        currentState.text = context.GetType().ToString() + "->" + lastState.GetType().ToString();*/
 
         currentDist.text = EntityProps.DistFromTargetPos.ToString();
 
@@ -120,9 +135,9 @@ public class EntityManager : MonoBehaviour, IStatReact
         meleeRange.transform.localPosition = new Vector2(rangePos.x, EntityProps.MeleeRange / 2);
     }
 
-    private IAbilityEffect CurrentState()
+    private IRuntimeLauncher CurrentState()
     {
-        IBehaviorState state = enemyBehaviorContext;
+        BehaviorState state = behaviorLaunch.BehaviorBase;
 
         while (state is BehaviorContext context)
         {
@@ -132,7 +147,6 @@ public class EntityManager : MonoBehaviour, IStatReact
             }
             state = context.CurrentState;
         }
-
         return state;
     }
 
@@ -148,7 +162,8 @@ public class EntityManager : MonoBehaviour, IStatReact
 
     private void PrintStateDirectory()
     {
-        string msg = $"-----{name}'s State Directory-----\n{enemyBehaviorContext}\n{enemyBehaviorContext.Print()}";
+        BehaviorContext context = behaviorLaunch.BehaviorBase;
+        string msg = $"-----{name}'s State Directory-----\n{context}\n{context.Print()}";
         print(msg);
     }
 }

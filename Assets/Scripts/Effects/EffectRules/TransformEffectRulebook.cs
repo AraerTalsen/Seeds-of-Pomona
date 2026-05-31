@@ -1,65 +1,98 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
 using UnityEngine;
 
-public static class TransformEffectRulebook
+public class TransformEffectRulebook : IEffectRulebook<TransformAffecter>
 {
-    public static Action<EffectContext, TransformAffector> GetCurrentEffect(TransformAffector payload)
+    public static TransformEffectRulebook Instance { get; } = new();
+    Dictionary<int, Action<EffectContext, TransformAffecter>> IEffectRulebook<TransformAffecter>.EffectDirectory => new()
     {
-        bool isPosition = payload.TransformType == TransformAffector.TransformLabel.position;
-        bool isInstant = payload.IsInstant;
+        {1, ApplyLinearForce},
+        {2, ApplyRotationalForce},
+        {9, TranslatePosition},
+        {10, RotateOrientation},
+        {13, SetPosition},
+        {14, SetOrientation},
+    };
 
-        //if(isPosition)
-        //{
-            return isInstant ? SetPosition: TranslatePosition;
-        //}
+    private void SetPosition(EffectContext context, TransformAffecter payload)
+    {
+        context.Targets[0].Body.transform.position = payload.Position;
     }
-    
-    public static void SetPosition(EffectContext context, TransformAffector payload)
+
+    private void TranslatePosition(EffectContext context, TransformAffecter payload)
     {
-        context.target.position = payload.Position;
+        
     }
 
-    public static void TranslatePosition(EffectContext context, TransformAffector payload)
+    private void  ApplyLinearForce(EffectContext context, TransformAffecter payload)
     {
-        if(payload.HasTarget && Vector2.Distance(context.target.position, payload.Position) <= 0.1f) return;
+        //if(payload.HasTarget && Vector2.Distance(context.target.position, payload.Position) <= 0.1f) return;
 
-        Vector2 convertDir = ConvertDirCoordSytem(payload.Direction, context.orientation.CurrentOrientation);
+        Vector2 convertDir = ConvertDirCoordSytem(payload.Direction, context.Owner.Orientation.CurrentOrientation);
         Vector2 targetDir = convertDir * payload.Speed;
-        Rigidbody2D rb = context.target.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = context.Targets[0].Body.GetComponent<Rigidbody2D>();
         rb.isKinematic = false;
         rb.AddForce(targetDir, ForceMode2D.Impulse);
     }
 
-    public static void SetOrientation(EffectContext context, TransformAffector payload)
+    private void SetOrientation(EffectContext context, TransformAffecter payload)
     {
-        context.target.GetComponent<EntityOrientation>().CurrentOrientation = DegreesToVector2(payload.Angle);
+        context.Targets[0].Orientation.CurrentOrientation = DegreesToVector2(payload.Angle);
     }
 
-    public static void RotateOrientation(EffectContext context, TransformAffector payload)
+    private void RotateOrientation(EffectContext context, TransformAffecter payload)
     {
-        EntityOrientation orientation = context.target.GetComponent<EntityOrientation>();
+        EntityOrientation orientation = context.Targets[0].Orientation;
         Vector2 currOrientation = orientation.CurrentOrientation;
 
-        if(NormalizeAngleDeg(payload.Angle) - MathF.Atan2(currOrientation.y, currOrientation.x) <= 0.1f) return;
+        bool isClockwise = payload.IsClockwise;
+        if(payload.IsOptimal)
+        {
+            isClockwise = NormalizeAngleDeg(payload.Angle) < 180;
+        }
         
-        if(context.target.TryGetComponent(out EntityManager manager))
+        if(context.Targets[0].Body.TryGetComponent(out EntityManager manager))
         {
             EntityProperties props = manager.EntityProps;
-            context.target.Rotate((payload.IsClockwise ? 1 : -1) * payload.Speed * Time.deltaTime * Vector2.right);
-            props.EnemyOrientation.CurrentOrientation = props.NavMeshAgent.velocity.magnitude > 0 ? 
+            context.Targets[0].Body.transform.Rotate((isClockwise ? 1 : -1) * payload.Speed * Time.deltaTime * Vector2.right);
+            props.Orientation.CurrentOrientation = props.NavMeshAgent.velocity.magnitude > 0 ? 
                 props.NavMeshAgent.velocity.normalized : props.LookAtPoint.position - props.Face.transform.position;
         }
         else
         {            
-            float angle = (payload.IsClockwise ? 1 : -1) * payload.Speed * Time.deltaTime;
+            float angle = (isClockwise ? 1 : -1) * payload.Speed * Time.deltaTime;
             Vector2 newOrientation = RotateVector2(orientation.CurrentOrientation, angle);
 
-            context.target.GetComponent<EntityOrientation>().CurrentOrientation = newOrientation;
+            context.Targets[0].Orientation.CurrentOrientation = newOrientation;
         }
-        
     }
+
+    private void ApplyRotationalForce(EffectContext context, TransformAffecter payload)
+    {
+        
+
+    }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////             Helper Functions             //////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    bool[] IEffectRulebook<TransformAffecter>.EffectConfig(TransformAffecter payload)
+    {
+        bool[] arr =
+        {
+            payload.TransformType == TransformAffecter.TransformLabel.position,
+            payload.TransformType == TransformAffecter.TransformLabel.rotation,
+            payload.IsInstant,
+            payload.IsKinematic
+        };
+        return arr;
+    }   
 
     private static Vector2 DegreesToVector2(float angle)
     {

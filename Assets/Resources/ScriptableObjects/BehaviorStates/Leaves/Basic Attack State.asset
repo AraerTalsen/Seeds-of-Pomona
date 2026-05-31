@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0284d6b99320b0a46ad8f77cb0fbaa38, type: 3}
+  m_Name: Basic Attack State
+  m_EditorClassIdentifier: 
+  isAttack: 1
+  recoveryTime: 5
+  parameters: {fileID: 11400000, guid: d40a6d43c39a3944ab7991711634cc93, type: 2}
+  effectLabel: 0
+  affecter:
+    rid: 7813322516856045582
+  rule: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7813322516856045582
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 7813322516856045583
+        repeatLabel: 0
+        runs:
+          rid: 7813322516856045584
+        targetLabel: 1
+        coordinator:
+          includeSelf: 0
+          hasBounds: 1
+          isDynamic: 0
+          area: {fileID: 1922127700013058111, guid: 86646ddf93f7cc84db4452b7a3d0df3c, type: 3}
+        statType: 0
+        isResourcePoints: 1
+        isPositive: 0
+        magnitude: 1
+    - rid: 7813322516856045583
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7813322516856045584
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 

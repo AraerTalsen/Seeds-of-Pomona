@@ -4,12 +4,12 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(TransformAffector), true)]
-public class TransformAffectorDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(TransformAffecter), true)]
+public class TransformAffecterDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        AffectorDrawerAssist.InitHandlers();
+        AffecterDrawerAssist.InitHandlers();
         EditorGUI.BeginProperty(position, label, property);
 
         float y = position.y;
@@ -32,7 +32,7 @@ public class TransformAffectorDrawer : PropertyDrawer
             {
                 
                 float drawnHeight;
-                if (AffectorDrawerAssist.handlerMap.TryGetValue(iter.name, out AffectorDrawerAssist.PropertyHandler handler))
+                if (AffecterDrawerAssist.handlerMap.TryGetValue(iter.name, out AffecterDrawerAssist.PropertyHandler handler))
                 {
                     drawnHeight = handler(new Rect(position.x, y, position.width, 0), property, iter.Copy());
                 }
@@ -42,6 +42,15 @@ public class TransformAffectorDrawer : PropertyDrawer
                     {
                         iter.NextVisible(false);
                         continue;
+                    }
+
+                    if(iter.name == "isInstant" && iter.boolValue)
+                    {
+                        property.FindPropertyRelative("isKinematic").boolValue = true;
+                    }
+                    else if(iter.name == "hasTarget" && !iter.boolValue)
+                    {
+                        property.FindPropertyRelative("isOptimal").boolValue = false;
                     }
 
                     drawnHeight = EditorGUI.GetPropertyHeight(iter, true);
@@ -90,13 +99,14 @@ public class TransformAffectorDrawer : PropertyDrawer
 
     private bool ShouldSkipElement(SerializedProperty property, string element)
     {
-        TransformAffector.TransformLabel transformLabel = (TransformAffector.TransformLabel)property.FindPropertyRelative("transformLabel").enumValueIndex;
+        TransformAffecter.TransformLabel transformLabel = (TransformAffecter.TransformLabel)property.FindPropertyRelative("transformLabel").enumValueIndex;
         bool isInstant = property.FindPropertyRelative("isInstant").boolValue;
         bool useHostStat = property.FindPropertyRelative("useHostStat").boolValue;
         bool hasTarget = property.FindPropertyRelative("hasTarget").boolValue;
-        bool isRotation = transformLabel == TransformAffector.TransformLabel.rotation;
-        bool isPosition = transformLabel == TransformAffector.TransformLabel.position;
-        bool isScale = transformLabel == TransformAffector.TransformLabel.scale;
+        bool isOptimal = property.FindPropertyRelative("isOptimal").boolValue;
+        bool isRotation = transformLabel == TransformAffecter.TransformLabel.rotation;
+        bool isPosition = transformLabel == TransformAffecter.TransformLabel.position;
+        bool isScale = transformLabel == TransformAffecter.TransformLabel.scale;
 
         return element switch
         {
@@ -108,7 +118,9 @@ public class TransformAffectorDrawer : PropertyDrawer
             "angle" => !hasTarget || !isRotation,
             "scale" => isRotation || isPosition,
             "direction" => hasTarget || isRotation || isScale,
-            "isClockwise" => hasTarget || isPosition || isScale,
+            "isOptimal" => !hasTarget,
+            "isClockwise" => isOptimal || isPosition || isScale,
+            "isKinematic" => isInstant,
             _ => false
         };
     }

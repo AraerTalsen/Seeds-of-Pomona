@@ -36,8 +36,7 @@ public class PlayerDeathManager : EntityDeathManager
 
     private void StartShakeyCam()
     {
-        CinemachineBasicMultiChannelPerlin noise;
-        noise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        CinemachineBasicMultiChannelPerlin noise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         noise.m_AmplitudeGain = 1.0f;
         StartCoroutine(ResetShake(noise));
     }

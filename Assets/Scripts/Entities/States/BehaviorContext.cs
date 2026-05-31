@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,58 +8,42 @@ using UnityEngine.TextCore.LowLevel;
 
 public abstract class BehaviorContext : BehaviorState, IBehaviorContext
 {
-    protected IBehaviorState currentState;
-    public virtual IBehaviorState CurrentState 
-    { 
-        get => currentState;
-        set
-        {
-            currentState = value;
-            if(currentState == null && EntityProps.IsVelocityVoid)
-            {
-                //EntityProps.Rigidbody.velocity = Vector2.zero;
-                EntityProps.NavMeshAgent.isStopped = true;
-            } 
-        }
-    }
+    protected BehaviorState currentState;
+    public virtual BehaviorState CurrentState { get => currentState; set => currentState = value; }
 
-    public virtual Dictionary<System.Type, IBehaviorContext> ContextRegistry { get; set; }
+    public virtual Dictionary<Type, IBehaviorContext> ContextRegistry { get; set; }
 
-    public virtual List<(IBehaviorState state, int weight)> PossibleStates { get; } = new();
+    public virtual List<IBehaviorContext.WeightedState> PossibleStates { get; set; } = new();
     public virtual bool IsAggro { get; }
 
-    public virtual void AddState(IBehaviorState state, int weight)
+    public virtual void AddState(BehaviorState state, int weight)
     {
         InitializeState(state);
-        PossibleStates.Add((state, weight));
+        PossibleStates.Add(new (state, weight));
     }
     
     protected void InitializeStates()
     {
         for (int i = 0; i < PossibleStates.Count; i++)
         {
-            IBehaviorState state = PossibleStates[i].state;
+            IBehaviorState state = PossibleStates[i].State;
             
             if(state.EntityProps == null)
             {
                 state.Context = this;
                 state.EntityStateSupport = EntityStateSupport;
                 state.EntityProps = EntityProps;
-                if(state is BehaviorState behaviorState)
-                {
-                    behaviorState.TryLoadPowerupEffect();
-                }
             }
         }
     }
 
-    public void RemoveState(IBehaviorState state, int weight)
+    public void RemoveState(BehaviorState state, int weight)
     {
-        int index = PossibleStates.FindIndex( e => e.state.GetType().Equals(state.GetType()));
+        int index = PossibleStates.FindIndex( e => e.State.GetType().Equals(state.GetType()));
         PossibleStates.RemoveAt(index);
     }
 
-    protected void InitializeState(IBehaviorState state)
+    protected void InitializeState(BehaviorState state)
     {
         if(state.EntityProps == null)
         {
@@ -68,13 +53,13 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
         }
     }
 
-    protected IBehaviorState ChooseRandomState()
+    protected BehaviorState ChooseRandomState()
     {
-        int totalWeight = PossibleStates.Sum( pair => pair.state.IsValid ? pair.weight : 0 );
-        int randNum = Random.Range(0, totalWeight);
+        int totalWeight = PossibleStates.Sum( pair => pair.State.IsValid ? pair.Weight : 0 );
+        int randNum = UnityEngine.Random.Range(0, totalWeight);
 
         int currentWeight = 0;
-        foreach((IBehaviorState state, int weight) in PossibleStates)
+        foreach((BehaviorState state, int weight) in PossibleStates)
         {
             //Debug.Log($"State {state} is valid {state.IsValid} and weighs more than 0: {weight > 0}");
             if(!state.IsValid || weight == 0) 
@@ -89,12 +74,10 @@ public abstract class BehaviorContext : BehaviorState, IBehaviorContext
             }
         }
 
-        //EntityProps.Rigidbody.velocity = Vector2.zero;
-        EntityProps.NavMeshAgent.isStopped = true;
+        //EntityProps.NavMeshAgent.isStopped = true;
         return null;
     }
 
-    public override abstract IEffectRuntime CreateEffectRuntime(EffectContext effectContext);
     public virtual void SelectNewState() => CurrentState = ChooseRandomState();
     public virtual IBehaviorState GetCurrentState() => CurrentState;
     public virtual void Escape()

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Pursuit")]
 public class PursuitState : BehaviorContext
 {
     public override bool IsAggro => true;
-    public override List<(IBehaviorState state, int weight)> PossibleStates { get; } = new() 
-    { 
-        (new NavigateState(), 5)
-    };
+    [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
+    public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -20,9 +19,7 @@ public class PursuitState : BehaviorContext
             ContextRegistry = Context.ContextRegistry;
             AddToRegistry(this);
             InitializeStates();
-            CurrentState = PossibleStates[0].state;
+            CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
         }
     }
-
-    public override IEffectRuntime CreateEffectRuntime(EffectContext effectContext) => null;
 }

@@ -14,7 +14,7 @@ public abstract class Tool : Item, IAbilityEffect
     public bool IsExpired => ExpirationDay > -1 && ExpirationDay <= TimerObserver.Instance.CurrentDay;
     private string defaultTip = "[{0}]\n{1} will last for {2} expeditions";
     private string altTip = "{0} has {1} expeditions remaining";
-    private string CleanName =>name[..name.IndexOf("(")];
+    private string CleanName => name[..name.IndexOf("(")];
 
     public void SetExpirationDay(int day)
     {

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Momentum Effect")]
-public class TransformMomentum : TransformEffect
+//[CreateAssetMenu(menuName = "Scriptable Objects/Momentum Effect")]
+/*public class TransformMomentum : TransformEffect
 {
     [SerializeField] private bool willMoveForward = true;
     [SerializeField] private float force;
@@ -40,17 +40,17 @@ public class TransformMomentum : TransformEffect
 
             if(elapsed >= action.duration)
             {
-                if(context.move_Player)
+                if(context.Owner.Worldbox.TryGetComponent(out Move_Player move_player))
                 {
-                    context.move_Player.TogglePauseMovement();
+                    move_player.TogglePauseMovement();
                 }
                 else
                 {
-                    EntityProperties props = context.target.gameObject.GetComponent<EntityManager>().EntityProps;
+                    EntityProperties props = context.Targets[0].Body.GetComponent<EntityManager>().EntityProps;
                     props.IsStunned = false;
                     props.IsVelocityVoid = true;
                     props.NavMeshAgent.isStopped = false;
-                    Rigidbody2D rb = context.target.GetComponent<Rigidbody2D>();
+                    Rigidbody2D rb = context.Targets[0].Body.GetComponent<Rigidbody2D>();
                     rb.isKinematic = true;
                     rb.velocity = Vector2.zero;
                 }
@@ -66,13 +66,13 @@ public class TransformMomentum : TransformEffect
 
     protected override void Apply(EffectContext context)
     {
-        if(context.move_Player != null)
+        if(context.Owner.Worldbox.TryGetComponent(out Move_Player move_player))
         {
-            context.move_Player.TogglePauseMovement();
+            move_player.TogglePauseMovement();
         }
         else
         {
-            EntityProperties props = context.target.gameObject.GetComponent<EntityManager>().EntityProps;
+            EntityProperties props = context.Targets[0].gameObject.GetComponent<EntityManager>().EntityProps;
             props.IsStunned = true;
             props.IsVelocityVoid = false;
             props.NavMeshAgent.isStopped = true;
@@ -90,4 +90,4 @@ public class TransformMomentum : TransformEffect
     }
     private Vector2 TargetDir(float magnitude, Vector2 facing) => NormalMoveDir(facing) * magnitude;
     private Vector2 NormalMoveDir(Vector2 facing) => willMoveForward ? facing : -facing;
-}
+}*/

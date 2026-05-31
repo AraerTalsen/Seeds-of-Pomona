@@ -5,12 +5,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(Affector), true)]
-public class AffectorDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(Affecter), true)]
+public class AffecterDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        AffectorDrawerAssist.InitHandlers();
+        AffecterDrawerAssist.InitHandlers();
         EditorGUI.BeginProperty(position, label, property);
 
         float y = position.y;
@@ -34,7 +34,7 @@ public class AffectorDrawer : PropertyDrawer
             while (!SerializedProperty.EqualContents(iter, end))
             {
                 float drawnHeight;
-                if (AffectorDrawerAssist.handlerMap.TryGetValue(iter.name, out AffectorDrawerAssist.PropertyHandler handler))
+                if (AffecterDrawerAssist.handlerMap.TryGetValue(iter.name, out AffecterDrawerAssist.PropertyHandler handler))
                 {
                     drawnHeight = handler(new Rect(position.x, y, position.width, 0), property, iter.Copy());
                 }
@@ -72,7 +72,7 @@ public class AffectorDrawer : PropertyDrawer
         while (!SerializedProperty.EqualContents(iter, end))
         {
             float h;
-            if (AffectorDrawerAssist.references.Contains(iter.name))
+            if (AffecterDrawerAssist.references.Contains(iter.name))
             {
                 h = iter.managedReferenceValue == null
                     ? 0f

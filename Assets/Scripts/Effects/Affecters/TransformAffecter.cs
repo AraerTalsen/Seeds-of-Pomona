@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformAffector : Affector
+public class TransformAffecter : Affecter<TransformAffecter>
 {
     public enum TransformLabel { position, rotation, scale }
     [SerializeField] private TransformLabel transformLabel;
     [SerializeField] private bool isInstant = true;
+    [SerializeField] private bool isKinematic = true;
     [SerializeField] private float speed;
     [SerializeField] private bool useHostStat;
     [SerializeField] private Stats selectedStat;
@@ -15,15 +17,37 @@ public class TransformAffector : Affector
     [SerializeField] private float angle;
     [SerializeField] private float scale;
     [SerializeField] private Vector2 direction;
+    [SerializeField] private bool isOptimal;
     [SerializeField] private bool isClockwise;
     
-    public TransformAffector(Affector affector = null)
+    public TransformAffecter(EffectParameters parameters)
     {
-        if(affector != null) (lifetimeLabel, lifetime, repeatLabel, runs, targetLabel, coordinator) = affector;
+        RegisterRulebook(TransformEffectRulebook.Instance);
+        (
+            lockMovement, stackableUntil,
+            lifetimeLabel, lifetime,
+            repeatLabel, runs,
+            targetLabel, coordinator
+        ) = parameters;    
     }
+
+    public TransformAffecter(Affecter affecter = null)
+    {
+        RegisterRulebook(TransformEffectRulebook.Instance);
+        if(affecter != null) 
+        {
+            (
+                lockMovement, stackableUntil,
+                lifetimeLabel, lifetime,
+                repeatLabel, runs,
+                targetLabel, coordinator
+            ) = affecter;
+        }     
+    }   
 
     public TransformLabel TransformType => transformLabel;
     public bool IsInstant => isInstant;
+    public bool IsKinematic => isKinematic;
     public float Speed => speed;
     public bool UseHostStat => useHostStat;
     public Stats SelectedStat => selectedStat;
@@ -32,16 +56,6 @@ public class TransformAffector : Affector
     public float Angle => angle;
     public float Scale => scale;
     public Vector2 Direction => direction;
+    public bool IsOptimal => isOptimal;
     public bool IsClockwise => isClockwise;
-
-    public override IRuntimeEvent CreateRuntimeEvent(EffectContext context)
-    {
-        return new RuntimeEvent<TransformAffector>
-        (
-            context,
-            this,
-            TransformEffectRulebook.GetCurrentEffect(this),
-            CallbackWrapper.WrapAction(TogglePauseEntity)
-        );
-    }
 }

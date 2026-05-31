@@ -17,11 +17,11 @@ public class StatEvolutionEffect : EvolutionEffect
             StatValPair pair = data.statValPairs[i];
             if(sign > 0)
             {
-                context.stats.AddTo(pair.stat, pair.val);
+                context.Owner.Stats.AddTo(pair.stat, pair.val);
             }
             else
             {
-                context.stats.SubtractFrom(pair.stat, pair.val);
+                context.Owner.Stats.SubtractFrom(pair.stat, pair.val);
             }
         }
     }

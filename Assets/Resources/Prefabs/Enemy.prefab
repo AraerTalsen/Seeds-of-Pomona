@@ -128,7 +128,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6442567419237146552}
-  - {fileID: 6092512847346990484}
   m_Father: {fileID: 3321081490461856758}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2017593779550478688
@@ -623,99 +622,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &4995942050670030494
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6092512847346990484}
-  - component: {fileID: 3880460555276851658}
-  - component: {fileID: 8694632599029573049}
-  m_Layer: 3
-  m_Name: Hurtbox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6092512847346990484
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4995942050670030494}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.125, y: 1.35, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6583008726392057588}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &3880460555276851658
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4995942050670030494}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 55
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.825}
-  m_EdgeRadius: 0
---- !u!114 &8694632599029573049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4995942050670030494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7093db4adc0c9f748b9211ac3a692f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-    baseStats: 020000000100000001000000
-  deathManager: {fileID: 0}
 --- !u!1 &5428211342321066594
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,16 +633,18 @@ GameObject:
   - component: {fileID: 3321081490461856758}
   - component: {fileID: 1500779053726636031}
   - component: {fileID: 5740902903683394309}
+  - component: {fileID: 7948345626414415648}
   - component: {fileID: 4209891634918385189}
   - component: {fileID: 2567994288817194849}
   - component: {fileID: 3741620159249856732}
   - component: {fileID: 5909988225441890692}
-  - component: {fileID: -2678097311448941800}
   - component: {fileID: 3305717097246079606}
+  - component: {fileID: 6621991016182924363}
   - component: {fileID: 4297527761132930061}
   - component: {fileID: 3922371995299262896}
   - component: {fileID: 7099110296153449815}
-  m_Layer: 0
+  - component: {fileID: 8466045765474290160}
+  m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,6 +749,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &7948345626414415648
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 55
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.6875}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.375, y: 1.375}
+    newSize: {x: 8, y: 8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.375, y: 1.375}
+  m_EdgeRadius: 0
 --- !u!114 &4209891634918385189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,19 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650fc44b408d9ed468ac7c7b02639df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 8694632599029573049}
---- !u!114 &-2678097311448941800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5428211342321066594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29c08da0f5ec2c84f8f1092db8da7241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  stats: {fileID: 8466045765474290160}
 --- !u!114 &3305717097246079606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +882,19 @@ MonoBehaviour:
   - {fileID: -434886956, guid: 2bcc30f8a0c21544eb431a2322f48528, type: 3}
   - {fileID: 749165198, guid: 2bcc30f8a0c21544eb431a2322f48528, type: 3}
   spriteRenderer: {fileID: 1500779053726636031}
+--- !u!114 &6621991016182924363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cd405227dda7c4f80b0d377cef4e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviorBase: {fileID: 11400000, guid: 05ec2770ff859524fb9a59e9157d8ea2, type: 2}
 --- !u!114 &4297527761132930061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,8 +919,9 @@ MonoBehaviour:
   huntRecoveryTime: 8
   face: {fileID: 7405199735294907604}
   fov: {fileID: 4969105684348924701}
-  stats: {fileID: 8694632599029573049}
+  stats: {fileID: 8466045765474290160}
   orientation: {fileID: 3305717097246079606}
+  behaviorLaunch: {fileID: 0}
 --- !u!114 &3922371995299262896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,6 +987,21 @@ MonoBehaviour:
           ability: {fileID: 11400000, guid: f216b6165920c6f44811e6965a270fc4, type: 2}
           probability: 1
         scaleIncrease: 2
+--- !u!114 &8466045765474290160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7093db4adc0c9f748b9211ac3a692f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    baseStats: 020000000100000001000000
+  deathManager: {fileID: 0}
 --- !u!1 &6037355154643804356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,3 +1270,307 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &-8904682586414668738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593ff3117a0ef534697315a7e05a29d2, type: 3}
+  m_Name: Enemy Behavior Base(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates:
+  - _state: {fileID: 558192648830026098}
+    _weight: 0
+  - _state: {fileID: 3965070212918041147}
+    _weight: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+--- !u!114 &-2252675143700010004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cc6e7cdb36888408601053f848e58b, type: 3}
+  m_Name: Sizing(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+--- !u!114 &558192648830026098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14054acf6328f9b4f83aef08ba5a1146, type: 3}
+  m_Name: Aggro(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates:
+  - _state: {fileID: 562156455809405100}
+    _weight: 0
+  - _state: {fileID: 5646332394106601648}
+    _weight: 1
+  - _state: {fileID: -2252675143700010004}
+    _weight: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+--- !u!114 &562156455809405100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48033c7611db9c4dbc088bbf261f558, type: 3}
+  m_Name: Pursuit(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+--- !u!114 &3965070212918041147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a5bf1fdf8a7024783d4efd97964a5c, type: 3}
+  m_Name: Investigate(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+--- !u!114 &5646332394106601648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd2eb6aeefaa6347b28e2edf4313e41, type: 3}
+  m_Name: Combat(Clone)
+  m_EditorClassIdentifier: 
+  isAttack: 0
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 1000
+  rule: {fileID: 0}
+  possibleStates: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 1001
+        repeatLabel: 0
+        runs:
+          rid: 1002
+        targetLabel: 0
+        coordinator:
+          includeSelf: 0
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isResourcePoints: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 1001
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 

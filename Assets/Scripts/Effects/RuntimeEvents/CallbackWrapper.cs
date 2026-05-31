@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class CallbackWrapper
@@ -20,15 +21,15 @@ public static class CallbackWrapper
         public Wrapper(EffectContext context, Action<EffectContext> callback)
         {
             _callback = callback;
-            runtime = CreateRuntimeEvent(context);
+            runtime = (IRuntimeEvent)CreateRuntimeEvent(context);
             EventRunner.Run(runtime);
         }
 
-        public void Apply(EffectContext context) {}
+        public Task Apply(EffectContext context) => Task.CompletedTask;
 
-        public IRuntimeEvent CreateRuntimeEvent(EffectContext context)
+        public Task<IRuntimeEvent> CreateRuntimeEvent(EffectContext context, Action<EffectContext> callback = null)
         {
-            return new RuntimeEvent<Wrapper>(context, this, null, _callback);
+            return RuntimeEvent<Wrapper>.Create(context, this, null, new List<Action<EffectContext>> {_callback});
         }
     }
 

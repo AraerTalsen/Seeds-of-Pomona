@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48033c7611db9c4dbc088bbf261f558, type: 3}
+  m_Name: Pursuit State
+  m_EditorClassIdentifier: 
+  parameters: {fileID: 0}
+  effectLabel: 0
+  affecter:
+    rid: 7813322400464633982
+  rule: {fileID: 0}
+  possibleStates:
+  - _state: {fileID: 11400000, guid: e087a60e222090140aa4cfe61d9f3524, type: 2}
+    _weight: 4
+  references:
+    version: 2
+    RefIds:
+    - rid: 7813322400464633982
+      type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
+      data:
+        lockMovement: 0
+        stackableUntil: 0
+        lifetimeLabel: 0
+        lifetime:
+          rid: 7813322400464633983
+        repeatLabel: 0
+        runs:
+          rid: 7813322400464633984
+        targetLabel: 0
+        coordinator:
+          hasBounds: 0
+          isDynamic: 0
+          area: {fileID: 0}
+        statType: 0
+        isPositive: 0
+        magnitude: 0
+    - rid: 7813322400464633983
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7813322400464633984
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 

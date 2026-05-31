@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PowerupHelper : MonoBehaviour
@@ -8,14 +10,8 @@ public class PowerupHelper : MonoBehaviour
     private List<SelectSlot> pUpSlots = new();
     private List<PUp> powerups = new();
     private List<float> aggTime = new();
-    //private EffectRunner runner;
 
     public EffectContext Context { get; set; }
-
-    private void Start()
-    {
-        //runner = GetComponent<EffectRunner>();
-    }
 
     private void Update()
     {
@@ -40,21 +36,21 @@ public class PowerupHelper : MonoBehaviour
 
     public void ToggleCoolDown(int index) => coolDowns[index] = !coolDowns[index];
 
-    public void TryUseAbility(PUp tool, int slotIndex, GameObject player)
+    public async void TryUseAbility(PUp tool, int slotIndex, GameObject player)
     {
         if(!coolDowns[slotIndex] && tool.CoolDown > 0)
         {
-            StartCoroutine(UseAbility(tool, slotIndex, player));
+            try
+            {
+                IRuntimeEvent runtimeEvent = await tool.LaunchEffect(Context);
+                ToggleCoolDown(slotIndex); 
+                EventRunner.Run(runtimeEvent);
+            }
+            catch(Exception e)
+            {
+                Debug.LogError($"Failed to retrieve event: {e.Message}");
+            }
         }
-    }
-    
-    private IEnumerator UseAbility(PUp tool, int slotIndex, GameObject player)
-    {
-        ToggleCoolDown(slotIndex); 
-        EventRunner.Run(tool.LaunchEffect(Context));
-        yield return new WaitForSeconds(tool.CoolDown);
-        ToggleCoolDown(slotIndex);
-        pUpSlots[slotIndex].CoolDownProgress.value = 0;
     }
 
     private void UpdateCoolDownProgress()
@@ -66,6 +62,12 @@ public class PowerupHelper : MonoBehaviour
                 aggTime[i] += Time.deltaTime;
                 float ratio = aggTime[i] / powerups[i].CoolDown % 1;
                 pUpSlots[i].CoolDownProgress.value =  1.0f - ratio;
+
+                if(aggTime[i] / powerups[i].CoolDown >= 1.0f)
+                {
+                    ToggleCoolDown(i);
+                    pUpSlots[i].CoolDownProgress.value = 0;
+                }
             }
         }
     }
