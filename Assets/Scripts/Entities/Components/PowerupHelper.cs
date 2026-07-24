@@ -11,7 +11,7 @@ public class PowerupHelper : MonoBehaviour
     private List<PUp> powerups = new();
     private List<float> aggTime = new();
 
-    public EffectContext Context { get; set; }
+    public Func<EffectContext> Context { get; set; }
 
     private void Update()
     {
@@ -36,19 +36,19 @@ public class PowerupHelper : MonoBehaviour
 
     public void ToggleCoolDown(int index) => coolDowns[index] = !coolDowns[index];
 
-    public async void TryUseAbility(PUp tool, int slotIndex, GameObject player)
+    public async void TryUseAbility(PUp tool, int slotIndex)
     {
         if(!coolDowns[slotIndex] && tool.CoolDown > 0)
         {
             try
             {
-                IRuntimeEvent runtimeEvent = await tool.LaunchEffect(Context);
+                IRuntimeEvent runtimeEvent = await tool.LaunchEffect(Context());
                 ToggleCoolDown(slotIndex); 
                 EventRunner.Run(runtimeEvent);
             }
             catch(Exception e)
             {
-                Debug.LogError($"Failed to retrieve event: {e.Message}");
+                Debug.LogError($"Failed to receieve event: {e}");   
             }
         }
     }
@@ -67,6 +67,7 @@ public class PowerupHelper : MonoBehaviour
                 {
                     ToggleCoolDown(i);
                     pUpSlots[i].CoolDownProgress.value = 0;
+                    aggTime[i] = 0;
                 }
             }
         }

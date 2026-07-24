@@ -30,7 +30,7 @@ public class PlayerDeathManager : EntityDeathManager
             inventory.TriggerDeath();
             inventory.GetInventory().ClearInventory();
             inventory.GetPowerups().ClearInventory();
-            inventory.PushDataTemp();
+            //inventory.PushDataTemp();
         }
     }
 

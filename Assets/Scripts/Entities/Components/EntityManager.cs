@@ -20,19 +20,20 @@ public class EntityManager : MonoBehaviour, IStatReact
     [SerializeField] private float persistence;
     [SerializeField] private float huntRecoveryTime;
     [SerializeField] private GameObject face;
+    [SerializeField] private TactileSense tactileSense;
 
     [SerializeField] private FieldOfView fov;
     public EntityProperties EntityProps { get; set; }
 
     private EntityStateSupport entityStateSupport;
     
-    private NPCEffectContext evolutionContext;
     private EvolutionTracker evolutionTracker;
     [SerializeField] private EntityStats stats;
-    //private EffectRunner runner;
     [SerializeField] private EntityOrientation orientation;
     private IRuntimeEvent lastState;
     [SerializeField] private BehaviorLaunchPoint behaviorLaunch;
+    public BehaviorContext RootState => behaviorLaunch.BehaviorBase;
+    public TactileSense TactileSense => tactileSense;
     
     void Awake()
     {
@@ -45,6 +46,7 @@ public class EntityManager : MonoBehaviour, IStatReact
             HuntRecoveryTime = huntRecoveryTime,
             Transform = transform,
             NavMeshAgent = GetComponent<NavMeshAgent>(),
+            NavMeshObstacle = GetComponent<NavMeshObstacle>(),
             Rigidbody = GetComponent<Rigidbody2D>(),
             Orientation = (EnemyOrientation)orientation,
             Face = face,
@@ -59,19 +61,7 @@ public class EntityManager : MonoBehaviour, IStatReact
         behaviorLaunch = GetComponent<BehaviorLaunchPoint>();
         behaviorLaunch.Initialize(entityStateSupport, EntityProps);
         evolutionTracker = GetComponent<EvolutionTracker>();
-        //runner = GetComponent<EffectRunner>();
-        
-        evolutionContext = new()
-        {
-            Owner = new()
-            {
-                Body = gameObject,
-                Worldbox = transform.GetChild(0).GetChild(0).gameObject,
-                Stats = stats.StatBlock,
-                Orientation = orientation
-            }
-        };
-        evolutionTracker.Context = evolutionContext;
+        evolutionTracker.Context = CreateEffectContext;
 
         if(debugState)
         {
@@ -80,9 +70,23 @@ public class EntityManager : MonoBehaviour, IStatReact
 
         stats.SubscribeToStatChange(Stats.Speed, this);
         EntityProps.NavMeshAgent.speed = EntityProps.MoveSpeed;
+        //GetComponent<EnsemblePerception>().EntityProps = EntityProps;
+    }
 
-        //EntityProps.NavMeshAgent.updatePosition = false;
-        //EntityProps.NavMeshAgent.updateRotation = false;
+    private NPCEffectContext CreateEffectContext()
+    {
+        return new()
+        {
+            Owner = new()
+            {
+                Body = gameObject,
+                Worldbox = transform.GetChild(0).GetChild(0).gameObject,
+                Stats = stats.StatBlock,
+                Orientation = orientation,
+                TactileSense = TactileSense,
+                RootState = RootState
+            }
+        };
     }
 
     //Pass effect to EffectRUnner
@@ -98,13 +102,15 @@ public class EntityManager : MonoBehaviour, IStatReact
 
     private async void TryRunCurrentState()
     {
-        IRuntimeLauncher launcher = CurrentState();
+        BehaviorState currentAction = CurrentState();
+        IRuntimeLauncher launcher = currentAction;
+        EntityProps.CurrentAction = currentAction;
         
         if(launcher != null)
         {
             try
             {
-                IRuntimeEvent effect = await launcher.LaunchEffect(evolutionContext);
+                IRuntimeEvent effect = await launcher.LaunchEffect(CreateEffectContext());
                 UpdateDebugger(effect);
                 
                 if(effect != null)
@@ -114,7 +120,7 @@ public class EntityManager : MonoBehaviour, IStatReact
             }
             catch(Exception e)
             {
-                Debug.LogError($"Failed to retrieve event: {e.Message}");
+                Debug.LogError($"Failed to receieve event: {e.Message}");   
             }
         }
     }
@@ -135,9 +141,9 @@ public class EntityManager : MonoBehaviour, IStatReact
         meleeRange.transform.localPosition = new Vector2(rangePos.x, EntityProps.MeleeRange / 2);
     }
 
-    private IRuntimeLauncher CurrentState()
+    private BehaviorState CurrentState()
     {
-        BehaviorState state = behaviorLaunch.BehaviorBase;
+        BehaviorState state = RootState;
 
         while (state is BehaviorContext context)
         {
@@ -162,7 +168,7 @@ public class EntityManager : MonoBehaviour, IStatReact
 
     private void PrintStateDirectory()
     {
-        BehaviorContext context = behaviorLaunch.BehaviorBase;
+        BehaviorContext context = RootState;
         string msg = $"-----{name}'s State Directory-----\n{context}\n{context.Print()}";
         print(msg);
     }

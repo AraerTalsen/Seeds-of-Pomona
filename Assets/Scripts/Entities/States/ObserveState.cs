@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/States/Observe State")]
@@ -9,21 +10,41 @@ public class ObserveState : BehaviorStateRuntime
 
     private void Observe()
     {
-        if(EntityProps.NavMeshAgent.isActiveAndEnabled)
+        try
         {
-            dirToTarget = EntityProps.LookAt();
-            origin = EntityProps.Transform.up;
-            EntityProps.NavMeshAgent.isStopped = true;
+            if(EntityProps.NavMeshAgent.isActiveAndEnabled || EntityProps.IsHalted)
+            {
+                dirToTarget = EntityProps.LookAt();
+                origin = EntityProps.Transform.up;
+
+                //if(!EntityProps.IsHalted) await EntityProps.ToggleEntityHalt(true);
+                EntityProps.NavMeshAgent.isStopped = true;
+                
+            }
+            //else Debug.Log("Agent is not active and enabled");
         }
-        else Debug.Log("Agent is not active and enabled");
+        catch(Exception e)
+        {
+            Debug.LogError($"Failed to toggle enemy's halt: {e}");
+        }
     }
 
-    private bool IsLookingAtTarget()
+    private void IsLookingAtTarget()
     {
-        return Quaternion.Angle(EntityProps.Face.transform.rotation, EntityProps.TargetRotation) <= 5;
+        bool isLookingAt = Quaternion.Angle(EntityProps.Face.transform.rotation, EntityProps.TargetRotation) <= 0.1;
+        if(isLookingAt) 
+        {
+            if(EntityProps.IsTargetLost && !EntityProps.IsTracking)
+            {
+                EntityStateSupport.QuitSearch();
+            }
+            Recover();
+        }
     }
 
-    public override void TickProcess(EffectContext context) => Observe();
-
-    public override bool EndCondition(EffectContext context) => IsLookingAtTarget();
+    public override void TickProcess(EffectContext context) 
+    {
+        Observe();
+        IsLookingAtTarget();
+    }
 }

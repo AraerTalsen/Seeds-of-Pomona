@@ -14,12 +14,20 @@ public class TargetCoordinator
 
     public void Initialize(Affecter.TargetLabel targetMode, EffectContext context)
     {
-        if(targetMode == Affecter.TargetLabel.self) context.AddTarget(context.Owner.Body);
+        if(targetMode == Affecter.TargetLabel.self || targetMode == Affecter.TargetLabel.environment) 
+            context.AddTarget(context.Owner.Body);
     }
 
     public async Task ValidateArea(EffectContext context)
     {
         GameObject g = Object.Instantiate(area, GetOrigin(context), GetRotation(context));
+        for(int i = 0; i < g.transform.childCount; i++)
+        {
+            float range = GetRange(context);
+            Vector2 dirNormalized = g.transform.GetChild(i).transform.localPosition.normalized;
+            g.transform.GetChild(i).transform.localPosition = dirNormalized * range;
+        }
+
         TargetAreaManager tam = g.GetComponent<TargetAreaManager>();
         List<GameObject> objsDetected = await tam.RetrieveValidTargets();
         Object.DestroyImmediate(g);
@@ -32,8 +40,11 @@ public class TargetCoordinator
         }
     }
 
-    private Vector2 GetOrigin(EffectContext context) => !isDynamic ? context.Owner.Body.transform.position : MousePos;
-    private Vector2 GetDirection(EffectContext context)
+    public Vector2 GetSpawnPosition(EffectContext context) => GetOrigin(context) + GetDirection(context) * GetRange(context);
+
+    public Vector2 GetOrigin(EffectContext context) => !isDynamic ? context.Owner.Body.transform.position : MousePos;
+    private float GetRange(EffectContext context) => context.Owner.Body.CompareTag("Player") ? 1.25f : 1.625f;
+    public Vector2 GetDirection(EffectContext context)
     {
         Vector2 areaPos = Vector2.right;//use the coordinator field when implemented
         Vector2 worldPos = context.Owner.Orientation.CurrentOrientation;

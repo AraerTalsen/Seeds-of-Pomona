@@ -13,10 +13,9 @@ public class PowerUps : FlexDDI
     private Transform HUDContainer;
     private PowerupHelper powerupHelper;
 
-    public PowerUps(GameObject player, int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill, GameObject HUDSlot, Transform HUDContainer, PowerupHelper helper) :
+    public PowerUps(int capacity, Transform invContainer, FlexInvDisplayManager.ISlotPrefill prefill, GameObject HUDSlot, Transform HUDContainer, PowerupHelper helper) :
     base(capacity, invContainer, prefill)
     {
-        this.player = player;
         this.HUDSlot = HUDSlot;
         this.HUDContainer = HUDContainer;
         powerupHelper = helper;
@@ -24,7 +23,6 @@ public class PowerUps : FlexDDI
 
     private List<int> activePUpIndeces = new();
     private List<int> passivePUpIndeces = new();
-    private GameObject player;
 
     public override void SetSlot(int qty, Item item, int slotIndex)
     {
@@ -64,6 +62,7 @@ public class PowerUps : FlexDDI
     public override void Delete(int slotIndex)
     {
         InventoryEntry prevEntry = Read(slotIndex).Clone();
+        Debug.Log($"Deleting powerup from slot {slotIndex}");
 
         if(slotIndex != Count - 1)
         {
@@ -102,7 +101,7 @@ public class PowerUps : FlexDDI
         bool isArena = sceneName.CompareTo("TestArena") == 0;
         if(!prevEntry.IsEmpty && (isWilderness || isArena))
         {
-            Tool t = (Tool)prevEntry.Item;
+            PUp t = (PUp)prevEntry.Item;
             RemoveToolRefFromSecondaryList(t, slotIndex);
             powerupHelper.TryRemoveCoolDown(slotIndex);
         }
@@ -112,7 +111,7 @@ public class PowerUps : FlexDDI
     {
         (storedData, lockStates) = CheckTimerExpirations(storedData, lockStates);
         LoadFromStorage(storedData);
-
+        
         bool isWilderness = sceneName.CompareTo("Wilderness") == 0;
         bool isArena = sceneName.CompareTo("TestArena") == 0;
         for(int i = 0; i < storedData.Count; i++)
@@ -125,12 +124,12 @@ public class PowerUps : FlexDDI
                 if(!lockStates[i])
                 {
                     lockStates[i] = true;
-                    tool.SetExpirationDay(TimerObserver.Instance.CurrentDay + tool.Durability);
                 }
             }
         }
         
-        for(int i = 0; i < ((FlexInvDisplayManager)DisplayManager).SlotCount; i++)
+        Debug.Log($"Loading {lockStates.Count} lock states");
+        for(int i = 0; i < lockStates.Count; i++)
         {
            DisplayManager.SetSlotLock(i, lockStates[i]);
         }
@@ -231,7 +230,7 @@ public class PowerUps : FlexDDI
         if(Input.GetKeyDown(KeyCode.Q) && Count > 1 && (isWilderness || isArena))
         {
             int slotIndex = activePUpIndeces[scrollIndex];
-            powerupHelper.TryUseAbility((PUp)Read(slotIndex).Item, slotIndex, player);
+            powerupHelper.TryUseAbility((PUp)Read(slotIndex).Item, slotIndex);
         }
     }
 
@@ -239,7 +238,7 @@ public class PowerUps : FlexDDI
     {
         foreach(int i in passivePUpIndeces)
         {
-            powerupHelper.TryUseAbility((PUp)Read(i).Item, i, player);
+            powerupHelper.TryUseAbility((PUp)Read(i).Item, i);
         }
     }
 
@@ -264,7 +263,7 @@ public class PowerUps : FlexDDI
         }
     }
 
-    private void RemoveToolRefFromSecondaryList(Tool prevTool, int slotIndex)
+    private void RemoveToolRefFromSecondaryList(PUp prevTool, int slotIndex)
     {
         if(prevTool.IsActive)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/Contexts/Sizing")]
@@ -12,8 +13,27 @@ public class SizingState : BehaviorContext
     [SerializeField] private List<IBehaviorContext.WeightedState> possibleStates = new();
     public override List<IBehaviorContext.WeightedState> PossibleStates { get => possibleStates; set => possibleStates = value; }
 
-    [BranchCondition] private bool InRange { get; set; }
-    [BranchCondition] private bool IsRetreating { get; set; }
+    private bool inRange;
+    [BranchCondition] private bool InRange 
+    { 
+        get => inRange;
+        set
+        {
+            inRange = value;
+            InRangeTimestamp = Time.time;
+        }
+    }
+    [ConditionTimestamp] private float InRangeTimestamp { get; set; }
+    [BranchCondition] private bool IsRetreating 
+    { 
+        get => EntityProps.IsRetreating;
+        set
+        {
+            EntityProps.IsRetreating = value;
+            IsRetreatingTimestamp = Time.time;
+        }
+    }
+    [ConditionTimestamp] private float IsRetreatingTimestamp { get; set; }
 
     private EntityProperties entityProps;
     public override EntityProperties EntityProps
@@ -28,6 +48,27 @@ public class SizingState : BehaviorContext
             CurrentState = PossibleStates.Find(w => w.State is NavigateState).State;
             min = EntityProps.PreferredRange.x;
             max = EntityProps.PreferredRange.y;
+            IsValidTimestamp = Time.time;
+        }
+    }
+
+    protected override bool DefaultNodePathValidity(BehaviorState node) => InRange && !IsRetreating && node.IsValid;
+    public override void InitializeBranchValidityRec()
+    {
+        BehaviorState navigate = PossibleStates.Find(w => w.State is NavigateState).State;
+        nodeValidityCheck.Add(navigate, s => !InRange && s.IsValid);
+        branchValidity.Add(navigate, nodeValidityCheck[navigate](navigate));
+
+        BehaviorState observe = PossibleStates.Find(w => w.State is ObserveState).State;
+        nodeValidityCheck.Add(observe, s => DefaultNodePathValidity(s));
+        branchValidity.Add(observe, nodeValidityCheck[observe](observe));
+
+        List<BehaviorState> remainingStates = PossibleStates.Where( w => w.State != navigate && w.State != observe).Select( w => w.State).ToList();
+        for(int i = 0; i < remainingStates.Count; i++)
+        {
+            BehaviorState state = remainingStates[i];
+            nodeValidityCheck.Add(state, s => DefaultNodePathValidity(s));
+            branchValidity.Add(state, nodeValidityCheck[state](state));
         }
     }
 
@@ -60,7 +101,7 @@ public class SizingState : BehaviorContext
         float dist = EntityProps.DistFromTarget;
 
         SetRetreat(dist);
-        CalculateTargetPos(dist);
+        CalculatePreferredPos(dist);
     }
 
     private void SetRetreat(float dist)
@@ -68,16 +109,14 @@ public class SizingState : BehaviorContext
         if(dist < min && dist > -1)
         {
             IsRetreating = true;
-            EntityProps.MemorizedTargetPos = EntityProps.TargetTransform.position;
         }
-        //Do we need this condition? I think the entity should arrive at its target before it can realize it should no longer retreat
         else if(dist > max)
         {
             IsRetreating = false;
         }
     }
 
-    private void CalculateTargetPos(float dist)
+    private void CalculatePreferredPos(float dist)
     {
         Vector2 current = EntityProps.Transform.position;
         Transform target = EntityProps.TargetTransform;
@@ -93,7 +132,7 @@ public class SizingState : BehaviorContext
 
     public override IBehaviorState GetCurrentState()
     {
-        if(CurrentState == PossibleStates[0].State)
+        if(CurrentState == PossibleStates.Find(w => w.State is NavigateState).State)
         {
             TryKeepTargetPosInRange();
         }
@@ -112,10 +151,6 @@ public class SizingState : BehaviorContext
         }
         else
         {
-            if(EntityProps.MemorizedTargetPos != null)
-            {
-                EntityProps.MemorizedTargetPos = null;
-            }
             Context.Escape();
         }
     }

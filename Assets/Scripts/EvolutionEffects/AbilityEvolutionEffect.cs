@@ -11,7 +11,7 @@ public class AbilityEvolutionEffect : EvolutionEffect
     protected override void HandleEffect(NPCEffectContext context, Payload payload, bool isApplied)
     {
         AbilityPayload data = (AbilityPayload)payload;
-        IBehaviorContext hostContext = GetHostContextFromPayload(context.stateMachine, data.ability.HostContext);
+        IBehaviorContext hostContext = GetHostContextFromPayload(context.Owner.RootState, data.ability.HostContext);
         if(isApplied)
             hostContext.AddState(Instantiate(data.ability), data.probability);
         else

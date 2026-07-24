@@ -46,6 +46,7 @@ public abstract class BehaviorStateRuntime : BehaviorState
 
     public override Task<IRuntimeEvent> LaunchEffect(EffectContext effectContext)
     {
+        NodeTimestamp = Time.time;
         if(runtimeEvent == null)
         {
             runtimeEvent = new StateRuntime(effectContext, TickProcess, EndCondition, Callback);
@@ -55,12 +56,13 @@ public abstract class BehaviorStateRuntime : BehaviorState
         return Task.FromResult<IRuntimeEvent>(null);
     }
 
-    protected override void ResetContextState()
-    {
-        runtimeEvent = null;
-        base.ResetContextState();
-    }
-
     public abstract void TickProcess(EffectContext context);
-    public abstract bool EndCondition(EffectContext context);
+    public virtual bool EndCondition(EffectContext context) => true;
+    public void Callback(EffectContext context) => runtimeEvent = null;
+
+    protected override void Recover()
+    {
+        Context.Escape();
+        base.Recover();
+    }
 }

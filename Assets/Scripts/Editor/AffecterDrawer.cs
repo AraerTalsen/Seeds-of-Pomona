@@ -24,7 +24,7 @@ public class AffecterDrawer : PropertyDrawer
         if (property.isExpanded)
         {
             EditorGUI.indentLevel++;
-            TargetCoordinatorContext.SuppressCoordinatorPanel = false;
+            TargetCoordinatorContext.Reset();
 
             // Iterate all direct children, handle lifetime fields specially
             SerializedProperty iter = property.Copy();
@@ -54,7 +54,6 @@ public class AffecterDrawer : PropertyDrawer
         }
 
         EditorGUI.EndProperty();
-        TargetCoordinatorContext.Reset();
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TransformAffecter : Affecter<TransformAffecter>
@@ -19,31 +20,6 @@ public class TransformAffecter : Affecter<TransformAffecter>
     [SerializeField] private Vector2 direction;
     [SerializeField] private bool isOptimal;
     [SerializeField] private bool isClockwise;
-    
-    public TransformAffecter(EffectParameters parameters)
-    {
-        RegisterRulebook(TransformEffectRulebook.Instance);
-        (
-            lockMovement, stackableUntil,
-            lifetimeLabel, lifetime,
-            repeatLabel, runs,
-            targetLabel, coordinator
-        ) = parameters;    
-    }
-
-    public TransformAffecter(Affecter affecter = null)
-    {
-        RegisterRulebook(TransformEffectRulebook.Instance);
-        if(affecter != null) 
-        {
-            (
-                lockMovement, stackableUntil,
-                lifetimeLabel, lifetime,
-                repeatLabel, runs,
-                targetLabel, coordinator
-            ) = affecter;
-        }     
-    }   
 
     public TransformLabel TransformType => transformLabel;
     public bool IsInstant => isInstant;
@@ -58,4 +34,33 @@ public class TransformAffecter : Affecter<TransformAffecter>
     public Vector2 Direction => direction;
     public bool IsOptimal => isOptimal;
     public bool IsClockwise => isClockwise;
+    
+    public TransformAffecter(EffectParameters parameters)
+    {
+        (
+            lockMovement, stackableUntil,
+            lifetimeLabel, lifetime,
+            repeatLabel, runs,
+            targetLabel, coordinator
+        ) = parameters;    
+    }
+
+    public TransformAffecter(Affecter affecter = null)
+    {
+        if(affecter != null) 
+        {
+            (
+                lockMovement, stackableUntil,
+                lifetimeLabel, lifetime,
+                repeatLabel, runs,
+                targetLabel, coordinator
+            ) = affecter;
+        }     
+    }
+
+    public override Task<IRuntimeEvent> CreateRuntimeEvent(EffectContext context, Action<EffectContext> callback = null)
+    {
+        RegisterRulebook(TransformEffectRulebook.Instance);
+        return base.CreateRuntimeEvent(context, callback);
+    }
 }

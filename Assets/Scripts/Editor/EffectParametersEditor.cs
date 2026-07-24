@@ -13,7 +13,7 @@ public class EffectParametersEditor : Editor
     {
         serializedObject.Update();
         AffecterEditorAssist.InitHandlers();
-        TargetCoordinatorContext.SuppressCoordinatorPanel = false;
+        TargetCoordinatorContext.Reset();
 
         SerializedProperty iter = serializedObject.GetIterator();
         iter.NextVisible(true);

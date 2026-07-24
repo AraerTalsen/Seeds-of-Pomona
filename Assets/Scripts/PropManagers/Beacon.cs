@@ -20,7 +20,7 @@ public class Beacon : MonoBehaviour
 
     private void AlertSurroundings()
     {
-        Collider2D[] surroundings = Physics2D.OverlapCircleAll(transform.position, radius, LayerMask.GetMask("Hurtbox"));
+        Collider2D[] surroundings = Physics2D.OverlapCircleAll(transform.position, radius, LayerMask.GetMask("EnemyHurtbox"));
 
         foreach(Collider2D other in surroundings)
         {

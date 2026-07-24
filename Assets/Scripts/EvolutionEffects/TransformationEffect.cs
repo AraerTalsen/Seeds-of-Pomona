@@ -29,6 +29,6 @@ public class TransformationEffect : EvolutionEffect
     private void VisualTransformation(NPCEffectContext context, int scale, bool isApplied)
     {
         float changeScale = isApplied ? scale : 1f / scale;
-        context.Targets[0].Body.transform.localScale *= changeScale;
+        context.Owner.Body.transform.localScale *= changeScale;
     }
 }

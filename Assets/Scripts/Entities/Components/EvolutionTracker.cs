@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class EvolutionTracker : MonoBehaviour
 {
     [SerializeField] private List<EvolutionEntry> evolutions;
-    public NPCEffectContext Context;
+    public Func<NPCEffectContext> Context { get; set; }
     [SerializeField] private int currentEvolution = 0;
     [SerializeField] private bool isSetLvlManually = false;
     [SerializeField] private int currentLevel = 0;
@@ -95,13 +96,14 @@ public class EvolutionTracker : MonoBehaviour
     private void ApplyEvolution(int stage)
     {
         EvolutionEntry entry = evolutions[stage];
-        entry.effect.Apply(Context, entry.payload);
+        NPCEffectContext c = Context();
+        entry.effect.Apply(c, entry.payload);
     }
 
     private void RevertEvolution(int stage)
     {
         EvolutionEntry entry = evolutions[stage];
-        entry.effect.Revert(Context, entry.payload);
+        entry.effect.Revert(Context(), entry.payload);
     }
 
     private void OnDisable()

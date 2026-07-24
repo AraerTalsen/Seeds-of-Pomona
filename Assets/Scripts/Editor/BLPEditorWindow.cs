@@ -83,9 +83,9 @@ public class BLPEditorWindow : EditorWindow
     private void InitializeNodePlotter()
     {
         x = 10;
-        y = 10;
+        y = 20;
 
-        hIncrement = _nodeScale.x * 1.5f;
+        hIncrement = _nodeScale.x * 2;
         vIncrement = _nodeScale.y * 1.25f;
     }
 
@@ -94,7 +94,6 @@ public class BLPEditorWindow : EditorWindow
        if(baseNode == null) return;
 
         _currentPath.Add(baseNode);
-
         BehaviorContext context = baseNode;
         while(context != null)
         {
@@ -127,7 +126,7 @@ public class BLPEditorWindow : EditorWindow
             return;
         }
         Rect rect = GetCurrentNodeRect();
-        BLPEWindowAssist.DrawNode(rect, state.name, false, _currentPath.Contains(state), _centeredTextStyle);
+        BLPEWindowAssist.DrawNode(rect, state.name, state.NodeTimestamp, false, _currentPath.Contains(state), _centeredTextStyle);
         BLPEWindowAssist.DrawNodeRecovery(rect, state);
 
         _nodeMap.Add((rect, state));
@@ -137,7 +136,7 @@ public class BLPEditorWindow : EditorWindow
     {
         bool isPath = _currentPath.Contains(context);
         Rect parentRect = GetCurrentNodeRect();
-        BLPEWindowAssist.DrawNode(parentRect, context.name, true, isPath, _centeredTextStyle);
+        BLPEWindowAssist.DrawNode(parentRect, context.name, context.NodeTimestamp, true, isPath, _centeredTextStyle);
         BLPEWindowAssist.DrawNodeRecovery(parentRect, context);
         _nodeMap.Add((parentRect, context));
         x += hIncrement;
@@ -156,12 +155,12 @@ public class BLPEditorWindow : EditorWindow
             Rect childRect = GetCurrentNodeRect();
             if(isChildPath) vertMid = childRect.center.y;
             vertBot = childRect.center.y;
-            BLPEWindowAssist.DrawChildStems((childRect, isChildPath), midX);
+            BLPEWindowAssist.DrawChildStem(context, entry, (childRect, isChildPath), midX);
             TraverseTree(entry.State);
             y += vIncrement;
         }
         
-        BLPEWindowAssist.DrawVertBranch(isPath, midX, vertTop, vertMid, vertBot);
+        BLPEWindowAssist.DrawVertBranch(context.RandomRoll, isPath, midX, vertTop, vertMid, vertBot);
         x -= hIncrement;
         y -= vIncrement;
     }
@@ -206,6 +205,7 @@ public class BLPEditorWindow : EditorWindow
 
         BeginWindows();
             GUILayout.BeginArea(new Rect(_panOffset.x, _panOffset.y, 1000, 1000));
+                BLPEWindowAssist.DisplayCurrentTimestamp();
                 TraverseTree(baseNode);
             GUILayout.EndArea();
         EndWindows();

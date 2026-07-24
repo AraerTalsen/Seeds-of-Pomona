@@ -24,14 +24,20 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: d40a6d43c39a3944ab7991711634cc93, type: 2}
   effectLabel: 0
   affecter:
-    rid: 7813322516856045574
+    rid: 8052567062639804463
   isActive: 1
   durability: 1
   coolDown: 5
   references:
     version: 2
     RefIds:
-    - rid: 7813322516856045574
+    - rid: 7813322516856045575
+      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7813322516856045576
+      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8052567062639804463
       type: {class: StatAffecter, ns: , asm: Assembly-CSharp}
       data:
         lockMovement: 0
@@ -52,9 +58,3 @@ MonoBehaviour:
         isResourcePoints: 1
         isPositive: 0
         magnitude: 1
-    - rid: 7813322516856045575
-      type: {class: InstantLifetime, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 7813322516856045576
-      type: {class: RepeatLogic, ns: , asm: Assembly-CSharp}
-      data: 

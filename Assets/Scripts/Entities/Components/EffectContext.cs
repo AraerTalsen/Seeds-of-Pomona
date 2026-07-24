@@ -10,6 +10,8 @@ public class EffectContext
         public GameObject Worldbox { get; set; }
         public StatBlock Stats { get; set; }
         public EntityOrientation Orientation { get; set; }
+        public TactileSense TactileSense { get; set; }
+        public BehaviorContext RootState { get; set; }
     }
 
     public Entity Owner;
@@ -27,7 +29,9 @@ public class EffectContext
                     Body = target,
                     Worldbox = target.transform.GetChild(0).GetChild(0).gameObject,
                     Stats = props.StatBlock,
-                    Orientation = props.Orientation
+                    Orientation = props.Orientation,
+                    TactileSense = manager.TactileSense,
+                    RootState = manager.RootState
                 });
             }
             else
@@ -37,7 +41,8 @@ public class EffectContext
                     Body = target,
                     Worldbox = target.transform.GetChild(0).GetChild(0).gameObject,
                     Stats = Owner.Stats,
-                    Orientation = Owner.Orientation
+                    Orientation = Owner.Orientation,
+                    TactileSense = Owner.TactileSense
                 });
             }
         }

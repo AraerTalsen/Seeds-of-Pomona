@@ -6,54 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/InventoryData")]
 public class InventoryData : PersistentDataBase
 {
-    /*[System.Serializable]
-    public class InventoryContainer
-    {
-        public InventoryEntry[] inventory;
+    [SerializeField] private List<InventoryEntry> inventory;
 
-        public InventoryContainer(InventoryEntry[] Inventory)
-        {
-            inventory = Inventory;
-        }
-    }*/
-
-
-    [SerializeField]
-    //private InventoryContainer[] inventories;
-    private List<InventoryEntry> inventory;
-
-    //[SerializeField]
-    //private List<HeldItem> itemsHeld;
     [SerializeField]
     private bool isPersisting = false;
-
-    /*public InventoryEntry[][] Inventories
-    {
-        get
-        {
-            InventoryEntry[][] temp = null;
-
-            if(inventories != null)
-            {
-                temp = new InventoryEntry[inventories.Length][];
-                for(int i = 0; i < inventories.Length; i++)
-                {
-                    temp[i] = inventories[i].inventory;
-                }
-            }
-            
-            return temp;
-        } 
-        set
-        {
-            inventories = new InventoryContainer[value.Length];
-            for(int i = 0; i < value.Length; i++)
-            {
-                inventories[i] = new InventoryContainer(value[i]);
-            }
-        }
-    }*/
     public List<InventoryEntry> Inventory { get => inventory; set => inventory = value; }
-    //public List<HeldItem> ItemsHeld { get => itemsHeld; set => itemsHeld = value; }
     public bool IsPersisting { get => isPersisting; set => isPersisting = value; }
+
+    public void ClearInventory()
+    {
+        for(int i = 0; i < Inventory.Count; i++)
+        {
+            Item item = Inventory[i].Item;
+            Inventory[i].Remove();
+            if(item is PUp) UniqueItemManager.Delete(item);
+        }
+    }
 }

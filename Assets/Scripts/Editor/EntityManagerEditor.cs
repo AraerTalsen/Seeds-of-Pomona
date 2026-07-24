@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,6 +11,16 @@ public class EntityManagerEditor : Editor
 {
     private EntityProperties props;
     private List<Vector3> points = new();
+
+    private Vector2 dir45 = new(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad));
+    private Vector2 dir90 = new(Mathf.Cos(90 * Mathf.Deg2Rad), Mathf.Sin(90 * Mathf.Deg2Rad));
+    private Vector2 dir135 = new(Mathf.Cos(135 * Mathf.Deg2Rad), Mathf.Sin(135 * Mathf.Deg2Rad));
+    private Vector2 dir180 = new(Mathf.Cos(180 * Mathf.Deg2Rad), Mathf.Sin(180 * Mathf.Deg2Rad));
+    private Vector2 dir225 = new(Mathf.Cos(225 * Mathf.Deg2Rad), Mathf.Sin(225 * Mathf.Deg2Rad));
+    private Vector2 dir270 = new(Mathf.Cos(270 * Mathf.Deg2Rad), Mathf.Sin(270 * Mathf.Deg2Rad));
+    private Vector2 dir315 = new(Mathf.Cos(315 * Mathf.Deg2Rad), Mathf.Sin(315 * Mathf.Deg2Rad));
+    private Vector2 dir360 = new(Mathf.Cos(360 * Mathf.Deg2Rad), Mathf.Sin(360 * Mathf.Deg2Rad));
+
     private void OnSceneGUI()
     {
         if (Event.current.type != EventType.Repaint) return;
@@ -26,7 +37,9 @@ public class EntityManagerEditor : Editor
             VectorToNextPos();
         }
 
+        DrawOrientationCompass();
         ShowNavMeshPath();
+        DrawRemainingAngle();
     }
 
     private void LabelTargetPos(Vector2 center)
@@ -44,6 +57,8 @@ public class EntityManagerEditor : Editor
         Handles.DrawWireArc(center, Vector3.forward, Vector2.up, 360, 0.35f, 2);
     }
 
+    //Triggers error: Look rotation viewing vector is zero, when the LookRotation(Vector3) is (0,0,0). Since we don't use it much, it's commented out
+    //and may be removed entirely
     private void VectorToNextPos()
     {
         Vector2 nextPos = props.NavMeshAgent.steeringTarget;
@@ -52,7 +67,8 @@ public class EntityManagerEditor : Editor
         Vector2 endPoint = facePos + dirToTarget;
 
         Handles.color = Color.cyan;
-        Handles.ArrowHandleCap(0, facePos, Quaternion.LookRotation(endPoint - facePos), 1, EventType.Repaint);
+        if(Vector2.Distance(endPoint - facePos, Vector2.zero) > 0.1f)
+            Handles.ArrowHandleCap(0, facePos, Quaternion.LookRotation(endPoint - facePos), 1, EventType.Repaint);
     }
 
     private void ShowNavMeshPath()
@@ -75,4 +91,41 @@ public class EntityManagerEditor : Editor
             Handles.DrawDottedLines(points.ToArray(), 1);
         }
     }
+
+    private void DrawOrientationCompass()
+    {
+        Handles.color = Color.cyan;
+
+        Handles.DrawLines(new Vector3[]
+        {
+           props.Transform.position + (Vector3)(dir45 * 0.5f), 
+           props.Transform.position + (Vector3)(dir45 * 3.0f), 
+           props.Transform.position + (Vector3)(dir90 * 0.5f), 
+           props.Transform.position + (Vector3)(dir90 * 3.0f), 
+           props.Transform.position + (Vector3)(dir135 * 0.5f), 
+           props.Transform.position + (Vector3)(dir135 * 3.0f), 
+           props.Transform.position + (Vector3)(dir180 * 0.5f), 
+           props.Transform.position + (Vector3)(dir180 * 3.0f), 
+           props.Transform.position + (Vector3)(dir225 * 0.5f), 
+           props.Transform.position + (Vector3)(dir225 * 3.0f), 
+           props.Transform.position + (Vector3)(dir270 * 0.5f), 
+           props.Transform.position + (Vector3)(dir270 * 3.0f), 
+           props.Transform.position + (Vector3)(dir315 * 0.5f), 
+           props.Transform.position + (Vector3)(dir315 * 3.0f), 
+           props.Transform.position + (Vector3)(dir360 * 0.5f), 
+           props.Transform.position + (Vector3)(dir360 * 3.0f)
+        });
+    }
+
+    private void DrawRemainingAngle()
+    {
+        Vector2 origin = props.Transform.position;
+        Vector2 faceDir = Quat2Vector(props.Face.transform.rotation);
+        Vector2 targetDir = Quat2Vector(props.TargetRotation);
+        Handles.color = Color.red;
+        Handles.DrawLine(origin + faceDir * 0.5f, origin + faceDir * 10);
+        Handles.DrawLine(origin + targetDir * 0.5f, origin + targetDir * 10);
+    }
+
+    private Vector2 Quat2Vector(Quaternion quaternion) => quaternion * Vector2.up;
 }

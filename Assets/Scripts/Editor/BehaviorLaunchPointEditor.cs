@@ -13,6 +13,11 @@ public class BehaviorLaunchPointEditor : Editor
     
     public override void OnInspectorGUI()
     {
+        if (serializedObject == null || serializedObject.targetObject == null)
+        {
+            return; 
+        }
+        
         SerializedProperty nodeProp = serializedObject.FindProperty("behaviorBase");
 
         BehaviorState baseNode = (BehaviorState)nodeProp.objectReferenceValue;
@@ -20,7 +25,7 @@ public class BehaviorLaunchPointEditor : Editor
 
         if (GUILayout.Button("Create Unique Override"))
         {
-            BehaviorState cloned = BehaviorLaunchPoint.DeepCloneNode(baseNode, BuildAsset);
+            BehaviorState cloned = BehaviorLaunchPoint.DeepCloneNode(baseNode, SaveAsset);
             nodeProp.objectReferenceValue = cloned;
             serializedObject.ApplyModifiedProperties();
         }
@@ -89,14 +94,14 @@ public class BehaviorLaunchPointEditor : Editor
                 bool outOfBounds = i > cachedValue.Count - 1;
                 if(outOfBounds)
                 {
-                    updatedValue[i] = new (BehaviorLaunchPoint.DeepCloneNode(element, BuildAsset), updatedValue[i].Weight);
+                    updatedValue[i] = new (BehaviorLaunchPoint.DeepCloneNode(element, SaveAsset), updatedValue[i].Weight);
                     break;
                 }
 
                 bool isMismatched = element == null || element.name != cachedValue[i].State.name;
                 if(isMismatched)
                 {
-                    updatedValue[i] = new (BehaviorLaunchPoint.DeepCloneNode(element, BuildAsset), updatedValue[i].Weight);
+                    updatedValue[i] = new (BehaviorLaunchPoint.DeepCloneNode(element, SaveAsset), updatedValue[i].Weight);
                     break;
                 }
             }
@@ -137,18 +142,5 @@ public class BehaviorLaunchPointEditor : Editor
         }
     }
 
-    private void BuildAsset(ScriptableObject asset)
-    {
-        string folderPath = _directory + _newFolderName;
-
-        if (!AssetDatabase.IsValidFolder(folderPath))
-        {
-            AssetDatabase.CreateFolder(_directory.TrimEnd('/'), _newFolderName);
-        }
-        
-        string path = $"{folderPath}/{asset.name}.asset";
-        path = AssetDatabase.GenerateUniqueAssetPath(path);
-        AssetDatabase.CreateAsset(asset, path);
-        AssetDatabase.SaveAssets();
-    }
+    private void SaveAsset(ScriptableObject asset) => BuildAsset.BuildAt(asset, _directory, _newFolderName);
 }

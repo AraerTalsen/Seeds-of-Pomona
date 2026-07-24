@@ -8,7 +8,22 @@ public class ScreenFXEvents : MonoBehaviour
 
     public void TransitionScene()
     {
-        SceneManager.LoadScene("TheBase", LoadSceneMode.Single);
+        string name = SceneManager.GetActiveScene().name;
+
+        switch (name)
+        {
+            case "Wilderness":
+                {
+                    SceneManager.LoadScene("TheBase", LoadSceneMode.Single);
+                    break;
+                }
+            case "TestArena":
+                {
+                    SceneManager.LoadScene("TestArena", LoadSceneMode.Single);
+                    break;
+                }
+        }
+        
     }
 
     public void WakeUp()

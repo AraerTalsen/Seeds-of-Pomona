@@ -35,11 +35,11 @@ public abstract class DragNDropInventory : ItemInventory
         return (outputQty, item);
     }
 
-    public void PushItems(int id, int insertQty)
+    public void PushItems(int id, int insertQty, bool isUniqueInstance = false)
     {
-        InventoryEntry matchingItem = Find(id);
-        Item item = matchingItem != null ? matchingItem.Item : ItemDictionary.items[id];
-        
+        Item item = !isUniqueInstance ? ItemDictionary.items[id] : UnityEngine.Object.Instantiate(ItemDictionary.items[id]);
+        if(isUniqueInstance) UniqueItemManager.Save(item);
+
         PushQty(insertQty, item, out int remainder);
         DisplayManager.UpdateDisplayAll();
     }

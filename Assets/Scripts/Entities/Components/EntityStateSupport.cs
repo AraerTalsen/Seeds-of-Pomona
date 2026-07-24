@@ -61,13 +61,8 @@ public class EntityStateSupport : MonoBehaviour
 
     private IEnumerator CombatRecoveryTimer(IBehaviorState state, float recoveryTime)
     {
-        state.IsCoolingDown = true;
         yield return new WaitForSeconds(recoveryTime);
         state.IsCoolingDown = false;
-        if(state.Context is CombatState combatState)
-        {
-            combatState.UpdateMoveSetExhaustian(state, false);
-        }
     }
 
     public void Stun(float recoveryTime)
@@ -101,6 +96,7 @@ public class EntityStateSupport : MonoBehaviour
     public void QuitSearch()
     {
         EntityProps.IsTracking = true;
+        EntityProps.MemorizedTargetPos = null;
         StartCoroutine(nameof(TrackTarget));
     }
 

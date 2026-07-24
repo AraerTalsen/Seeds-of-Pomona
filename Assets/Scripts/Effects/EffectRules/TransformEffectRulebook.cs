@@ -27,14 +27,11 @@ public class TransformEffectRulebook : IEffectRulebook<TransformAffecter>
         
     }
 
-    private void  ApplyLinearForce(EffectContext context, TransformAffecter payload)
+    private void ApplyLinearForce(EffectContext context, TransformAffecter payload)
     {
-        //if(payload.HasTarget && Vector2.Distance(context.target.position, payload.Position) <= 0.1f) return;
-
         Vector2 convertDir = ConvertDirCoordSytem(payload.Direction, context.Owner.Orientation.CurrentOrientation);
         Vector2 targetDir = convertDir * payload.Speed;
         Rigidbody2D rb = context.Targets[0].Body.GetComponent<Rigidbody2D>();
-        rb.isKinematic = false;
         rb.AddForce(targetDir, ForceMode2D.Impulse);
     }
 

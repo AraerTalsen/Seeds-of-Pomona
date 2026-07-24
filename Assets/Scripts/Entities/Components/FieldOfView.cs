@@ -6,10 +6,11 @@ using UnityEngine.UIElements;
 
 public class FieldOfView : MonoBehaviour
 {
-    //[SerializeField] private Collider2D ignoreSelf;
+    [SerializeField] private Collider2D[] ignoreSelf = {};
     public EntityProperties EntityProps { get; set; }
     public int viewAngle;
     public float viewRadius;
+    public float faceDist = 0.25f;
 
     [HideInInspector]
     public List<Transform> visibleTargets = new();
@@ -25,9 +26,10 @@ public class FieldOfView : MonoBehaviour
     //Remove from visible targets any entities outside of view radius
     private void Observe()
     {
-        //Hurtbox layermask here allows us to only check the correct 'Player-Tagged' objects below
         targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, LayerMask.GetMask("Hurtbox")).ToList();
-        visibleTargets.RemoveAll(transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
+        targetsInViewRadius.RemoveAll( col => col.gameObject.CompareTag("ValidationArea"));
+        visibleTargets.RemoveAll( transform => !targetsInViewRadius.Select(collider => collider.transform).Contains(transform));
+        
         CheckIfTargetVisible(targetsInViewRadius);
 
         UpdateCurrentTarget();
@@ -38,7 +40,7 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i < targetsInViewRadius.Count; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
-            Vector2 dirToTarget = (target.position - transform.position).normalized;
+            Vector2 dirToTarget = (target.position - (transform.position + transform.up * faceDist)).normalized;
             float distToTarget = Vector2.Distance(transform.position, target.position);
             bool isInList = visibleTargets.Find((t) => t == target);
 
@@ -49,10 +51,9 @@ public class FieldOfView : MonoBehaviour
 
     private void UpdateVisibleTarget(Transform target, Vector2 dirToTarget, float distToTarget, bool isInList)
     {
-        if (target.CompareTag("Player") && Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
+        if (target.CompareTag("Player") && Vector2.Angle(transform.up * faceDist, dirToTarget) < viewAngle / 2)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, dirToTarget, distToTarget);
-            
+            RaycastHit2D hit = RaycastIgnoreSelf(transform.position + transform.up * faceDist, dirToTarget, distToTarget);
             if (hit && hit.collider.CompareTag("Player") && !isInList)
             {
                 GameObject player = target.gameObject;
@@ -67,7 +68,6 @@ public class FieldOfView : MonoBehaviour
                         ds.TimesSpotted++;
                         EntityProps.SpottedNewTarget(target);
                     }
-                    
                 }
             }
             else if(hit && !hit.collider.CompareTag("Player") && isInList)
@@ -82,6 +82,17 @@ public class FieldOfView : MonoBehaviour
 
     }
 
+    private RaycastHit2D RaycastIgnoreSelf(Vector2 origin, Vector2 dir, float dist)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, dist);
+        foreach(RaycastHit2D hit in hits)
+        {
+            if(System.Array.Exists(ignoreSelf, c => c == hit.collider)) continue;
+            else return hit;
+        }
+        return default;
+    }
+
     private void CompareVisibleTargets()
     {
         if (visibleTargets.Except(lastTargets).ToList().Count > 0)
@@ -93,7 +104,13 @@ public class FieldOfView : MonoBehaviour
 
     private void UpdateCurrentTarget()
     {
-        EntityProps.TargetTransform = visibleTargets.Count > 0 ? visibleTargets[0] : null;
+        Transform currentTarget = visibleTargets.Count > 0 ? visibleTargets[0] : null;
+        if(currentTarget != EntityProps.TargetTransform)
+            EntityProps.TargetTransform = currentTarget;
+        
+        if(currentTarget != null)
+            EntityProps.MemorizedTargetPos = currentTarget.position;
+            //This is both in EntityProperties>TargetTransform.set and here. Do we really need it in both?
     }
 
     public Vector2 DirFromAngle(float angleInDegrees)

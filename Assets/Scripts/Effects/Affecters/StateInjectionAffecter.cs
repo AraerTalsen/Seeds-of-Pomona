@@ -25,7 +25,6 @@ public class StateInjectionAffecter : Affecter<StateInjectionAffecter>
                 repeatLabel, runs,
                 targetLabel, coordinator
             ) = affecter;
-        }
-            
+        }    
     }
 }

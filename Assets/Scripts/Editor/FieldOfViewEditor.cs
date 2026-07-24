@@ -9,19 +9,30 @@ public class FieldOfViewEditor : Editor
 	private static readonly List<int> inCone = new();
 	private static readonly List<int> inSight = new();
 
+	private Vector2 faceOrigin;
+
 	void OnSceneGUI() {
 		FieldOfView fov = (FieldOfView)target;
 		Handles.color = Color.blue;
+		faceOrigin = fov.transform.position + fov.transform.up * fov.faceDist;
 		Handles.DrawWireArc (fov.transform.position, Vector3.forward, Vector2.up, 360, fov.viewRadius, 2);
 		Vector2 viewAngleA = fov.DirFromAngle (-fov.viewAngle / 2);
 		Vector2 viewAngleB = fov.DirFromAngle(fov.viewAngle / 2);
 
-		Handles.DrawLine (fov.transform.position, (Vector2)fov.transform.position + viewAngleA * fov.viewRadius);
-		Handles.DrawLine (fov.transform.position, (Vector2)fov.transform.position + viewAngleB * fov.viewRadius);
+		Handles.DrawLine (faceOrigin, (Vector2)fov.transform.position + viewAngleA * fov.viewRadius);
+		Handles.DrawLine (faceOrigin, (Vector2)fov.transform.position + viewAngleB * fov.viewRadius);
+
+		//This check logic exists inside of EntityProperties (IsTargetOutOfFocus), but makes the most sense to debug here.
+		//Should we move the logic to FieldOfView?
+		Handles.color = Color.green;
+		Vector2 focusAngleA = fov.DirFromAngle(-45 / 2);
+		Vector2 focusAngleB = fov.DirFromAngle(45 / 2);
+		Handles.DrawLine (faceOrigin, (Vector2)fov.transform.position + focusAngleA * fov.viewRadius);
+		Handles.DrawLine (faceOrigin, (Vector2)fov.transform.position + focusAngleB * fov.viewRadius);
 
 		Handles.color = Color.red;
 		foreach (Transform visibleTarget in fov.visibleTargets) {
-			Handles.DrawLine (fov.transform.position, visibleTarget.position);
+			Handles.DrawLine (faceOrigin, visibleTarget.position);
 		}
 
 		LabelTargetsInRadius(fov);
@@ -37,16 +48,15 @@ public class FieldOfViewEditor : Editor
 		{
 			if(c == null) continue;
 			
-			Vector3 currPos = fov.transform.position;
 			Transform t = c.transform;
 
 			bool isPlayer = t.CompareTag("Player");
 
-			Vector2 dirToTarget = (t.position - currPos).normalized;
+			Vector2 dirToTarget = (t.position - (Vector3)faceOrigin).normalized;
 			bool isInCone = isPlayer && Vector2.Angle(fov.transform.up, dirToTarget) < fov.viewAngle / 2;
 
-			float distToTarget = Vector2.Distance(currPos, t.position);
-			RaycastHit2D hit = Physics2D.Raycast(currPos + fov.transform.up, dirToTarget, distToTarget);
+			float distToTarget = Vector2.Distance(faceOrigin, t.position);
+			RaycastHit2D hit = Physics2D.Raycast(faceOrigin, dirToTarget, distToTarget);
 			bool isHit = isInCone && hit && hit.transform.CompareTag("Player");
 
 			if(isPlayer)
@@ -75,7 +85,7 @@ public class FieldOfViewEditor : Editor
 	{
 		if(t.CompareTag("Player"))
 		{
-			if(t.parent.parent.TryGetComponent<SpriteRenderer>(out var sr))
+			if(t.TryGetComponent<SpriteRenderer>(out var sr))
 			{
 				if(isHit)
 				{

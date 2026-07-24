@@ -24,10 +24,7 @@ public class EventRunner : MonoBehaviour
         }
     }
 
-    public static void Run(IRuntimeEvent e)
-    {
-        runningEvents.Add(e);
-    }
+    public static void Run(IRuntimeEvent e) => runningEvents.Add(e);
 
     public static void Terminate(IRuntimeEvent e)
     {
@@ -50,7 +47,9 @@ public class EventRunner : MonoBehaviour
                 runtime.Tick();
 
                 if (runtime.IsFinished)
+                {
                     runningEvents.RemoveAt(i);
+                }
             }
             else
             {

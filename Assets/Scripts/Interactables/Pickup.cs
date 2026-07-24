@@ -19,7 +19,8 @@ public class Pickup : Interactable
         int specialId = ItemDictionary.items[itemId].SelectSpecialItem();
         if(specialId > -1)
         {
-            inv.PushItems(specialId, 1);
+            bool isUniqueInstance = ItemDictionary.items[specialId] is PUp;
+            inv.PushItems(specialId, 1, isUniqueInstance);
         }
     }
 }

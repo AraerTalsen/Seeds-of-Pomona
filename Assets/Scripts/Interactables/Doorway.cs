@@ -24,7 +24,7 @@ public class Doorway : Interactable
 
     public override void StartInteractiveProcess(GameObject interactor)
     {
-        playerInventory.PushDataTemp();
+        //playerInventory.PushDataTemp();
         //if (gardenBed != null) gardenBed.PushData();
         if (separator != null) separator.PushDataTemp();
         SceneManager.LoadScene(destination, LoadSceneMode.Single);

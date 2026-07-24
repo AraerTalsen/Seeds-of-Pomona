@@ -16,12 +16,16 @@ public static class CallbackWrapper
         private Action<EffectContext> _callback;
         private IRuntimeEvent runtime;
 
-        public LifetimeLogic Lifetime => new ConditionalLifetime(Resources.Load<LifetimeRule>("ScriptableObjects/LifetimeRules/UnderSpeed"));
+        public LifetimeLogic Lifetime => new ConditionalLifetime(new()
+        { 
+            Resources.Load<LifetimeRule>("ScriptableObjects/LifetimeRules/UnderSpeed"),
+            Resources.Load<LifetimeRule>("ScriptableObjects/LifetimeRules/AnyContact")
+        });
 
         public Wrapper(EffectContext context, Action<EffectContext> callback)
         {
             _callback = callback;
-            runtime = (IRuntimeEvent)CreateRuntimeEvent(context);
+            runtime = CreateRuntimeEventSync(context);
             EventRunner.Run(runtime);
         }
 
@@ -31,7 +35,11 @@ public static class CallbackWrapper
         {
             return RuntimeEvent<Wrapper>.Create(context, this, null, new List<Action<EffectContext>> {_callback});
         }
-    }
 
-    
+        private IRuntimeEvent CreateRuntimeEventSync(EffectContext context)
+        {
+            return RuntimeEvent<Wrapper>.Create(context, this, null, new List<Action<EffectContext>> { _callback }).GetAwaiter().GetResult();
+        }
+        
+    }    
 }

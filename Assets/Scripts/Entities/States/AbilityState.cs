@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Scriptable Objects/Behavior States/States/Config Ability State")]
 public class AbilityState : BehaviorState//ScriptableObject, IBehaviorState, IAbilityEffect
 {
     private enum ContextType
@@ -24,46 +25,7 @@ public class AbilityState : BehaviorState//ScriptableObject, IBehaviorState, IAb
         {ContextType.Combat, typeof(CombatState)},
     };
     
-    [SerializeField] protected PowerupEffect effect;
     [SerializeField] private ContextType contextType;
-    //public virtual EntityStateSupport EntityStateSupport { get; set; }
-
-    //public BehaviorContext Context { get; set; }
-    //public EntityProperties EntityProps { get; set; }
-
-    //public virtual float RecoveryTime { get; }
 
     public System.Type HostContext => ContextEnumToType[contextType];
-    //public bool IsCoolingDown { get; set; }
-
-    //public virtual bool IsValid { get; } = true;
-
-    //public abstract IEffectRuntime CreateEffectRuntime(EffectContext context);
-
-    /*protected virtual void ResetContextState()
-    {
-        Context.Escape();
-        
-        if(!Context.IsAggro)
-        {
-            PeacefulRecover();
-        }
-        else
-        {
-            CombatRecover();
-        }
-    }
-
-    private void PeacefulRecover()
-    {
-        if (!EntityProps.IsTracking)
-        {
-            EntityProps.Recover(RecoveryTime);
-        }
-    }
-
-    private void CombatRecover()
-    {
-        EntityProps.CombatRecover(this, RecoveryTime);
-    }*/
 }

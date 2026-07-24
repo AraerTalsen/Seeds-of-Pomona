@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
+  - quantity: 1
+    item: {fileID: 11400000, guid: f8a8fc5927d5d2a4ca0441cb7173ecb0, type: 2}
+    debugItemName: Flower
   - quantity: 0
     item: {fileID: 0}
-    debugItemName: 
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: 
+    debugItemName: Empty
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -77,10 +77,7 @@ MonoBehaviour:
   balance: 0
   hasDied: 0
   powerups:
-  - quantity: 1
-    item: {fileID: 11400000, guid: eee3706e3bcc028428971da86c139933, type: 2}
-    debugItemName: Leap Seed
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  lockStates: 0100
+  lockStates: 00

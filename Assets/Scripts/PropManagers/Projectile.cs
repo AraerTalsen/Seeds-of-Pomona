@@ -12,30 +12,38 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Debug.Log($"Instance {GetInstanceID()} is awake and has Rigidbody2D: {rb != null}");
     }
 
     private void Update()
     {
         if(rb.velocity.magnitude < 4)
+        {
+            Debug.Log("Projectile missed");
             DestroyProjectile();
+        }
     }
 
     public void FireProjectile(Vector2 force, int dmg)
     {
+        Debug.Log($"Instance {GetInstanceID()} is firing and has a Rigidbody2D: {rb != null}");
         rb.AddForce(force, ForceMode2D.Impulse);
         damage = dmg;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"Collided with {collision.gameObject}");
         if(collision.gameObject.TryGetComponent(out EntityStats stats))
         {
             stats.CurrentHealth -= damage;
 
-            EntityStateSupport support = collision.gameObject.GetComponent<EntityStateSupport>();
-            collision.gameObject.GetComponent<EntityManager>().EntityProps.TargetTransform = null;
-            support.Stun(3);
-            DestroyProjectile();
+            if(collision.gameObject.TryGetComponent(out EntityStateSupport support))
+            {
+                collision.gameObject.GetComponent<EntityManager>().EntityProps.TargetTransform = null;
+                support.Stun(3);
+                DestroyProjectile();
+            }
         }
     }
 

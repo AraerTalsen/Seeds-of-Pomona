@@ -71,7 +71,7 @@ public class InventoryBase
         return locations;
     }
 
-    public int TryAddQuantity (int qty, int slotIndex) => Read(slotIndex).TryAddQuantity(qty);
-    public int SetItem(int qty, Item item, int slotIndex) => _Inventory[slotIndex].Set(qty, item);
+    protected int TryAddQuantity (int qty, int slotIndex) => Read(slotIndex).TryAddQuantity(qty);
+    protected int SetItem(int qty, Item item, int slotIndex) => _Inventory[slotIndex].Set(qty, item);
     public virtual void LoadFromStorage(List<InventoryEntry> storedData) => _Inventory = storedData;
 }

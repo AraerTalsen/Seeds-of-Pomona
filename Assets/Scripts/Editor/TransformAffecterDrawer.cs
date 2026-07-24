@@ -10,6 +10,7 @@ public class TransformAffecterDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         AffecterDrawerAssist.InitHandlers();
+        TargetCoordinatorContext.Reset();
         EditorGUI.BeginProperty(position, label, property);
 
         float y = position.y;
@@ -22,7 +23,6 @@ public class TransformAffecterDrawer : PropertyDrawer
         if(property.isExpanded)
         {
             EditorGUI.indentLevel++;
-            TargetCoordinatorContext.SuppressCoordinatorPanel = false;
 
             SerializedProperty iter = property.Copy();
             SerializedProperty end = property.GetEndProperty();

@@ -17,25 +17,24 @@ public abstract class Affecter<TSelf> : Affecter where TSelf : Affecter<TSelf>
 
     public async override Task Apply(EffectContext context)
     {
-        try
+        coordinator.Initialize(TargetMode, context);
+        if(TargetMode != TargetLabel.self && TargetMode != TargetLabel.environment)
         {
             await Coordinator.ValidateArea(context);
         }
-        catch(Exception e)
-        {
-            Debug.LogError($"Failed to validate area: {e.Message}");
-        }
-
-        coordinator.Initialize(targetLabel, context);
+        
         if(lockMovement) TogglePauseEntity(context);
     }
 
     public override Task<IRuntimeEvent> CreateRuntimeEvent(EffectContext context, Action<EffectContext> callback = null)
     {
         List<Action<EffectContext>> effectCalbacks = new();
-        if(lockMovement) effectCalbacks.Add(CallbackWrapper.WrapAction(TogglePauseEntity));
+        if(lockMovement) 
+        {
+            effectCalbacks.Add(CallbackWrapper.WrapAction(TogglePauseEntity));
+        }
         if(callback != null) effectCalbacks.Add(callback);
-
+        
         return RuntimeEvent<TSelf>.Create(context, (TSelf)this, _rulebook.GetCurrentEffect((TSelf)this), effectCalbacks);
     }
 
@@ -50,11 +49,34 @@ public abstract class Affecter<TSelf> : Affecter where TSelf : Affecter<TSelf>
             GameObject target = context.Targets[0].Body;
             EntityProperties props = target.GetComponent<EntityManager>().EntityProps;
             props.IsStunned = !props.IsStunned;
-            props.IsVelocityVoid = !props.IsVelocityVoid;
-            props.NavMeshAgent.isStopped = !props.NavMeshAgent.isStopped;
-            Rigidbody2D rb = target.GetComponent<Rigidbody2D>();
-            rb.isKinematic = !rb.isKinematic;
-            rb.velocity = Vector2.zero;
+            bool isStopped = !props.NavMeshAgent.enabled || props.NavMeshAgent.isStopped;
+
+            try
+            {
+                if(!isStopped || (isStopped && props.IsPausingForEffect))
+                {
+                    //await props.ToggleEntityHalt(!isStopped);
+                    props.NavMeshAgent.isStopped = !isStopped;
+                    props.IsPausingForEffect = !props.IsPausingForEffect;
+                }
+                
+                if(isStopped && props.NavMeshAgent.enabled)
+                {
+                    Debug.Log("-------------------Warping--------------------");
+                    props.NavMeshAgent.Warp(props.NavMeshAgent.transform.position);
+                    props.UpdateDestination();
+                }
+                props.IsVelocityVoid = !props.IsVelocityVoid;
+                
+                props.NavMeshAgent.updatePosition = !props.NavMeshAgent.updatePosition;
+                props.NavMeshAgent.velocity = Vector2.zero;
+                Rigidbody2D rb = target.GetComponent<Rigidbody2D>();
+                rb.velocity = Vector2.zero;
+            }
+            catch(Exception e)
+            {
+                Debug.LogError($"Failed to toggle enemy's halt: {e}");
+            }
         }
     }
 }

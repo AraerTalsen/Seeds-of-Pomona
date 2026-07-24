@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -32,14 +33,20 @@ public class EntityProperties
     public bool IsStunned { get; set; }
     public bool IsTracking { get; set; }
     public bool IsTargetLost { get; set; }
+    public bool IsHalted { get; private set; } = false;
     public Transform Transform { get; set; }
     public NavMeshAgent NavMeshAgent { get; set; }
+    public NavMeshObstacle NavMeshObstacle { get; set; }
     public Rigidbody2D Rigidbody { get; set; }
     [SerializeField]
     private List<Transform> spottedTargets = new();
     public List<Transform> SpottedTargets => spottedTargets;
     public StatBlock StatBlock { get; set; }
     public EnemyOrientation Orientation { get; set; }
+    public bool IsPausingForEffect { get; set; }
+    public float FocusAngle { get; set; } = 45;
+    public IBehaviorState CurrentAction { get; set; }
+    public bool IsRetreating { get; set; }
 
     private Transform targetTransform;
     public Transform TargetTransform
@@ -47,12 +54,23 @@ public class EntityProperties
         get => targetTransform;
         set
         {
-            if(!IsTargetLost)
-            {
-                IsTargetLost = targetTransform != null && value == null;
-            }
+            //We will need another check to see if the TargetTransform is the same as the last when enemies eventually can have
+            //more targets than just the player
+            IsTargetLost = !IsTargetLost ? targetTransform != null && value == null : value == null;
             
             targetTransform = value;
+            if(IsTargetLost && !IsRetreating)
+            {
+                TargetPos = MemorizedTargetPos;
+            }
+            else if(value != null)
+            {
+                if(MemorizedTargetPos != null)
+                {
+                    TargetPos = null;
+                }
+                MemorizedTargetPos = TargetTransform.position;
+            }
         }
     }
 
@@ -73,8 +91,6 @@ public class EntityProperties
             {
                 targetPos = TargetTransform != null ? TargetTransform.position : ClampToNavMesh(ChoosePatrolPoint());
             }
-            
-            UpdateDestination();
         }
     }
 
@@ -86,7 +102,7 @@ public class EntityProperties
     private Quaternion targetRotation;
     public Quaternion TargetRotation { get => targetRotation; set => targetRotation = value; }
 
-    private void UpdateDestination()
+    public void UpdateDestination()
     {
         if(Vector2.Distance(NavMeshAgent.destination, (Vector2)TargetPos) > 0.1f)
         {
@@ -96,10 +112,12 @@ public class EntityProperties
 
     public Vector2 LookAt()
     {
-        Vector2 dirToTarget = (Vector2)NavMeshAgent.steeringTarget - (Vector2)Face.transform.position;
+        //bool hasTargetInFocus = TargetTransform == null || (TargetTransform != null && IsTargetInFocus());
+        Vector2 nextPoint = /*NavMeshAgent.enabled && hasTargetInFocus*/ TargetTransform != null && !NavMeshAgent.isStopped ? (Vector2)NavMeshAgent.steeringTarget : (Vector2)TargetPos;
+        Vector2 dirToTarget = nextPoint - (Vector2)Face.transform.position;
         float angle = Mathf.Atan2(dirToTarget.x, dirToTarget.y) * Mathf.Rad2Deg;
-        targetRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
-        Face.transform.rotation = Quaternion.RotateTowards(Face.transform.rotation, targetRotation, TurnSpeed);
+        TargetRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
+        Face.transform.rotation = Quaternion.RotateTowards(Face.transform.rotation, TargetRotation, TurnSpeed);
         Orientation.CurrentOrientation = NavMeshAgent.velocity.magnitude > 0 ? 
             NavMeshAgent.velocity.normalized : LookAtPoint.position - Face.transform.position;
 
@@ -154,7 +172,35 @@ public class EntityProperties
             
             currentDist++;
         }
-        Debug.Log($"NavMesh is not within range of origin: {origin}");
+        
         return origin;
+    }
+
+    /*public async Task<Task> ToggleEntityHalt(bool isHalted)
+    {
+        IsHalted = isHalted;
+        if(isHalted && NavMeshAgent.enabled)
+        {
+            NavMeshAgent.isStopped = true;
+            NavMeshAgent.enabled = false;
+            NavMeshObstacle.enabled = true;
+        }
+        else if(!IsHalted)
+        {
+            NavMeshObstacle.enabled = false;
+            RuntimeAlarmEvent alarm = RuntimeAlarmEvent.Create(0.25f);
+            await alarm.Activate();
+            NavMeshAgent.enabled = true;
+            NavMeshAgent.isStopped = false;
+        }
+
+        return Task.CompletedTask;
+    }*/
+
+     public bool IsTargetInFocus()
+    {
+        float faceDist = 0.25f;
+        Vector2 dirToTarget = (TargetTransform.position - (Transform.position + Transform.up * faceDist)).normalized;
+        return Vector2.Angle(Transform.up * faceDist, dirToTarget) < FocusAngle / 2;
     }
 }

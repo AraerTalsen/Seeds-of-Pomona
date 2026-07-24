@@ -9,7 +9,6 @@ public class PInv : PersistentObject<PlayerInventoryData>
 {    
     [SerializeField] private FlexInvDisplayManager.ISlotPrefill prefill;
     //[SerializeField] private BoonDisplay.BoonDisplayProps props;
-    [SerializeField] private EffectContext powerupContext;
     [SerializeField] private Transform bagContainer, powerupContainer;
     [SerializeField][TextArea] private string deathMsg;
     [SerializeField] private GameObject HUDSlot;
@@ -24,23 +23,30 @@ public class PInv : PersistentObject<PlayerInventoryData>
     [SerializeField] private EntityStats stats;
     [SerializeField] private EntityOrientation orientation;
     private PowerupHelper powerupHelper;
+    [SerializeField] private TactileSense tactileSense;
+    public TactileSense TactileSense => tactileSense;
 
     private void Start()
     {
         powerupHelper = GetComponent<PowerupHelper>();
-        powerupContext = new()
+        powerupHelper.Context = CreateEffectContext;
+        Persist = RetrieveData(persist);
+        PullData();
+    }
+
+    private EffectContext CreateEffectContext()
+    {
+        return new()
         {
           Owner = new()
           {
             Body = gameObject,
             Worldbox = transform.GetChild(0).GetChild(0).gameObject,
             Stats = stats.StatBlock,
-            Orientation = orientation
+            Orientation = orientation,
+            TactileSense = TactileSense
           }
         };
-        powerupHelper.Context = powerupContext;
-        Persist = RetrieveData(persist);
-        PullData();
     }
 
     private void Update()
@@ -51,13 +57,17 @@ public class PInv : PersistentObject<PlayerInventoryData>
     protected override void PullData()
     {
         bag = new(bagContainer);
-        powerupSlots = new(gameObject, powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer, powerupHelper);
+        powerupSlots = new(powerupCapacity, powerupContainer, prefill, HUDSlot, HUDContainer, powerupHelper);
         //boonProfile = new(props, stats.Stats);
 
         if (!Persist.IsPersisting)
         {
+            if(Persist.Inventory != null) Persist.ClearInventory();
+            if(Persist.Powerups != null) Persist.ClearPowerups();
+
             Persist.Inventory = bag.Entries;
             Persist.Powerups = powerupSlots.Entries;
+            Persist.LockStates = null;
             //Persist.Boons = boonProfile.Modifiers;
             Persist.IsPersisting = true;
         }
@@ -88,15 +98,17 @@ public class PInv : PersistentObject<PlayerInventoryData>
         List<bool> lockStates = new();
         for(int i = 0; i < powerupSlots.Count; i++)
         {
+            Debug.Log($"{powerupSlots.Read(i).Item} is locked: {powerupSlots.IsSlotLocked(i)}");
             lockStates.Add(powerupSlots.IsSlotLocked(i));
         }
+        Debug.Log($"Num lock states: {lockStates.Count}");
         Persist.LockStates = lockStates;
     }
 
-    public void PushDataTemp()
+    /*public void PushDataTemp()
     {
         PushData();
-    }
+    }*/
 
     public BoundedDDI GetInventory() => bag;
     public PowerUps GetPowerups() => powerupSlots;
@@ -114,6 +126,6 @@ public class PInv : PersistentObject<PlayerInventoryData>
 
     private void OnDisable()
     {
-        
+        PushData();
     }
 }

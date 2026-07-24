@@ -40,7 +40,7 @@ public class Item : ScriptableObject
    public int specialSpawnChance = 0;
    public List<SpecialOutput> specialOutputs = new();
 
-   protected virtual string GetToolTip() => string.IsNullOrEmpty(altToolTip) && ! UseAltToolTip ? toolTip : altToolTip;
+   protected virtual string GetToolTip() => string.IsNullOrEmpty(altToolTip) || !UseAltToolTip ? toolTip : altToolTip;
 
    public int SelectSpecialItem()
    {

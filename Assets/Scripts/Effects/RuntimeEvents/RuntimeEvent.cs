@@ -18,7 +18,7 @@ public class RuntimeEvent<T> : IRuntimeEvent where T : IRuntimeFactory
         get
         {
             bool isFinished = lifetime.ShouldDestroy(context);
-            if(isFinished) callbacks?.ForEach(e => e.Invoke(context));
+            if(isFinished) {Debug.Log("Invoking callbacks"); callbacks?.ForEach(e => e.Invoke(context));}
             return isFinished;
         }
     }
@@ -36,14 +36,7 @@ public class RuntimeEvent<T> : IRuntimeEvent where T : IRuntimeFactory
     {
         RuntimeEvent<T> runtimeEvent = new (context, affecter, tickProc, callbacks);
         
-        try
-        {
-            await affecter.Apply(context);
-        }
-        catch(Exception e)
-        {
-            Debug.LogError($"Failed to initialize event: {e.Message}");
-        }
+        await affecter.Apply(context);
         
         runtimeEvent.Owner = context.Targets.Count > 0 ? context.Targets[0].Body : null;
 

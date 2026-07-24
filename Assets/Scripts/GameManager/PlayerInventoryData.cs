@@ -16,4 +16,14 @@ public class PlayerInventoryData : InventoryData
     public List<InventoryEntry> Powerups { get => powerups; set => powerups = value; }
     public List<bool> LockStates { get => lockStates; set => lockStates = value; }
     public Dictionary<Stats, int> Boons { get => boons; set => boons = value; }
+
+    public void ClearPowerups()
+    {
+        for(int i = 0; i < Powerups.Count; i++)
+        {
+            Item item = Powerups[i].Item;
+            Powerups[i].Remove();
+            if(item is PUp) UniqueItemManager.Delete(item);
+        }
+    }
 }

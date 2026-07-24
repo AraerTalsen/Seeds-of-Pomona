@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0284d6b99320b0a46ad8f77cb0fbaa38, type: 3}
   m_Name: Basic Attack State
   m_EditorClassIdentifier: 
-  isAttack: 1
+  isSpecial: 1
   recoveryTime: 5
   parameters: {fileID: 11400000, guid: d40a6d43c39a3944ab7991711634cc93, type: 2}
   effectLabel: 0

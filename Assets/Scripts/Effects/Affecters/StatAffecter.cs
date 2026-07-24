@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [System.Serializable]
@@ -18,8 +19,7 @@ public class StatAffecter : Affecter<StatAffecter>
     
     public StatAffecter(EffectParameters parameters)
     {
-        RegisterRulebook(StatEffectRulebook.Instance);
-        (
+       (
             lockMovement, stackableUntil,
             lifetimeLabel, lifetime,
             repeatLabel, runs,
@@ -29,7 +29,6 @@ public class StatAffecter : Affecter<StatAffecter>
 
     public StatAffecter(Affecter affecter = null)
     {
-        RegisterRulebook(StatEffectRulebook.Instance);
         if(affecter != null) 
         {
             (
@@ -38,7 +37,12 @@ public class StatAffecter : Affecter<StatAffecter>
                 repeatLabel, runs,
                 targetLabel, coordinator
             ) = affecter;
-        }
-            
+        }   
+    }
+
+    public override Task<IRuntimeEvent> CreateRuntimeEvent(EffectContext context, Action<EffectContext> callback = null)
+    {
+        RegisterRulebook(StatEffectRulebook.Instance);
+        return base.CreateRuntimeEvent(context, callback);
     }
 }

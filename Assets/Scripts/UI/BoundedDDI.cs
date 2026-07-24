@@ -43,7 +43,9 @@ public class BoundedDDI : DragNDropInventory
     {
         for(int i = 0; i < _Inventory.Count; i++)
         {
+            Item item = _Inventory[i].Item;
             _Inventory[i].Remove();
+            if(item is PUp) UniqueItemManager.Delete(item);
         }
         DisplayManager.UpdateDisplayAll();
     }

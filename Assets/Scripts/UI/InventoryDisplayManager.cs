@@ -7,7 +7,6 @@ using TMPro;
 
 public class InventoryDisplayManager
 {
-    //private Transform[][] slots;
     protected List<Transform> slots;
 
     public InventoryDisplayManager (DragNDropInventory inv, Transform invContainer)
