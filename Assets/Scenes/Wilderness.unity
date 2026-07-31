@@ -12581,7 +12581,7 @@ MonoBehaviour:
   range: 2
   isHighlightable: 1
   unselected: {fileID: -1346544554, guid: 77cc69a549af56745b34257bfca392b8, type: 3}
-  highlight: {fileID: 0}
+  highlight: {fileID: -611275038, guid: d15d9c59e69ff824fbe03effa1e24d67, type: 3}
   highlightOutOfRange: {fileID: 2002515245, guid: 77cc69a549af56745b34257bfca392b8, type: 3}
   autoOpenDoor: 0
   destination: TheBase
@@ -12621,7 +12621,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0.07755661, y: 0.3636067}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -12632,7 +12632,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.9467278, y: 0.86628103}
   m_EdgeRadius: 0
 --- !u!1001 &7437894840306683545
 PrefabInstance:

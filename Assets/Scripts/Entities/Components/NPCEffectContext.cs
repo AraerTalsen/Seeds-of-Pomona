@@ -5,4 +5,5 @@ using UnityEngine;
 public class NPCEffectContext : EffectContext
 {
     public BehaviorContext stateMachine;
+    public EntityProperties props;
 }

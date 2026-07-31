@@ -110,6 +110,7 @@ public class EnemyBehaviorContext : BehaviorContext
                 {
                     //await EntityProps.ToggleEntityHalt(true);
                     EntityProps.NavMeshAgent.isStopped = true;
+                    EntityProps.Animator.SetFloat("moveMagnitude", 0);
                 }
                 catch(Exception e)
                 {
@@ -124,6 +125,7 @@ public class EnemyBehaviorContext : BehaviorContext
             {
                 //await EntityProps.ToggleEntityHalt(true);
                 EntityProps.NavMeshAgent.isStopped = true;
+                EntityProps.Animator.SetFloat("moveMagnitude", 0);
             }
             catch(Exception e)
             {

@@ -43,7 +43,7 @@ public class GardenBed : MonoBehaviour
 
         foreach(Transform t in transforms)
         {
-            plots.Add(t.gameObject.GetComponent<GardenPlot>());
+            plots.Add(t.GetChild(0).GetComponent<GardenPlot>());
         }
     }
 
@@ -89,4 +89,6 @@ public class GardenBed : MonoBehaviour
             plots[index].RestartGrowth();
         }
     }
+
+    private void OnDisable() => PushData();
 }

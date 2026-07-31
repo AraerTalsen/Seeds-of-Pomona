@@ -477,6 +477,11 @@ Transform:
   - {fileID: 948902418}
   m_Father: {fileID: 1853167037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &265716630 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
+  m_PrefabInstance: {fileID: 1292561446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &326222905
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +510,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 265716630}
   m_Father: {fileID: 1746435037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &337069662
@@ -1902,7 +1908,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 326222906}
     m_Modifications:
     - target: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1922,15 +1928,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3321081490461856758, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1947,6 +1953,14 @@ PrefabInstance:
     - target: {fileID: 5428211342321066594, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7099110296153449815, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
+      propertyPath: currentLevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7099110296153449815, guid: 1bbc3186b91dd434f995934a5bdfd7bd, type: 3}
+      propertyPath: isSetLvlManually
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3310,4 +3324,3 @@ SceneRoots:
   - {fileID: 20709054}
   - {fileID: 1853167037}
   - {fileID: 1461603145}
-  - {fileID: 1292561446}

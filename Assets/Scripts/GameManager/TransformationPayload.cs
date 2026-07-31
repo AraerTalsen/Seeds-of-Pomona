@@ -7,5 +7,4 @@ public class TransformationPayload : Payload
 {
     public StatPayload statPayload;
     public AbilityPayload abilityPayload;
-    public int scaleIncrease;
 }

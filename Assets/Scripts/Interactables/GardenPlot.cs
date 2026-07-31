@@ -24,9 +24,6 @@ public class GardenPlot : Interactable, ITimer
         Transform child = transform.GetChild(0);
         plant = child.GetComponent<SpriteRenderer>();
         plantInspection = child.GetComponent<PlantInspection>();
-
-        //Remove line when bed is added back in
-        IncrementTime();
     }
 
     public void IncrementTime()
@@ -66,7 +63,8 @@ public class GardenPlot : Interactable, ITimer
         if (currentStage >= seeds.growthStages.Length - 1)
         {
             isFinished = true;
-            ToggleInteractability();
+            SetPlantInspectability();
+            IsInteractable = true;
             return true;
         }
 
@@ -82,7 +80,7 @@ public class GardenPlot : Interactable, ITimer
             if (entry != null)
             {
                 seeds = (Seeds)inv.PullItems(entry.Item.id, 1, out int unfulfilled).item;
-                ToggleInteractability();
+                IsInteractable = false;
                 StartGrowth();
             }
         }
@@ -113,7 +111,7 @@ public class GardenPlot : Interactable, ITimer
     private void SetPlantInspectability()
     {
         plantInspection.PlantGrowthStage = currentStage + 1;
-        plantInspection.IsInspectable = !plantInspection.IsInspectable;
+        plantInspection.IsInspectable = currentStage < seeds.growthStages.Length - 1;
     }
 
     private void Harvest(GameObject interactor)
@@ -127,7 +125,6 @@ public class GardenPlot : Interactable, ITimer
         isGrowing = false;
         isFinished = false;
         currentStage = 0;
-        SetPlantInspectability();
         TimerObserver.Instance.Unsubscribe(this);
     }
 
@@ -142,14 +139,17 @@ public class GardenPlot : Interactable, ITimer
 
     public void RestartGrowth()
     {
-        ToggleInteractability();
+        IsInteractable = !isFinished;
         InitializeValues();
+
+        //Remove line when bed is added back in
+        IncrementTime();
         
-        if (!CheckIfHarvestable())
+        /*if (!CheckIfHarvestable())
         {
-            //CalculateGrowthStage();
+            CalculateGrowthStage();
             CheckIfHarvestable();
-        }
+        }*/
         plant.sprite = seeds.growthStages[currentStage];
         isGrowing = true;
         TimerObserver.Instance.Subscribe(this);

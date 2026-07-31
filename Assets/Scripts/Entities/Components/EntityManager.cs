@@ -52,8 +52,10 @@ public class EntityManager : MonoBehaviour, IStatReact
             Face = face,
             MeleeRange = GetComponent<SpriteRenderer>().bounds.size.x + 0.25f,
             PreferredRange = new Vector2(2, 3.5f),
-            PreferredTolerance = 1
+            PreferredTolerance = 1,
+            Animator = GetComponent<Animator>()
         };
+        EntityProps.Orientation.EntityProps = EntityProps;
         entityStateSupport = GetComponent<EntityStateSupport>();
         entityStateSupport.EntityProps = EntityProps;
         fov.EntityProps = EntityProps;
@@ -85,7 +87,8 @@ public class EntityManager : MonoBehaviour, IStatReact
                 Orientation = orientation,
                 TactileSense = TactileSense,
                 RootState = RootState
-            }
+            },
+            props = EntityProps
         };
     }
 

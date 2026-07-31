@@ -15,7 +15,7 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     private (float x, float y) spriteRange;
     private SpriteRenderer sr;
-    protected bool isInteractable = true;
+    protected bool IsInteractable { get; set; }= true;
     [SerializeField] private Sprite unselected;
     [SerializeField] private Sprite highlight;
     [SerializeField] private Sprite highlightOutOfRange;
@@ -38,15 +38,10 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     public abstract void StartInteractiveProcess(GameObject interactor);
 
-    public void ToggleInteractability()
-    {
-        isInteractable = !isInteractable;
-    }
-
     public void OnHoverEnter(GameObject player)
     {
         //print($"Name: {transform} Range: {spriteRange} Sprite Size: {sr.sprite.rect.size} Player Distance: {Vector2.Distance(player.transform.position, transform.position)}");
-        if (isInteractable)
+        if (IsInteractable)
         {
             player.GetComponent<PlayerInteract>().AddInteraction(this);
             UpdateVisualCues(player);
@@ -55,7 +50,7 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     public void OnHover(GameObject player)
     {
-        if (isInteractable)
+        if (IsInteractable)
         {
             UpdateVisualCues(player);
         }
@@ -63,7 +58,7 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     public void OnHoverExit(GameObject player)
     {
-        if (isInteractable)
+        if (IsInteractable)
         {
             player.GetComponent<PlayerInteract>().RemoveInteraction(this);
             UpdateHighlightVisual(unselected);
@@ -73,7 +68,7 @@ public abstract class Interactable : MonoBehaviour, IClickable
 
     public void OnClick(GameObject player)
     {
-        if (isInteractable && IsInRange(player))
+        if (IsInteractable && IsInRange(player))
         {
             OnHoverExit(player);
             StartInteractiveProcess(player);

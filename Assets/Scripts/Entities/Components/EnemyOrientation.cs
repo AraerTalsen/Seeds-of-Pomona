@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class EnemyOrientation : EntityOrientation
 {
-    [SerializeField] private List<Sprite> faceDirs = new();
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    public EntityProperties EntityProps { get; set; }
+    private Vector2[] animParams =
+    {
+        new (1, 1),
+        new (-1, 1),
+        new (-1, 0),
+        new (-1, -1),
+        new (1, -1),
+        new (1, 0)
+    };
+    //[SerializeField] private List<Sprite> faceDirs = new();
+    //[SerializeField] private SpriteRenderer spriteRenderer;
 
     private float prevAngle;
 
@@ -16,7 +26,10 @@ public class EnemyOrientation : EntityOrientation
         {
             currentOrientation = value.normalized; 
             float angle = DirToAngle(currentOrientation);
-            spriteRenderer.sprite = AngleToSprite(angle);
+            //spriteRenderer.sprite = AngleToSprite(angle);
+            Vector2 animPrams = AngleToAnimParams(angle);
+            EntityProps.Animator.SetFloat("xDir", animPrams.x);
+            EntityProps.Animator.SetFloat("yDir", animPrams.y);
             prevAngle = angle;
         }
     }
@@ -27,27 +40,27 @@ public class EnemyOrientation : EntityOrientation
         return signedAngle < 0 ? signedAngle + 360 : signedAngle;
     }
 
-    private Sprite AngleToSprite(float angle) =>
+    private Vector2 AngleToAnimParams(float angle) =>
         angle switch
         {
-            < 45 => faceDirs[0],
+            < 45 => animParams[0],
             < 90 => VerticalSprite,
-            < 135 => faceDirs[1],
-            < 180 => faceDirs[2],
-            < 225 => faceDirs[3],
+            < 135 => animParams[1],
+            < 180 => animParams[2],
+            < 225 => animParams[3],
             < 270 => VerticalSprite,
-            < 315 => faceDirs[4],
-            < 360 => faceDirs[5],
-            _ => faceDirs[0]
+            < 315 => animParams[4],
+            < 360 => animParams[5],
+            _ => animParams[5]
         };
     
-    private Sprite VerticalSprite => 
+    private Vector2 VerticalSprite => 
         prevAngle switch
         {
-            < 45 => faceDirs[1],
-            < 135 => faceDirs[0],
-            < 225 => faceDirs[4],
-            < 315 => faceDirs[3],
-            _ => faceDirs[0]
+            < 45 => animParams[1],
+            < 135 => animParams[0],
+            < 225 => animParams[4],
+            < 315 => animParams[3],
+            _ => animParams[0]
         };
 }

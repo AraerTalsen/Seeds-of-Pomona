@@ -57,6 +57,7 @@ public abstract class Affecter<TSelf> : Affecter where TSelf : Affecter<TSelf>
                 {
                     //await props.ToggleEntityHalt(!isStopped);
                     props.NavMeshAgent.isStopped = !isStopped;
+                    props.Animator.SetFloat("moveMagnitude", 0);
                     props.IsPausingForEffect = !props.IsPausingForEffect;
                 }
                 

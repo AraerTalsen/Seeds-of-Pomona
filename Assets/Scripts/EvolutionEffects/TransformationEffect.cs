@@ -23,12 +23,11 @@ public class TransformationEffect : EvolutionEffect
             abilityEvolutionEffect.Revert(context, data.abilityPayload);
         }
         
-        VisualTransformation(context, data.scaleIncrease, isApplied);
+        VisualTransformation(context, isApplied);
     }
 
-    private void VisualTransformation(NPCEffectContext context, int scale, bool isApplied)
+    private void VisualTransformation(NPCEffectContext context, bool isApplied)
     {
-        float changeScale = isApplied ? scale : 1f / scale;
-        context.Owner.Body.transform.localScale *= changeScale;
+        context.props.Animator.SetBool("isAggro", isApplied);
     }
 }

@@ -19,6 +19,7 @@ public class ObserveState : BehaviorStateRuntime
 
                 //if(!EntityProps.IsHalted) await EntityProps.ToggleEntityHalt(true);
                 EntityProps.NavMeshAgent.isStopped = true;
+                EntityProps.Animator.SetFloat("moveMagnitude", 0);
                 
             }
             //else Debug.Log("Agent is not active and enabled");

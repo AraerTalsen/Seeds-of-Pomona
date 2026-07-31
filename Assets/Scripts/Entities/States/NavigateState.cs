@@ -15,6 +15,7 @@ public class NavigateState : BehaviorStateRuntime
                 
                 //if(EntityProps.IsHalted) await EntityProps.ToggleEntityHalt(false);
                 EntityProps.NavMeshAgent.isStopped = false;
+                EntityProps.Animator.SetFloat("moveMagnitude", 1);
                 EntityProps.UpdateDestination();
                 EntityProps.LookAt();
                 

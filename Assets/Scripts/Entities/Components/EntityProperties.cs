@@ -47,6 +47,7 @@ public class EntityProperties
     public float FocusAngle { get; set; } = 45;
     public IBehaviorState CurrentAction { get; set; }
     public bool IsRetreating { get; set; }
+    public Animator Animator { get; set; }
 
     private Transform targetTransform;
     public Transform TargetTransform
