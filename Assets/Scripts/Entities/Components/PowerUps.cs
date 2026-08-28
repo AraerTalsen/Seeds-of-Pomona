@@ -119,6 +119,10 @@ public class PowerUps : FlexDDI
             if((isWilderness || isArena) && !storedData[i].IsEmpty)
             {
                 PUp tool = (PUp)storedData[i].Item;
+                if(tool.ExpirationDay == -1)
+                {
+                    tool.SetExpirationDay(TimerObserver.Instance.CurrentDay + tool.Durability);
+                }
                 AddToolRefToSecondaryList(tool, i);
                 powerupHelper.TryAddCoolDown(activeHUDSlots[i].GetComponent<SelectSlot>(), tool);
                 if(!lockStates[i])
@@ -128,7 +132,6 @@ public class PowerUps : FlexDDI
             }
         }
         
-        Debug.Log($"Loading {lockStates.Count} lock states");
         for(int i = 0; i < lockStates.Count; i++)
         {
            DisplayManager.SetSlotLock(i, lockStates[i]);
@@ -192,7 +195,7 @@ public class PowerUps : FlexDDI
         {
             scrollIndex = 0;
         }
-        else if (scrollDelta != 0)
+        else if (scrollDelta != 0 && Input.GetKey(KeyCode.LeftShift))
         {
             scrollIndex = (scrollIndex + scrollDelta) % pUpCount;
 
@@ -200,7 +203,7 @@ public class PowerUps : FlexDDI
                 scrollIndex += pUpCount;
         }
 
-        if(scrollDelta != 0 && pUpCount > 0)
+        if(scrollDelta != 0 && Input.GetKey(KeyCode.LeftShift) && pUpCount > 0)
         {
             UpdateSelectedHUDSlot(tempIndex);
         }

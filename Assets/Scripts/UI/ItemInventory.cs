@@ -39,6 +39,7 @@ public abstract class ItemInventory : InventoryBase
     public void PullQty(int qty, Item item, out int remainder)
     {
         UpdateQty(-qty, item, out remainder);
+        remainder = -remainder;
     }
     
     protected virtual void UpdateQty(int qty, Item item, out int remainder)

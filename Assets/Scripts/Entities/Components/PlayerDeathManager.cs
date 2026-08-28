@@ -28,8 +28,7 @@ public class PlayerDeathManager : EntityDeathManager
             screenFX.SetTrigger("hasDied");
             mp.TogglePauseMovement(true);
             inventory.TriggerDeath();
-            inventory.GetInventory().ClearInventory();
-            inventory.GetPowerups().ClearInventory();
+            inventory.ClearInventory();
             //inventory.PushDataTemp();
         }
     }

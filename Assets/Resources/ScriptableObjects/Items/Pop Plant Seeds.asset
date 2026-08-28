@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c15c7b59012f58c47ab6282294480b46, type: 3}
+  m_Name: Pop Plant Seeds
+  m_EditorClassIdentifier: 
+  toolTip: Pop Plant Seeds
+  altToolTip: 
+  id: 2
+  maxStackSize: 20
+  sprite: {fileID: -1212033757, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  categories: 00000000
+  outputItems: 0600000003000000
+  specialSpawnChance: 0
+  specialOutputs: []
+  growthStages:
+  - {fileID: 380609222, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: 1571073279, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: -1897338054, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: 1102675366, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  growthRate: 60
+  growthOdds: 45

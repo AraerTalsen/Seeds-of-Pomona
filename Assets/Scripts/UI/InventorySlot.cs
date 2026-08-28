@@ -33,27 +33,32 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            //The logic is bloated. How can this be broken up or simplified?
-            bool isDNull = draggable.InventoryItem == null || draggable.InventoryItem.IsEmpty;
-            bool isINull = refInvScript.Read(slotIndex) == null || refInvScript.Read(slotIndex).IsEmpty;
-            Item dItem = !isDNull ? draggable.InventoryItem.Item : null;
-            Item iItem = !isINull ? refInvScript.Read(slotIndex).Item : null;
-            bool isSameObjType = dItem != null && iItem != null && dItem.id == iItem.id;
-            bool hasWhitelist = whitelist.Count > 0;
-            bool itemAllowedByWhitelist = hasWhitelist && !isDNull && draggable.InventoryItem.Item.categories
-            .Any(c1 => whitelist
-            .Any(c2 => c2 == c1));
-
-            if(!isLocked && !((isPrivateInput && !isSameObjType && !isDNull) || hasWhitelist && !itemAllowedByWhitelist && !isDNull))
-            {
-                InventoryEntry temp = draggable.SetDraggable(refInvScript, slotIndex, isPrivateInput, isSameObjType);
-            
-                transform.GetChild(0).GetComponent<Image>().sprite = temp != null && !temp.IsEmpty ? temp.Item.sprite : null;
-                TMP_Text text = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-                text.text = temp != null && !temp.IsEmpty && temp.Quantity > 1 ? temp.Quantity.ToString() : "";
-            }
-            UpdateToolTipDisplay();
+            TrySelectSlotItem();
         }
+    }
+
+    public void TrySelectSlotItem()
+    {
+        //The logic is bloated. How can this be broken up or simplified?
+        bool isDNull = draggable.InventoryItem == null || draggable.InventoryItem.IsEmpty;
+        bool isINull = refInvScript.Read(slotIndex) == null || refInvScript.Read(slotIndex).IsEmpty;
+        Item dItem = !isDNull ? draggable.InventoryItem.Item : null;
+        Item iItem = !isINull ? refInvScript.Read(slotIndex).Item : null;
+        bool isSameObjType = dItem != null && iItem != null && dItem.id == iItem.id;
+        bool hasWhitelist = whitelist.Count > 0;
+        bool itemAllowedByWhitelist = hasWhitelist && !isDNull && draggable.InventoryItem.Item.categories
+        .Any(c1 => whitelist
+        .Any(c2 => c2 == c1));
+
+        if(!isLocked && !((isPrivateInput && !isSameObjType && !isDNull) || hasWhitelist && !itemAllowedByWhitelist && !isDNull))
+        {
+            InventoryEntry temp = draggable.SetDraggable(refInvScript, slotIndex, isPrivateInput, isSameObjType);
+        
+            transform.GetChild(0).GetComponent<Image>().sprite = temp != null && !temp.IsEmpty ? temp.Item.sprite : null;
+            TMP_Text text = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+            text.text = temp != null && !temp.IsEmpty && temp.Quantity > 1 ? temp.Quantity.ToString() : "";
+        }
+        UpdateToolTipDisplay();
     }
 
     private void UpdateToolTipDisplay()

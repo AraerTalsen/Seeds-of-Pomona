@@ -9,5 +9,5 @@ public static class UniqueItemManager
 
     public static void Save(ScriptableObject item) => BuildAsset.BuildAt(item, _directory, "");
 
-    public static void Delete(ScriptableObject item) => BuildAsset.Destroy(item);
+    public static void Delete(ScriptableObject item) => BuildAsset.Destroy(item, _directory);
 }

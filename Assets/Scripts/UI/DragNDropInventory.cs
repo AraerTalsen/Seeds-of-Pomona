@@ -24,23 +24,28 @@ public abstract class DragNDropInventory : ItemInventory
 
     public (int qty, Item item) PullItems(int id, int requestedQty, out int unfulfilled)
     {
+        unfulfilled = requestedQty;
+        Item item = null;
+
         int totalQty = Sum(id);
-        int outputQty = Mathf.Min(totalQty, requestedQty);
-        InventoryEntry entry = Find(id) ?? throw new ArgumentException($"Requested item of id: {id} does not exist in the inventory");
-        Item item = entry.Item;
+        //int outputQty = Mathf.Min(totalQty, requestedQty);
 
-        PullQty(outputQty, item, out unfulfilled);
-        DisplayManager.UpdateDisplayAll();
+        if(Find(id) is InventoryEntry entry)
+        {
+            item = entry.Item;
 
-        return (outputQty, item);
+            PullQty(requestedQty, item, out unfulfilled);
+            DisplayManager.UpdateDisplayAll();
+        }
+        return (requestedQty - unfulfilled, item);
     }
 
-    public void PushItems(int id, int insertQty, bool isUniqueInstance = false)
+    public void PushItems(int id, int insertQty, out int remainder, bool isUniqueInstance = false)
     {
         Item item = !isUniqueInstance ? ItemDictionary.items[id] : UnityEngine.Object.Instantiate(ItemDictionary.items[id]);
         if(isUniqueInstance) UniqueItemManager.Save(item);
 
-        PushQty(insertQty, item, out int remainder);
+        PushQty(insertQty, item, out remainder);
         DisplayManager.UpdateDisplayAll();
     }
 

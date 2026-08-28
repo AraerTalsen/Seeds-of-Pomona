@@ -30,7 +30,7 @@ public class TargetCoordinator
 
         TargetAreaManager tam = g.GetComponent<TargetAreaManager>();
         List<GameObject> objsDetected = await tam.RetrieveValidTargets();
-        Object.DestroyImmediate(g);
+        Object.Destroy(g);
         
         if(!includeSelf) objsDetected.RemoveAll( g => g == context.Owner.Body);
         

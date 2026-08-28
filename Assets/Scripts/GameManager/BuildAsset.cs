@@ -28,9 +28,12 @@ public static class BuildAsset
     public static int CountType(System.Type type, string[] checkFolders) =>
         AssetDatabase.FindAssets($"t:{type}", checkFolders).Length;
 
-    public static void Destroy(ScriptableObject asset)
+    public static void Destroy(ScriptableObject asset, string clonePath)
     {
         string path = AssetDatabase.GetAssetPath(asset);
-        AssetDatabase.DeleteAsset(path);
+        if(path.StartsWith(clonePath, System.StringComparison.Ordinal))
+            AssetDatabase.DeleteAsset(path);
+        else
+            Debug.Log("Canceled attempt to delete item outside of clone folder");
     }
 }

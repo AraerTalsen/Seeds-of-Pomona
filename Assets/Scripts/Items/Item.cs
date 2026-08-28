@@ -30,7 +30,7 @@ public class Item : ScriptableObject
    }
    [SerializeField][TextArea] private string toolTip;
    [SerializeField][TextArea] private string altToolTip;
-   public bool UseAltToolTip { get; set; }
+   public bool UseAltToolTip { get; set;}
    public string CurrentToolTip => GetToolTip();
 
    public int id, maxStackSize = 20;
@@ -44,18 +44,18 @@ public class Item : ScriptableObject
 
    public int SelectSpecialItem()
    {
-      if(specialSpawnChance > 0) 
+      int randSpawnItem = Random.Range(0, 100);
+      if(specialSpawnChance >= randSpawnItem) 
       {
          int weightedTotal = specialOutputs.Sum( e => e.SpawnWeight);
-         int rand = Random.Range(0, weightedTotal);
+         int randWhichItem = Random.Range(0, weightedTotal);
          int accruedWeight = 0;
 
          foreach((int id, int weight) in specialOutputs)
          {
             accruedWeight += weight;
-            if(rand < accruedWeight)
+            if(randWhichItem < accruedWeight)
             {
-               Debug.Log(rand);
                return id;
             }
          }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd86dacfe726944f8cda1d3fc1a302f, type: 3}
+  m_Name: Smoke Flower
+  m_EditorClassIdentifier: 
+  toolTip: Smoke Flower
+  altToolTip: 
+  id: 4
+  maxStackSize: 20
+  sprite: {fileID: -1059787104, guid: 71dc4c530cb478e4e8deae50b9c4824d, type: 3}
+  categories: 01000000
+  outputItems: 000000000c000000
+  specialSpawnChance: 10
+  specialOutputs:
+  - itemId: 8
+    spawnWeight: 1

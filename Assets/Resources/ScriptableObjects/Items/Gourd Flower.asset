@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd86dacfe726944f8cda1d3fc1a302f, type: 3}
+  m_Name: Gourd Flower
+  m_EditorClassIdentifier: 
+  toolTip: Gourd Flower
+  altToolTip: 
+  id: 7
+  maxStackSize: 20
+  sprite: {fileID: -1355080006, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  categories: 01000000
+  outputItems: 030000000c000000
+  specialSpawnChance: 10
+  specialOutputs:
+  - itemId: 11
+    spawnWeight: 1

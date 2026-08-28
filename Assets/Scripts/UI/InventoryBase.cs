@@ -38,6 +38,20 @@ public class InventoryBase
         return null;
     }
 
+    public InventoryEntry Find(Item.ItemCategory category)
+    {
+        for(int i = 0; i < _Inventory.Count; i++)
+        {
+            Item item = _Inventory[i].Item;
+
+            if(item != null && item.categories.Contains(category))
+            {
+                return _Inventory[i];
+            }
+        }
+        return null;
+    }
+
     public List<int> FindAll(Item item)
     {
         List<int> locations = new();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour
 {
@@ -32,6 +33,12 @@ public class PanelManager : MonoBehaviour
             activeMenu = !panel.activeSelf && isEsc ? mainMenu : activeMenu;
             ToggleFlow();
         }
+    }
+
+    public void OpenMainMenu()
+    {
+        activeMenu = mainMenu;
+        ToggleFlow();
     }
 
     public void AddMenu(GameObject menu, bool openPlayerInv)

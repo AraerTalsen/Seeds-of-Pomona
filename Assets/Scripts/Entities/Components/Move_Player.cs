@@ -50,7 +50,7 @@ public class Move_Player : MonoBehaviour
     {
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float h = Input.GetAxisRaw("Horizontal"), v = Input.GetAxisRaw("Vertical");
-        Vector2 moveVector = new Vector2(h, v).normalized * (moveSpeed + (isRunning ? runModifier : 0));
+        Vector2 moveVector = new Vector2(h, v).normalized * 3.5f; //use StatBlock speed modifier
         rb.velocity = moveVector;
     }
 

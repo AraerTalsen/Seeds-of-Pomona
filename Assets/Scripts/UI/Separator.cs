@@ -79,27 +79,35 @@ public class Separator : PersistentObject<SeparatorData>
 
     private void PullFromInputSlot(int numItems)
     {
-        GenerateItems(numItems);
-        input.PullItems(input.Read(0).Item.id, numItems, out int unfulfilled);
+        int unfulfilledGens = GenerateItems(numItems);
+        input.PullItems(input.Read(0).Item.id, numItems - unfulfilledGens, out int unfulfilled);
     }
 
-    private void GenerateItems(int numItems)
+    private int GenerateItems(int numItems)
     {
+        int unfulfilled = 0;
         int[] outputs = input.Read(0).Item.outputItems;
-        int randQty = Mathf.Clamp(Random.Range(numItems, 3 * numItems + 1), 0, ItemDictionary.items[outputs[0]].maxStackSize);
-        stdOutput.PushItems(outputs[0], randQty);
-        stdOutput.PushItems(outputs[1], numItems);
 
-        /*if(isGenPowerup)
+        for(int i = 0; i < numItems; i++)
         {
-            spOutput.PushItems(input.Read(0).Item.specialOutputID, 1);
-            print(spOutput.Read(0));
-        }*/
+            int randQty = Mathf.Clamp(Random.Range(numItems, 3 * numItems + 1), 0, ItemDictionary.items[outputs[0]].maxStackSize);
+            stdOutput.PushItems(outputs[0], randQty, out _);
+            stdOutput.PushItems(outputs[1], 1, out _);
 
-        if(IsAnyOutputFull())
-        {
-            StopProcess();
+            /*if(isGenPowerup)
+            {
+                spOutput.PushItems(input.Read(0).Item.specialOutputID, 1);
+                print(spOutput.Read(0));
+            }*/
+
+            if(IsAnyOutputFull())
+            {
+                StopProcess();
+                unfulfilled = numItems - i - 1;
+                break;
+            }
         }
+        return unfulfilled;
     }
 
     /*private bool IsSpecialGenerating(Item item)
@@ -132,7 +140,7 @@ public class Separator : PersistentObject<SeparatorData>
         timePassed += WorldClock.WorldTimeSince(unloadTime);
         int numLoopsFinished = Mathf.Min(input.Read(0).Quantity, (int)timePassed / processTime);
         PullFromInputSlot(numLoopsFinished);
-        if (input.Read(0).Quantity <= 0)
+        if (input.Read(0).Quantity <= 0 || IsAnyOutputFull())
         {
             timePassed = 0;
         }
@@ -163,6 +171,7 @@ public class Separator : PersistentObject<SeparatorData>
             timePassed = Persist.CurrentProgress;
             input.LoadFromStorage(Persist.Input);
             stdOutput.LoadFromStorage(Persist.Output);
+            IsAnyOutputFull();
         }
 
         
@@ -174,7 +183,6 @@ public class Separator : PersistentObject<SeparatorData>
 
     private void SlotWasEmptied()
     {
-        stdOutput.Listener.PrintAllDetails();
         IsAnyOutputFull();
     }
 

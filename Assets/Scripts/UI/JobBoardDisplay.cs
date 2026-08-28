@@ -5,12 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 
-public class JobBoardDisplay : BasicMenu
+public class JobBoardDisplay : MonoBehaviour
 {
     public List<JobRequestContainer> JobListings { get; set; }
-    private Transform jobPostingGroup;
+    private Transform jobBoard, jobPostingGroup;
     public TMP_Text Description { get; private set; }
     public TMP_Text ItemQty { get; private set; }
+    public TMP_Text QtyInInv { get; private set; }
     public TMP_Text Reward { get; private set; }
     public bool JobListingsActiveSelf { get; private set; }
     public JobBoardProperties JobBoardProperties { get; set; }
@@ -18,43 +19,38 @@ public class JobBoardDisplay : BasicMenu
     private Button complete;
     private GameObject leftArrow, rightArrow, emptyBoard;
     public int currentListingIndex = 0;
-    public PInv inv;
-    public bool isOpen = false;
 
     public UnityAction CompleteJobRequest;
-    public UnityAction CheckPlayerInventory;
 
-    private void Start()
+    public void InitializeVariables()
     {
-        if (jobPostingGroup == null)
+        if(jobPostingGroup == null)
         {
-            InitializeVariables();
+            jobBoard = gameObject.transform;
+            jobPostingGroup = jobBoard.GetChild(0);
+            Description = jobPostingGroup.GetChild(1).GetComponent<TMP_Text>();
+            ItemQty = jobPostingGroup.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
+            QtyInInv = jobPostingGroup.GetChild(3).GetComponent<TMP_Text>();
+            Reward = jobPostingGroup.GetChild(4).GetComponent<TMP_Text>();
+            itemImg = jobPostingGroup.GetChild(2).GetComponent<Image>();
+            complete = jobPostingGroup.GetChild(5).GetComponent<Button>();
+
+            leftArrow = jobBoard.GetChild(1).gameObject;
+            rightArrow = jobBoard.GetChild(2).gameObject;
+
+            emptyBoard = jobBoard.GetChild(3).gameObject;
+
+            complete.onClick.AddListener(CompleteJobRequest);
+            leftArrow.GetComponent<Button>().onClick.AddListener(PrevJob);
+            rightArrow.GetComponent<Button>().onClick.AddListener(NextJob);
+
+            JobListingsActiveSelf = false;   
         }
     }
 
-    private void InitializeVariables()
+    /*public override void ToggleMenu(GameObject menu2 = null, Move_Player mp = null)
     {
-        jobPostingGroup = ActiveMenu.transform.GetChild(0);
-        Description = jobPostingGroup.GetChild(1).GetComponent<TMP_Text>();
-        ItemQty = jobPostingGroup.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
-        Reward = jobPostingGroup.GetChild(3).GetComponent<TMP_Text>();
-        itemImg = jobPostingGroup.GetChild(2).GetComponent<Image>();
-        complete = jobPostingGroup.GetChild(4).GetComponent<Button>();
-
-        leftArrow = ActiveMenu.transform.GetChild(1).gameObject;
-        rightArrow = ActiveMenu.transform.GetChild(2).gameObject;
-
-        emptyBoard = ActiveMenu.transform.GetChild(3).gameObject;
-
-        complete.onClick.AddListener(CompleteJobRequest);
-        leftArrow.GetComponent<Button>().onClick.AddListener(PrevJob);
-        rightArrow.GetComponent<Button>().onClick.AddListener(NextJob);
-
-        JobListingsActiveSelf = false;
-    }
-
-    public override void ToggleMenu(GameObject menu2 = null, Move_Player mp = null)
-    {
+        Debug.Log(menu2);
         base.ToggleMenu(menu2);
 
         isOpen = !isOpen;
@@ -69,13 +65,11 @@ public class JobBoardDisplay : BasicMenu
             ActivateJobBoard();
             LoadJob();
         }
-    }
+    }*/
 
     public void UpdateArrowButtons()
     {
-        bool isLargeEnough = JobListings.Count >= 2;
-        //print($"There are enough job listings to keep arrows active: {isLargeEnough}");
-        
+        bool isLargeEnough = JobListings.Count >= 2;        
         leftArrow.SetActive(isLargeEnough);
         rightArrow.SetActive(isLargeEnough);
     }
@@ -104,6 +98,7 @@ public class JobBoardDisplay : BasicMenu
 
         Description.text = job.Description;
         ItemQty.text = job.ItemQty.ToString();
+        QtyInInv.text = "In Inventory: " + JobBoardProperties.CurrentPlayerInv[job.RequestedItem.id].ToString();
         Reward.text = "Reward: $" + job.Reward.ToString();
         itemImg.sprite = job.RequestedItem.sprite;
         UpdateCompleteButton();

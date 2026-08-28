@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225575a89b4bc6540aa20999db72c6e4, type: 3}
+  m_Name: Med Pack
+  m_EditorClassIdentifier: 
+  toolTip: '[Tool]
+
+    Med Pack
+
+    (Only use in the wilderness after taking damage)'
+  altToolTip: 
+  id: 13
+  maxStackSize: 20
+  sprite: {fileID: -466766037, guid: 5826e2489ff360d488ce512adf8552af, type: 3}
+  categories: 02000000
+  outputItems: 
+  specialSpawnChance: 0
+  specialOutputs: []
+  invalidUseMessage: You wasted it. Why'd you do that?

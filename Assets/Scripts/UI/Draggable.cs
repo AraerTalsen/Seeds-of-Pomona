@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 public class Draggable : MonoBehaviour
 {
     [SerializeField] private GameObject toolTipDisplay;
+    [SerializeField] private Vector2 toolTipDefaultPos;
     [SerializeField] private TextMeshProUGUI toolTipText;
     public PlayerInventory pi;
     public Image image;
@@ -41,6 +42,10 @@ public class Draggable : MonoBehaviour
     public void Update()
     {
         transform.position = Input.mousePosition;
+        if(toolTipDisplay.activeSelf)
+        {
+            UpdateYToolTipDisplay();
+        }
     }
 
     public InventoryEntry SetDraggable(DragNDropInventory inv, int slotIndex, bool isPrivateInput, bool isSameType)
@@ -124,4 +129,14 @@ public class Draggable : MonoBehaviour
     }
 
     public void CloseToolTipDisplay() => toolTipDisplay.SetActive(false);
+
+    private void UpdateYToolTipDisplay()
+    {
+        RectTransform rect = toolTipDisplay.GetComponent<RectTransform>();
+        float displayH = rect.rect.height;
+        float mouseY = Input.mousePosition.y;
+        rect.anchoredPosition = mouseY < displayH * rect.lossyScale.y ? new (toolTipDefaultPos.x, displayH + 25) : toolTipDefaultPos;
+    }
+
+    private void OnDisable() => CloseToolTipDisplay();
 }

@@ -32,6 +32,10 @@ public class GardenPlot : Interactable, ITimer
         {
             TimeForNewAttempt();
         }
+        else if(currentStage == seeds.growthStages.Length - 1)
+        {
+            CheckIfHarvestable();
+        }
     }
 
     //Check if enough time passed for a new plant growth attempt
@@ -75,11 +79,10 @@ public class GardenPlot : Interactable, ITimer
     {
         if (!isGrowing)
         {
-            BoundedDDI inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
-            InventoryEntry entry = inv.Find(0);
-            if (entry != null)
+            PInv inv = interactor.GetComponent<Move_Player>().inventory;
+            if (inv.Find(Item.ItemCategory.Seed) is InventoryEntry entryInv)
             {
-                seeds = (Seeds)inv.PullItems(entry.Item.id, 1, out int unfulfilled).item;
+                seeds = (Seeds)inv.PullItems(entryInv.Item.id, 1, out _).item;
                 IsInteractable = false;
                 StartGrowth();
             }
@@ -116,8 +119,8 @@ public class GardenPlot : Interactable, ITimer
 
     private void Harvest(GameObject interactor)
     {
-        BoundedDDI inv = interactor.GetComponent<Move_Player>().inventory.GetInventory();
-        inv.PushItems(output.id, 1);
+        PInv inv = interactor.GetComponent<Move_Player>().inventory;
+        inv.PushItems(output.id, 1, out _);
         TrySpawnSpecial(inv);
         plant.sprite = null;
         output = null;
@@ -128,12 +131,13 @@ public class GardenPlot : Interactable, ITimer
         TimerObserver.Instance.Unsubscribe(this);
     }
 
-    private void TrySpawnSpecial(BoundedDDI inv)
+    private void TrySpawnSpecial(PInv inv)
     {
         int specialId = ItemDictionary.items[output.id].SelectSpecialItem();
         if(specialId > -1)
         {
-            inv.PushItems(specialId, 1);
+            bool isUniqueInstance = ItemDictionary.items[specialId] is PUp;
+            inv.PushItems(specialId, 1, out _, isUniqueInstance);
         }
     }
 

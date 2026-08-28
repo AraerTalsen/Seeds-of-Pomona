@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c15c7b59012f58c47ab6282294480b46, type: 3}
+  m_Name: Big Gourd Seeds
+  m_EditorClassIdentifier: 
+  toolTip: Big Gourd Seeds
+  altToolTip: 
+  id: 3
+  maxStackSize: 20
+  sprite: {fileID: -2055435236, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  categories: 00000000
+  outputItems: 0700000000000000
+  specialSpawnChance: 0
+  specialOutputs: []
+  growthStages:
+  - {fileID: -609768921, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: -1615916735, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: 2022676058, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  - {fileID: -1355080006, guid: c5e1f2ee3e4f32e4ba391c077bedbe2f, type: 3}
+  growthRate: 90
+  growthOdds: 30
