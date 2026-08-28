@@ -21,7 +21,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     private JobBoardProperties jobBoardProperties;
     private ShopManager shopManager;
 
-    private void Awake()
+    private void Start()
     {
         Persist = RetrieveData(persist);
         jobBoardProperties = new();

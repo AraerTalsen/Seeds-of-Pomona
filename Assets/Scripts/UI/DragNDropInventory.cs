@@ -43,9 +43,14 @@ public abstract class DragNDropInventory : ItemInventory
     public void PushItems(int id, int insertQty, out int remainder, bool isUniqueInstance = false)
     {
         Item item = !isUniqueInstance ? ItemDictionary.items[id] : UnityEngine.Object.Instantiate(ItemDictionary.items[id]);
-        if(isUniqueInstance) UniqueItemManager.Save(item);
-
+        
+        if(isUniqueInstance) 
+        {
+            item.CloneKey = item.GetInstanceID().ToString(); 
+            UniqueItemManager.Save(item.CloneKey, (PUp)item);
+        }
         PushQty(insertQty, item, out remainder);
+        
         DisplayManager.UpdateDisplayAll();
     }
 

@@ -11133,6 +11133,7 @@ MonoBehaviour:
   difficultyScale: {fileID: 966175565}
   maxTimeDifficulty: 900
   maxDistDifficulty: 40
+  spotCap: 3
   baseAggroCoolDown: 15
   startPos: {x: 26.028, y: 5.002}
 --- !u!1 &1935306628

@@ -10,6 +10,7 @@ public class DifficultyScaler : MonoBehaviour
     private int maxTimeDifficulty;
     [SerializeField]
     private int maxDistDifficulty;
+    [SerializeField] private int spotCap;
     [SerializeField]
     private int baseAggroCoolDown;
     public int TimesSpotted {
@@ -60,9 +61,9 @@ public class DifficultyScaler : MonoBehaviour
 
     private float CalculateDifficultyScale()
     {
-        float timeDifficulty = TimeInWilderness() / maxTimeDifficulty;
-        float distDifficulty = DistanceFromBase() / maxDistDifficulty;
-        float aggroDifficulty = TimesSpotted * 0.5f;
+        float timeDifficulty = Mathf.Min(TimeInWilderness() / maxTimeDifficulty, 1);
+        float distDifficulty = Mathf.Min(DistanceFromBase() * 1.25f / maxDistDifficulty, 1);
+        float aggroDifficulty = Mathf.Min(TimesSpotted / spotCap, 2);
         
         return Mathf.Min(timeDifficulty + distDifficulty + aggroDifficulty, 3);
     }

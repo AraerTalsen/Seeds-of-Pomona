@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Separator
   m_EditorClassIdentifier: 
   inventory: []
-  isPersisting: 1
-  unloadTime: 83.86654
-  currentProgress: 6.019995
+  isPersisting: 0
+  keyIndexPairs: []
+  unloadTime: 29.481709
+  currentProgress: 0
   input:
   - quantity: 0
     item: {fileID: 0}

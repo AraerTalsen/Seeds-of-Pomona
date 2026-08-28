@@ -5,9 +5,8 @@ using UnityEngine;
 
 public static class UniqueItemManager
 {
-    private static string _directory = "Assets/Resources/ScriptableObjects/UniqueItems/";
+    public static void Save(string key, PUp item) => AssetSaves.Save(item, key);
 
-    public static void Save(ScriptableObject item) => BuildAsset.BuildAt(item, _directory, "");
-
-    public static void Delete(ScriptableObject item) => BuildAsset.Destroy(item, _directory);
+    public static PUp Load(string key) => AssetSaves.Load<PUp>(key);
+    public static void Delete(string key) => AssetSaves.Delete(key);
 }

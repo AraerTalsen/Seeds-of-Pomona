@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -66,22 +63,19 @@ public class PInv : PersistentObject<PlayerInventoryData>
 
         if (!Persist.IsPersisting)
         {
-            if(Persist.Inventory != null) Persist.ClearInventory();
-            if(Persist.Powerups != null) Persist.ClearPowerups();
-            if(Persist.Hotbar != null) Persist.ClearHotbar();
-
-            Persist.Inventory = bag.Entries;
-            Persist.Powerups = powerupSlots.Entries;
-            Persist.Hotbar = hotbar.Entries;
-            Persist.LockStates = null;
+            Persist.ClearInventory();
+            Persist.ClearPowerups();
+            Persist.ClearHotbar();
+            Persist.LockStates.Clear();
+            
             //Persist.Boons = boonProfile.Modifiers;
             Persist.IsPersisting = true;
         }
         else
         {
-            bag.LoadFromStorage(Persist.Inventory);
-            hotbar.LoadFromStorage(Persist.Hotbar);
-            powerupSlots.RebuildSlots(Persist.Powerups, Persist.LockStates);
+            bag.LoadFromStorage(Persist.LoadInventory());
+            hotbar.LoadFromStorage(Persist.LoadHotbar());
+            powerupSlots.RebuildSlots(Persist.LoadPowerups(), Persist.LockStates);
             //boonProfile.LoadModifiers(persist.Boons);
             wallet.CurrentBalance = Persist.Balance;
         }
@@ -99,8 +93,10 @@ public class PInv : PersistentObject<PlayerInventoryData>
             TimerObserver.Instance.Broadcast();
         }
         
-        Persist.IsPersisting = true;
         Persist.Balance = wallet.CurrentBalance;
+        Persist.SaveInventory(bag.Entries);
+        Persist.SaveHotbar(hotbar.Entries);
+        Persist.SavePowerups(powerupSlots.Entries);
 
         List<bool> lockStates = new();
         for(int i = 0; i < powerupSlots.Count; i++)

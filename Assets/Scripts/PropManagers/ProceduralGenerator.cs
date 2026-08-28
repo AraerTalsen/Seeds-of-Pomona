@@ -38,6 +38,7 @@ public class ProceduralGenerator : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log($"Failed to spawn enemy at {spawnPoint}. Trying again.");
                     FindClearSpace(props[i], spawnPoint);
                 }
 
@@ -71,6 +72,7 @@ public class ProceduralGenerator : MonoBehaviour
                 else
                 {
                     dirWithLeastObjs = objs.Length < dirWithLeastObjs.qty ? (i, objs.Length) : dirWithLeastObjs;
+                    //Debug.Log($"Failed to spawn enemy at {temp}. Trying again.");
                 }
             }
 

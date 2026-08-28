@@ -1305,10 +1305,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1283125751}
     m_Modifications:
-    - target: {fileID: 736689341919980277, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_text
-      value: $4000
-      objectReference: {fileID: 0}
     - target: {fileID: 1003160962222566499, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1344,18 +1340,6 @@ PrefabInstance:
     - target: {fileID: 1071415849601404872, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
       propertyPath: m_SizeDelta.y
       value: 425
-      objectReference: {fileID: 0}
-    - target: {fileID: 1071415849601404872, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1071415849601404872, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1071415849601404872, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1071415849601404872, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1409,14 +1393,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 568185461}
-    - target: {fileID: 2002199531501386031, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_text
-      value: $1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3223987301204607213, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
-      propertyPath: m_text
-      value: $2500
-      objectReference: {fileID: 0}
     - target: {fileID: 3636890401358520388, guid: e149ffc4999cbd744b37e42f0c9eb01d, type: 3}
       propertyPath: m_Name
       value: BusinessOperations

@@ -54,12 +54,12 @@ public class FieldOfView : MonoBehaviour
         if (target.CompareTag("Player") && Vector2.Angle(transform.up * faceDist, dirToTarget) < viewAngle / 2)
         {
             RaycastHit2D hit = RaycastIgnoreSelf(transform.position + transform.up * faceDist, dirToTarget, distToTarget);
-            if (hit && hit.collider.CompareTag("Player") && !isInList)
+            if (hit && hit.collider.CompareTag("Player"))
             {
                 GameObject player = target.gameObject;
                 Move_Player mp = player.GetComponent<Move_PlayerConnector>().Move_Player;
                 DifficultyScaler ds = player.GetComponent<DifficultyScaler>();
-                if (!mp.IsHidden) 
+                if (!mp.IsHidden && !isInList) 
                 {
                     visibleTargets.Add(target);
                     
@@ -68,6 +68,10 @@ public class FieldOfView : MonoBehaviour
                         ds.TimesSpotted++;
                         EntityProps.SpottedNewTarget(target);
                     }
+                }
+                else if(mp.IsHidden)
+                {
+                    visibleTargets.Remove(target);
                 }
             }
             else if(hit && !hit.collider.CompareTag("Player") && isInList)

@@ -67,6 +67,7 @@ public class PanelManager : MonoBehaviour
 
     private void ToggleFlow()
     {
+        CursorManager.CurrentCursor = CursorManager.CursorType.DEFAULT;
         ToggleMenus(activeMenu);
         move_Player.TogglePauseMovement();
     }

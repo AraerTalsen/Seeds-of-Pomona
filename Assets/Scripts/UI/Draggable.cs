@@ -126,6 +126,7 @@ public class Draggable : MonoBehaviour
     {
         toolTipText.text = toolTip;
         toolTipDisplay.SetActive(true);
+        UpdateYToolTipDisplay();
     }
 
     public void CloseToolTipDisplay() => toolTipDisplay.SetActive(false);

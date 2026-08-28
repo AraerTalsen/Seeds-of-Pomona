@@ -73,7 +73,8 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  isPersisting: 1
+  isPersisting: 0
+  keyIndexPairs: []
   balance: 0
   hasDied: 0
   powerups:
@@ -96,4 +97,6 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
+  hotbarKeys: []
+  powerupKeys: []
   lockStates: 00

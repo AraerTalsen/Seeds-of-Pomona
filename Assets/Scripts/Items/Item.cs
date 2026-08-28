@@ -31,6 +31,7 @@ public class Item : ScriptableObject
    [SerializeField][TextArea] private string toolTip;
    [SerializeField][TextArea] private string altToolTip;
    public bool UseAltToolTip { get; set;}
+   public string CloneKey { get; set; } = "";
    public string CurrentToolTip => GetToolTip();
 
    public int id, maxStackSize = 20;
