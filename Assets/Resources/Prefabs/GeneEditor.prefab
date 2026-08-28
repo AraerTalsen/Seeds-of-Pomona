@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolTipDelay: 0.25
-  toolTip: 
+  toolTip: Failed experiments
   isTrashable: 0
   trashItem: {fileID: 0}
   slotIndex: 0
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolTipDelay: 0.25
-  toolTip: 
+  toolTip: Successful experiments
   isTrashable: 0
   trashItem: {fileID: 0}
   slotIndex: 0
@@ -731,7 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolTipDelay: 0.25
-  toolTip: 
+  toolTip: Will attempt to mutate seeds
   isTrashable: 0
   trashItem: {fileID: 0}
   slotIndex: 0
@@ -975,7 +975,7 @@ RectTransform:
   m_GameObject: {fileID: 3377476115096741810}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0247653, y: 1.0247653, z: 1.0247653}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7785107874209613643}
