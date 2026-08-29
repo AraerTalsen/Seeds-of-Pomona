@@ -184,7 +184,7 @@ public class PInv : PersistentObject<PlayerInventoryData>
     {
         if(Input.anyKeyDown && !Input.GetKey(KeyCode.LeftShift))
         {
-            for(int num = 1; num < hotbar.Entries.Count; num++)
+            for(int num = 1; num <= hotbar.Entries.Count; num++)
             {
                 if(Input.GetKeyDown(num.ToString()))
                 {

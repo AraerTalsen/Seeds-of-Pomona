@@ -15,7 +15,7 @@ MonoBehaviour:
   inventory: []
   isPersisting: 0
   keyIndexPairs: []
-  unloadTime: 29.481709
+  unloadTime: 21.735254
   currentProgress: 0
   input:
   - quantity: 0

@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   isPersisting: 0
-  unloadTime: 0
-  currentProgress: 0
+  keyIndexPairs: []
+  unloadTime: 120.98111
+  currentProgress: 3.0199978
   input:
-  - quantity: 1
-    item: {fileID: 11400000, guid: 204f3677bdebde249a0fc9ba70767d8b, type: 2}
-    debugItemName: Smoke Plant Seeds
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
   failOutput:
-  - quantity: 20
-    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
-    debugItemName: Bio Mass
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty
   successOutput:
-  - quantity: 1
-    item: {fileID: 11400000, guid: 08f9d21415a741f40a3371fc900dcbea, type: 2}
-    debugItemName: Leap Plant Seeds(Clone) 5
+  - quantity: 0
+    item: {fileID: 0}
+    debugItemName: Empty

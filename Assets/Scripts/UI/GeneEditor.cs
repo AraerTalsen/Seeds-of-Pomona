@@ -92,7 +92,7 @@ public class GeneEditor : PersistentObject<GeneEditorData>
             }
             else//success
             {
-                successOutput.PushItems(outputs[1], 1, out _, true);
+                successOutput.PushItems(outputs[1], 1, out _);
             }
 
             if(IsAnyOutputFull())

@@ -143,7 +143,7 @@ public class GardenPlot : Interactable, ITimer
 
     public void RestartGrowth()
     {
-        IsInteractable = !isFinished;
+        IsInteractable = false;
         InitializeValues();
 
         //Remove line when bed is added back in
