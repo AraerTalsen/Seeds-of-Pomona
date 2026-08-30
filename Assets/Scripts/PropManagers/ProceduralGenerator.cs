@@ -35,11 +35,9 @@ public class ProceduralGenerator : MonoBehaviour
                 if (isUnobstructed && isWalkable)
                 {
                     Instantiate(props[i], spawnPoint, Quaternion.identity);
-                    if(this is not FlowerSpawner) Debug.Log($"Spawned enemy at {spawnPoint}");
                 }
                 else
                 {
-                    if(this is not FlowerSpawner) Debug.Log($"Failed to spawn enemy at {spawnPoint}. Trying again.");
                     FindClearSpace(props[i], spawnPoint);
                 }
 
@@ -68,14 +66,12 @@ public class ProceduralGenerator : MonoBehaviour
                 if (isUnobstructed && isWalkable)
                 {
                     Instantiate(g, temp, Quaternion.identity);
-                    if(this is not FlowerSpawner) Debug.Log($"Spawned enemy at {temp}");
                     return;
                 }
                 else
                 {
                     int dist = (int)Mathf.Abs((origin.x - newSpawn.x) + (origin.y - newSpawn.y));
                     if(dist < closestDir.distance) closestDir = (i, dist);
-                    if(this is not FlowerSpawner) Debug.Log($"Failed to spawn enemy at {temp}. Trying again.");
                 }
             }
 

@@ -652,13 +652,13 @@ GameObject:
   - component: {fileID: 2567994288817194849}
   - component: {fileID: -6699530613596730320}
   - component: {fileID: 3741620159249856732}
+  - component: {fileID: 8466045765474290160}
   - component: {fileID: 5909988225441890692}
   - component: {fileID: 3305717097246079606}
   - component: {fileID: 6621991016182924363}
   - component: {fileID: 4297527761132930061}
   - component: {fileID: 3922371995299262896}
   - component: {fileID: 7099110296153449815}
-  - component: {fileID: 8466045765474290160}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -899,6 +899,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3281aff53537fe4a915edfad321954a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8466045765474290160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428211342321066594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7093db4adc0c9f748b9211ac3a692f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iFrameDurration: 0
+  stats:
+    baseStats: 010000000200000001000000
 --- !u!114 &5909988225441890692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,21 +1044,6 @@ MonoBehaviour:
         abilityPayload:
           ability: {fileID: 11400000, guid: 9d28d1c3200d3d74db0aca2decbb5706, type: 2}
           probability: 1
---- !u!114 &8466045765474290160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5428211342321066594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7093db4adc0c9f748b9211ac3a692f75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iFrameDurration: 0
-  stats:
-    baseStats: 010000000200000001000000
 --- !u!1 &6037355154643804356
 GameObject:
   m_ObjectHideFlags: 0

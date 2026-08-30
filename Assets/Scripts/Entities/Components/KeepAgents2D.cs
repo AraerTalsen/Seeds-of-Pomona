@@ -11,5 +11,6 @@ public class KeepAgents2D : MonoBehaviour
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
 		agent.updateRotation = false;
 		agent.updateUpAxis = false;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }
