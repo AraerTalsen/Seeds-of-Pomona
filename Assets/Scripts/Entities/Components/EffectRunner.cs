@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectRunner : MonoBehaviour
+/*public class EffectRunner : MonoBehaviour
 {
     private readonly List<IEffectRuntime> runningEffects = new();
 
@@ -35,4 +35,4 @@ public class EffectRunner : MonoBehaviour
             
         }
     }
-}
+}*/

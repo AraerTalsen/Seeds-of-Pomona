@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+/*[System.Serializable]
 public class HeldItem 
 {
     public int id;
@@ -22,4 +22,4 @@ public class HeldItem
         TotalQty = totalQty;
         Coords = coords;
     }
-}
+}*/
