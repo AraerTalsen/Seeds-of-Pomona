@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jobListings: []
   requestedItems:
-  - quantity: 3
+  - quantity: 6
     item: {fileID: 11400000, guid: 204f3677bdebde249a0fc9ba70767d8b, type: 2}
     debugItemName: Smoke Plant Seeds
+  - quantity: 5
+    item: {fileID: 11400000, guid: 863882b4e10075c4b8243b824ad80410, type: 2}
+    debugItemName: Smoke Flower
   lastPostTime: 0
   isPersisting: 0
   isGeneEditorEnabled: 0

@@ -39,7 +39,7 @@ public class PUp : Item, IRuntimeLauncher
         {
             return string.Format(altTip, CleanName, ExpirationDay - TimerObserver.Instance.CurrentDay);
         }
-        return string.Format(defaultTip, isActive ? "Active" : "Passive", CleanName, Durability);
+        return string.Format(defaultTip, /*isActive ? "Active" : "Passive"*/"Power Up", CleanName, Durability);
     }
 
     public Task<IRuntimeEvent> LaunchEffect(EffectContext context) => affecter.CreateRuntimeEvent(context);

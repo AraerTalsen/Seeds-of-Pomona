@@ -78,6 +78,9 @@ MonoBehaviour:
   balance: 0
   hasDied: 0
   powerups:
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: 
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -97,6 +100,8 @@ MonoBehaviour:
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
-  hotbarKeys: []
+  hotbarKeys:
+  - _index: 1
+    _key: -9526
   powerupKeys: []
-  lockStates: 00
+  lockStates: 0000
