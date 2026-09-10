@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   isPersisting: 0
-  keyIndexPairs: []
-  unloadTime: 120.98111
-  currentProgress: 3.0199978
+  inventoryKeys: []
+  unloadTime: 0
+  currentProgress: 6.0403595
   input:
   - quantity: 0
     item: {fileID: 0}

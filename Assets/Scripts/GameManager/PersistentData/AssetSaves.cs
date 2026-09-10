@@ -10,7 +10,7 @@ public static class AssetSaves
         PlayerPrefs.Save();
     }
 
-    public static T Load<T>(string key) where T : PUp
+    public static T Load<T>(string key) where T : PowerUp
     {
         if(!PlayerPrefs.HasKey(key))
         {

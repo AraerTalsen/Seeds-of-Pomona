@@ -30,7 +30,7 @@ public class PlayerInventoryData : InventoryData
                 if(cloneKey.CompareTo("") != 0)
                 {
                     powerupKeys.Add(new KeyIndexPair { Index = i, Key = cloneKey });
-                    entries[i].Remove();
+                    //entries[i].Remove();
                 }
             }
         }
@@ -47,7 +47,7 @@ public class PlayerInventoryData : InventoryData
                 if(cloneKey.CompareTo("") != 0)
                 {
                     hotbarKeys.Add(new KeyIndexPair { Index = i, Key = cloneKey });
-                    entries[i].Remove();
+                    //entries[i].Remove();
                 }
             }
         }
@@ -58,7 +58,9 @@ public class PlayerInventoryData : InventoryData
     {
         foreach(var pair in powerupKeys)
         {
-            powerups[pair.Index].Set(1, (Item)UniqueItemManager.Load(pair.Key));
+            Item item = UniqueItemManager.Load(pair.Key);
+            item.CloneKey = pair.Key;
+            powerups[pair.Index].Set(1, item);
         }
         return powerups;
     }
@@ -67,7 +69,9 @@ public class PlayerInventoryData : InventoryData
     {
         foreach(var pair in hotbarKeys)
         {
-            hotbar[pair.Index].Set(1, (Item)UniqueItemManager.Load(pair.Key));
+            Item item = UniqueItemManager.Load(pair.Key);
+            item.CloneKey = pair.Key;
+            hotbar[pair.Index].Set(1, item);
         }
         return hotbar;
     }

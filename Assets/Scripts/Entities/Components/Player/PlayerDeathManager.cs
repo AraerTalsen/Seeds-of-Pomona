@@ -2,7 +2,6 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(Move_Player))]
 public class PlayerDeathManager : EntityDeathManager
 {
@@ -11,7 +10,7 @@ public class PlayerDeathManager : EntityDeathManager
     [SerializeField]
     private CinemachineVirtualCamera vcam;
 
-    [SerializeField] private PInv inventory;
+    [SerializeField] private PlayerInventory inventory;
     private Move_Player mp;
 
     private void Start()

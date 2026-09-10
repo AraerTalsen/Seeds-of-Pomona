@@ -20,12 +20,12 @@ public class InventoryData : PersistentDataBase
 
     [SerializeField]
     private bool isPersisting = false;
-    [SerializeField] private List<KeyIndexPair> keyIndexPairs = new();
+    [SerializeField] private List<KeyIndexPair> inventoryKeys = new();
     public bool IsPersisting { get => isPersisting; set => isPersisting = value; }
 
     public void SaveInventory(List<InventoryEntry> entries)
     {
-        keyIndexPairs.Clear();
+        inventoryKeys.Clear();
         for(int i = 0; i < entries.Count; i++)
         {
             if(!entries[i].IsEmpty)
@@ -33,8 +33,8 @@ public class InventoryData : PersistentDataBase
                 string cloneKey = entries[i].Item.CloneKey;
                 if(cloneKey.CompareTo("") != 0)
                 {
-                    keyIndexPairs.Add(new KeyIndexPair { Index = i, Key = cloneKey });
-                    entries[i].Remove();
+                    inventoryKeys.Add(new KeyIndexPair { Index = i, Key = cloneKey });
+                    //entries[i].Remove();
                 }
             }
         }
@@ -43,9 +43,11 @@ public class InventoryData : PersistentDataBase
 
     public List<InventoryEntry> LoadInventory()
     {
-        foreach(var pair in keyIndexPairs)
+        foreach(var pair in inventoryKeys)
         {
-            inventory[pair.Index].Set(1, (Item)UniqueItemManager.Load(pair.Key));
+            Item item = UniqueItemManager.Load(pair.Key);
+            item.CloneKey = pair.Key;
+            inventory[pair.Index].Set(1, item);
         }
         return inventory;
     }

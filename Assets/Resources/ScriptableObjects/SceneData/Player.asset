@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: 
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: 
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: 
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -74,34 +74,57 @@ MonoBehaviour:
     item: {fileID: 0}
     debugItemName: Empty
   isPersisting: 0
-  keyIndexPairs: []
+  inventoryKeys:
+  - _index: 0
+    _key: -109304
+  - _index: 1
+    _key: -109308
+  - _index: 2
+    _key: -109312
   balance: 0
   hasDied: 0
   powerups:
   - quantity: 1
     item: {fileID: 0}
     debugItemName: 
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: 
+  - quantity: 1
+    item: {fileID: 0}
+    debugItemName: 
   hotbar:
-  - quantity: 0
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Smoke Pod(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Leap Seed(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Pop Nut(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
+    debugItemName: Bash Bulb(Clone)
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: 
   hotbarKeys:
+  - _index: 0
+    _key: -110396
   - _index: 1
-    _key: -9526
-  powerupKeys: []
-  lockStates: 0000
+    _key: -110400
+  - _index: 2
+    _key: -110404
+  - _index: 3
+    _key: -110408
+  - _index: 4
+    _key: -109298
+  powerupKeys:
+  - _index: 0
+    _key: -108820
+  - _index: 1
+    _key: -108824
+  - _index: 2
+    _key: -108832
+  lockStates: 010101

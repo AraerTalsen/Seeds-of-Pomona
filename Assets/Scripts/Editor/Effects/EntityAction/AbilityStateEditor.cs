@@ -40,15 +40,15 @@ public class AbilityStateEditor : Editor
 
     private void UpdateEffectInstance(SerializedProperty labelProp, SerializedProperty effectProp)
     {
-        PUp.EffectLabel selected = (PUp.EffectLabel)labelProp.enumValueIndex;
+        PowerUp.EffectLabel selected = (PowerUp.EffectLabel)labelProp.enumValueIndex;
         Affecter affecter = effectProp.managedReferenceValue as Affecter;
 
         effectProp.managedReferenceValue = selected switch
         {
-            PUp.EffectLabel.stat => new StatAffecter(affecter),
-            PUp.EffectLabel.transform => new TransformAffecter(affecter),
-            PUp.EffectLabel.instantiate => new InstantiationAffecter(affecter),
-            PUp.EffectLabel.status => new StatusAffecter(affecter),
+            PowerUp.EffectLabel.stat => new StatAffecter(affecter),
+            PowerUp.EffectLabel.transform => new TransformAffecter(affecter),
+            PowerUp.EffectLabel.instantiate => new InstantiationAffecter(affecter),
+            PowerUp.EffectLabel.status => new StatusAffecter(affecter),
             _ => null
         };
 
@@ -61,14 +61,14 @@ public class AbilityStateEditor : Editor
         if(data == null) return;
         
         labelProp.enumValueIndex = (int)data.EffectMode;
-        PUp.EffectLabel selected = (PUp.EffectLabel)labelProp.enumValueIndex;
+        PowerUp.EffectLabel selected = (PowerUp.EffectLabel)labelProp.enumValueIndex;
 
         effectProp.managedReferenceValue = selected switch
         {
-            PUp.EffectLabel.stat => new StatAffecter(data),
-            PUp.EffectLabel.transform => new TransformAffecter(data),
-            PUp.EffectLabel.instantiate => new InstantiationAffecter(data),
-            PUp.EffectLabel.status => new StatusAffecter(data),
+            PowerUp.EffectLabel.stat => new StatAffecter(data),
+            PowerUp.EffectLabel.transform => new TransformAffecter(data),
+            PowerUp.EffectLabel.instantiate => new InstantiationAffecter(data),
+            PowerUp.EffectLabel.status => new StatusAffecter(data),
             _ => null
         };
 

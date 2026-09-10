@@ -9,7 +9,7 @@ public class EffectParameters : ScriptableObject
     [SerializeField] protected bool lockMovement;
     [SerializeField] protected int stackableUntil;
 
-    [SerializeField] protected PUp.EffectLabel effectLabel;
+    [SerializeField] protected PowerUp.EffectLabel effectLabel;
     [SerializeField] protected Affecter.LifetimeLabel lifetimeLabel;
     [SerializeReference] protected LifetimeLogic lifetime = new InstantLifetime();
     [SerializeField] protected Affecter.RepeatLabel repeatLabel;
@@ -20,7 +20,7 @@ public class EffectParameters : ScriptableObject
     public bool LockMovement { get => lockMovement; set => lockMovement = value; }
     public int StackableUntil { get => stackableUntil; set => stackableUntil = value; }
 
-    public PUp.EffectLabel EffectMode => effectLabel;
+    public PowerUp.EffectLabel EffectMode => effectLabel;
     public Affecter.LifetimeLabel LifetimeMode { get => lifetimeLabel; set => lifetimeLabel = value; }
     public LifetimeLogic Lifetime { get => lifetime; set => lifetime = value; }
     public Affecter.RepeatLabel RepeatMode { get => repeatLabel; set => repeatLabel = value; }

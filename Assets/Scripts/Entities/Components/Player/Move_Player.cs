@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ClickObjectInWorld))]
-[RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(PlayerInteract))]
 [RequireComponent(typeof(EntityOrientation))]
 public class Move_Player : MonoBehaviour
@@ -15,7 +14,7 @@ public class Move_Player : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private PlayerInteract playerInteract;
     private ClickObjectInWorld cow;
-    public PInv inventory;
+    public PlayerInventory inventory;
     private EntityOrientation entityOrientation;
     [SerializeField] private Animator animator;
     private Vector2 lastMoveDirection;

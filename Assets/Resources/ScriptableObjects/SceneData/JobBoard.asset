@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jobListings: []
   requestedItems:
-  - quantity: 6
+  - quantity: 8
     item: {fileID: 11400000, guid: 204f3677bdebde249a0fc9ba70767d8b, type: 2}
     debugItemName: Smoke Plant Seeds
   - quantity: 5
