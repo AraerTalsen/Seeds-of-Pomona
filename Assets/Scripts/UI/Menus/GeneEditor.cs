@@ -3,40 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GeneEditor : PersistentObject<GeneEditorData>
+public class GeneEditor : BasicMenu
 {
-    [SerializeField] private GeneEditorData persist;
-    [SerializeField] private Transform invContainerInput;
-    [SerializeField] private Transform invContainerFailedOutput;
-    [SerializeField] private Transform invContainerSucceededOutput;
-    [SerializeField] private int successOdds;
-    public int processTime;
+    //[SerializeField] private GeneEditorData persist;
+    //[SerializeField] private Transform invContainerInput;
+    //[SerializeField] private Transform invContainerFailedOutput;
+    //[SerializeField] private Transform invContainerSucceededOutput;
+    //[SerializeField] private int successOdds;
+    //public int processTime;
     public int machineId;
-    private bool isProcessing = false;
+    //private bool isProcessing = false;
     [SerializeField] private Image stdProgressBar;
-    private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
-    private BoundedDDI input;
-    private BoundedDDI failOutput, successOutput;
-    //private BoundedDDI spOutput;
-    private Vector2Int filledOutputSlots = Vector2Int.zero;
+    //private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
+    //private BoundedDDI input;
+    //private BoundedDDI failOutput, successOutput;
+    //private Vector2Int filledOutputSlots = Vector2Int.zero;
+    [SerializeField] private GeneEditorManager manager;
 
     protected void Start()
     {
-        Persist = RetrieveData(persist);
-        PullData();
+        //Persist = RetrieveData(persist);
+        //PullData();
+        manager.Initialize(this);
     }
 
     private void FixedUpdate()
     {
-        ToggleProcessCheck();
+        manager.ToggleProcessCheck();
 
-        if (isProcessing)
+        if (manager.IsProcessing)
         {
+            manager.Tick();
             DisplayProgress();
         }
     }
 
-    private void ToggleProcessCheck()
+    /*private void ToggleProcessCheck()
     {
         if (filledOutputSlots.magnitude == 0 && input.Read(0) != null && !input.Read(0).IsEmpty && !isProcessing)
         {
@@ -103,22 +105,22 @@ public class GeneEditor : PersistentObject<GeneEditorData>
             }
         }
         return unfulfilled;
-    }
+    }*/
 
     private void DisplayProgress()
     {
-        timePassed += Time.deltaTime;
-        float ratio = timePassed / processTime % 1;
+        manager.TimePassed += Time.deltaTime;
+        float ratio = manager.TimePassed / manager.ProcessTime % 1;
         stdProgressBar.fillAmount = ratio;
     }
 
-    private void ResetProgress()
+    public void ResetProgress()
     {
-        timePassed = 0;
+        manager.TimePassed = 0;
         stdProgressBar.fillAmount = 0;
     }
 
-    private void CalculateProgress()
+    /*private void CalculateProgress()
     {
         timePassed += WorldClock.WorldTimeSince(unloadTime);
         int numLoopsFinished = Mathf.Min(input.Read(0).Quantity, (int)timePassed / processTime);
@@ -168,7 +170,6 @@ public class GeneEditor : PersistentObject<GeneEditorData>
 
     private void SlotWasEmptied()
     {
-        //failOutput.Listener.PrintAllDetails();
         IsAnyOutputFull();
     }
 
@@ -190,10 +191,7 @@ public class GeneEditor : PersistentObject<GeneEditorData>
         Persist.IsPersisting = true;
         Persist.UnloadTime = Time.time;
         Persist.CurrentProgress = timePassed;
-    }
+    }*/
 
-    private void OnDisable()
-    {
-        PushData();
-    }
+    private void OnDisable() => manager.OnDisable();
 }

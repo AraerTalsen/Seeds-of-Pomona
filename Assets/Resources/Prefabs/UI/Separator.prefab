@@ -323,7 +323,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701024510140644001}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1095,10 +1095,9 @@ MonoBehaviour:
   toolTip: 
   isTrashable: 0
   trashItem: {fileID: 0}
-  invIndex: 0
   slotIndex: 0
   isPrivateInput: 0
-  whitelist: 
+  whitelist: 01000000
   isLocked: 0
 --- !u!1 &4247398799849221045
 GameObject:
@@ -1267,7 +1266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8999318456920042770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1355,7 +1354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1951893539600139572
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1486,10 +1485,10 @@ RectTransform:
   - {fileID: 5751418058502805133}
   m_Father: {fileID: 6944080202308621607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 178.5, y: -32.5}
-  m_SizeDelta: {x: 55, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7852628326614168107
 CanvasRenderer:
@@ -1545,7 +1544,6 @@ MonoBehaviour:
   toolTip: 
   isTrashable: 0
   trashItem: {fileID: 0}
-  invIndex: 0
   slotIndex: 0
   isPrivateInput: 1
   whitelist: 
@@ -1719,7 +1717,6 @@ MonoBehaviour:
   toolTip: 
   isTrashable: 0
   trashItem: {fileID: 0}
-  invIndex: 0
   slotIndex: 0
   isPrivateInput: 1
   whitelist: 02000000
@@ -1834,10 +1831,10 @@ RectTransform:
   - {fileID: 1772764516641355870}
   m_Father: {fileID: 6944080202308621607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.5, y: -32.5}
-  m_SizeDelta: {x: 55, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2536199063967965572
 CanvasRenderer:
@@ -1893,7 +1890,6 @@ MonoBehaviour:
   toolTip: 
   isTrashable: 0
   trashItem: {fileID: 0}
-  invIndex: 0
   slotIndex: 0
   isPrivateInput: 1
   whitelist: 

@@ -18,7 +18,6 @@ public class InventoryDisplayManager
 
     public DragNDropInventory Inventory { get; set; }
     protected Transform InvContainer { get; set; }
-    public BasicMenu Menu { get; set; }
 
     public void InitializeInventoryDisplay()
     {

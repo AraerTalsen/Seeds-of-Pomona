@@ -2,40 +2,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
-//Manage JobRequest creation and organization 
+[System.Serializable]
 public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 {
     [SerializeField] private JobBoardData persist;
+    [SerializeField] private int intervalInDays, maxJobCapacity;
     private List<JobRequestContainer> jobListings;
     private List<InventoryEntry> requestedItems;
     private List<(int requestedItmIndex, int itemId)?> fulfilledItems;
 
-    //private float lastPostTime = 0;
-    [SerializeField]
-    private int intervalInDays;
     public int IntervalInDays {get => intervalInDays;}
     private PlayerInventory inv;
-    public int maxJobCapacity;
     private JobBoardDisplay jobBoardDisplay;
-    private BusinessOperationsnManager busOp;
+    private BusinessOperationsManager busOp;
     private JobBoardProperties jobBoardProperties;
     private ShopManager shopManager;
 
-    private void Start()
+     public void Initialize(ShopManager shop, BusinessOperationsManager operations)
     {
         Persist = RetrieveData(persist);
         jobBoardProperties = new();
-        shopManager = GetComponent<ShopManager>();
-        busOp = GetComponent<BusinessOperationsnManager>();
+        shopManager = shop;
+        busOp = operations;
         PullData();
 
         //Remove this line when the bed is added back in
         IncrementTime();
-    }
-
-    private void FixedUpdate()
-    {
-        ClearOldJobs();
+        InitializeDisplayManager();
     }
 
     protected override void PullData()
@@ -68,7 +61,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 
     public void IncrementTime()
     {
-        print("Day: " + TimerObserver.Instance.CurrentDay);
+        Debug.Log("Day: " + TimerObserver.Instance.CurrentDay);
         if (TimerObserver.Instance.CurrentDay % IntervalInDays == 0 && jobListings.Count < maxJobCapacity)
         {
             CreateNewJobRequest();
@@ -76,7 +69,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
     }
 
     //What's a more streamlined way of dynamically removing all items from a list that meet a certain condition? Can it be done in a single pass?
-    private void ClearOldJobs()
+    public void ClearOldJobs()
     {
         List<JobRequestContainer> removeJobs = new();
         for (int i = 0; i < jobListings.Count; i++)
@@ -193,7 +186,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 
     public void CompleteJobRequest()
     {
-        inv.wallet.IncrementBalance(jobListings[jobBoardDisplay.currentListingIndex].Reward);
+        inv.Wallet.IncrementBalance(jobListings[jobBoardDisplay.currentListingIndex].Reward);
         busOp.UpdatePlayerWallet();
         TakeItemsFromPlayer();
         RemoveJobRequest();

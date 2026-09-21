@@ -5,28 +5,29 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 
-public class JobBoardDisplay : MonoBehaviour
+[System.Serializable]
+public class JobBoardDisplay
 {
+    [SerializeField] private Transform jobBoard;
+    private Transform jobPostingGroup;
+    private Image itemImg;
+    private Button complete;
+    private GameObject leftArrow, rightArrow, emptyBoard;
+    public int currentListingIndex = 0;
+    public UnityAction CompleteJobRequest;
+
     public List<JobRequestContainer> JobListings { get; set; }
-    private Transform jobBoard, jobPostingGroup;
     public TMP_Text Description { get; private set; }
     public TMP_Text ItemQty { get; private set; }
     public TMP_Text QtyInInv { get; private set; }
     public TMP_Text Reward { get; private set; }
     public bool JobListingsActiveSelf { get; private set; }
     public JobBoardProperties JobBoardProperties { get; set; }
-    private Image itemImg;
-    private Button complete;
-    private GameObject leftArrow, rightArrow, emptyBoard;
-    public int currentListingIndex = 0;
 
-    public UnityAction CompleteJobRequest;
-
-    public void InitializeVariables()
+    public void Initialize()
     {
         if(jobPostingGroup == null)
         {
-            jobBoard = gameObject.transform;
             jobPostingGroup = jobBoard.GetChild(0);
             Description = jobPostingGroup.GetChild(1).GetComponent<TMP_Text>();
             ItemQty = jobPostingGroup.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
@@ -45,25 +46,6 @@ public class JobBoardDisplay : MonoBehaviour
             JobListingsActiveSelf = false;   
         }
     }
-
-    /*public override void ToggleMenu(GameObject menu2 = null, Move_Player mp = null)
-    {
-        Debug.Log(menu2);
-        base.ToggleMenu(menu2);
-
-        isOpen = !isOpen;
-
-        if (inv == null)
-        {
-            inv = mp.inventory;
-        }
-        CheckPlayerInventory();
-        if (JobListings.Count > 0)
-        {
-            ActivateJobBoard();
-            LoadJob();
-        }
-    }*/
 
     public void UpdateArrowButtons()
     {

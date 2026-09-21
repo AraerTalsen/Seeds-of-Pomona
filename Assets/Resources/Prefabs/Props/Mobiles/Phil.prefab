@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 654915588180601310}
   - component: {fileID: 4775279050901825809}
   - component: {fileID: 4846178906144841076}
-  - component: {fileID: 4007657117416416390}
   - component: {fileID: 8831926056904152431}
   - component: {fileID: 1475039956733837479}
   - component: {fileID: 8394567971416588847}
@@ -241,18 +240,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b8cd0cc0fbadbb46ba7cf04ea251ddd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4007657117416416390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180260199965328572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 963f58b9b2bee074cb183ff0565ba69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8831926056904152431
@@ -353,7 +340,6 @@ GameObject:
   - component: {fileID: 7100847396543631931}
   - component: {fileID: 1636911816530456410}
   - component: {fileID: 2645968022735046473}
-  - component: {fileID: 5997011432069869266}
   - component: {fileID: 7380057304703131252}
   - component: {fileID: 8502245501863666428}
   - component: {fileID: 3711395206977196628}
@@ -569,44 +555,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f1563592439314ba24f47c6e4ff2f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefill:
-    isPrivateInput: 0
-    isLocked: 0
-    toolTip: Powerups placed here are committed and cannot be recovered once I have
-      entered the wilderness.
-    isTrashable: 1
-    whitelist: 02000000
-    iSlot: {fileID: 4059049455684167818, guid: dab61702b5872c34b89614a0a8a157e6, type: 3}
-  bagContainer: {fileID: 747182706675965952}
-  powerupContainer: {fileID: 5478059445447874962}
-  hotbarContainer: {fileID: 5079549893142801108}
-  hotbarHUDContainer: {fileID: 3061604380011691405}
+  menu: {fileID: 943175505593346667}
+  pm: {fileID: 2134567587334468044}
+  isOpenPInv: 0
   deathMsg: I died and lost all of my possesions in the wilderness.
-  HUDSlot: {fileID: 6009122637976612303, guid: 567a754ef278a5349806dbf06ac614c4, type: 3}
-  HUDContainer: {fileID: 2733592903732533158}
   move_Player: {fileID: 8394567971416588847}
-  persist: {fileID: 11400000, guid: e449da27a43f7b341b253180e8a7f2b7, type: 2}
-  bagCapacity: 20
-  powerupCapacity: 3
-  wallet: {fileID: 7380057304703131252}
   stats: {fileID: 3711395206977196628}
   orientation: {fileID: 1475039956733837479}
   tactileSense: {fileID: 7896068677050159359}
---- !u!114 &5997011432069869266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3290296282669825184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff171e11939d6c142b9082c30dc3ebb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 943175505593346667}
-  pm: {fileID: 2134567587334468044}
-  openPlayerInventory: 0
+  manager:
+    persist: {fileID: 11400000, guid: e449da27a43f7b341b253180e8a7f2b7, type: 2}
+    bagContainer: {fileID: 747182706675965952}
+    powerupHUDContainer: {fileID: 2733592903732533158}
+    powerupContainer: {fileID: 5478059445447874962}
+    hotbarContainer: {fileID: 5079549893142801108}
+    hotbarHUDContainer: {fileID: 3061604380011691405}
+    powerupHUDSlotPrefab: {fileID: 6009122637976612303, guid: 567a754ef278a5349806dbf06ac614c4, type: 3}
+    prefill:
+      isPrivateInput: 0
+      isLocked: 0
+      toolTip: 
+      isTrashable: 0
+      whitelist: 
+      iSlot: {fileID: 0}
+    wallet: {fileID: 7380057304703131252}
+    powerupCapacity: 3
 --- !u!114 &7380057304703131252
 MonoBehaviour:
   m_ObjectHideFlags: 0

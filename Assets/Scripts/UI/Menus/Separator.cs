@@ -5,41 +5,40 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //Machine that takes an input item and creates up to two types of output items from it.
-public class Separator : PersistentObject<SeparatorData>
+public class Separator : BasicMenu
 {
-    [SerializeField] private SeparatorData persist;
-    [SerializeField] private Transform invContainerInput;
-    [SerializeField] private Transform invContainerStdOutput;
-    //[SerializeField] private Transform invContainerSpOutput;
-    public int processTime;
+    //[SerializeField] private SeparatorData persist;
+    //[SerializeField] private Transform invContainerInput;
+    //[SerializeField] private Transform invContainerStdOutput;
+    //public int processTime;
     public int machineId;
-    private bool isProcessing = false;
-    //private bool isGenPowerup = false;
+    //private bool isProcessing = false;
     [SerializeField] private Image stdProgressBar;
-    //[SerializeField] private Image spProgressBar;
-    private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
-    private BoundedDDI input;
-    private BoundedDDI stdOutput;
-    //private BoundedDDI spOutput;
-    private Vector2Int filledOutputSlots = Vector2Int.zero;
+    //private float unloadTime = 0, timePassed = 0, carryOverProgress = 0;
+    //private BoundedDDI input;
+    //private BoundedDDI stdOutput;
+    //private Vector2Int filledOutputSlots = Vector2Int.zero;
+    [SerializeField] private SeparatorManager manager;
 
     protected void Start()
     {
-        Persist = RetrieveData(persist);
-        PullData();
+        /*Persist = RetrieveData(persist);
+        PullData();*/
+        manager.Initialize(this);
     }
 
     private void FixedUpdate()
     {
-        ToggleProcessCheck();
+        manager.ToggleProcessCheck();
 
-        if (isProcessing)
+        if (manager.IsProcessing)
         {
+            manager.Tick();
             DisplayProgress();
         }
     }
 
-    private void ToggleProcessCheck()
+    /*private void ToggleProcessCheck()
     {
         if (filledOutputSlots.magnitude == 0 && input.Read(0) != null && !input.Read(0).IsEmpty && !isProcessing)
         {
@@ -68,11 +67,9 @@ public class Separator : PersistentObject<SeparatorData>
     {
         while (input.Read(0).Quantity > 0)
         {
-            //isGenPowerup = IsSpecialGenerating(input.Read(0).Item);
             yield return new WaitForSeconds(processTime - carryOverProgress);
             carryOverProgress = 0;
             PullFromInputSlot(1);
-            //isGenPowerup = false;
         }
         isProcessing = false;
     }
@@ -94,12 +91,6 @@ public class Separator : PersistentObject<SeparatorData>
             stdOutput.PushItems(outputs[0], randQty, out _);
             stdOutput.PushItems(outputs[1], 1, out _);
 
-            /*if(isGenPowerup)
-            {
-                spOutput.PushItems(input.Read(0).Item.specialOutputID, 1);
-                print(spOutput.Read(0));
-            }*/
-
             if(IsAnyOutputFull())
             {
                 StopProcess();
@@ -108,34 +99,22 @@ public class Separator : PersistentObject<SeparatorData>
             }
         }
         return unfulfilled;
-    }
-
-    /*private bool IsSpecialGenerating(Item item)
-    {
-        bool hasPowerup = item.specialOutputID > -1;
-        int rand = Random.Range(0, 100);
-        return hasPowerup && rand <= item.specialChance;
     }*/
 
     private void DisplayProgress()
     {
-        timePassed += Time.deltaTime;
-        float ratio = timePassed / processTime % 1;
+        manager.TimePassed += Time.deltaTime;
+        float ratio = manager.TimePassed / manager.ProcessTime % 1;
         stdProgressBar.fillAmount = ratio;
-        /*if(isGenPowerup)
-        {
-            spProgressBar.fillAmount = ratio;
-        }*/
     }
 
-    private void ResetProgress()
+    public void ResetProgress()
     {
-        timePassed = 0;
+        manager.TimePassed = 0;
         stdProgressBar.fillAmount = 0;
-        //spProgressBar.fillAmount = 0;
     }
 
-    private void CalculateProgress()
+    /*private void CalculateProgress()
     {
         timePassed += WorldClock.WorldTimeSince(unloadTime);
         int numLoopsFinished = Mathf.Min(input.Read(0).Quantity, (int)timePassed / processTime);
@@ -156,9 +135,7 @@ public class Separator : PersistentObject<SeparatorData>
     {
         input = new(invContainerInput);
         stdOutput = new(invContainerStdOutput, true);
-        //spOutput = new(invContainerSpOutput, true);
         stdOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
-        //spOutput.Listener.SubscribeToChanges(SlotWasEmptied, InventoryListener.SlotTouchMode.Set);
 
         if(!Persist.IsPersisting)
         {
@@ -190,26 +167,21 @@ public class Separator : PersistentObject<SeparatorData>
     {
         filledOutputSlots.x = GetFilledValue(stdOutput.Read(0));
         filledOutputSlots.y = GetFilledValue(stdOutput.Read(1));
-        //filledOutputSlots.z = GetFilledValue(spOutput.Read(0));
 
         return filledOutputSlots.x > 0 
             || filledOutputSlots.y > 0; 
-            //|| filledOutputSlots.z > 0;
     }
 
     private int GetFilledValue(InventoryEntry slot) =>
         (slot != null && !slot.IsEmpty && 
         slot.Quantity >= slot.Item.maxStackSize) ? 1 : 0;
 
-    protected override void PushData()
+    /*protected override void PushData()
     {
         Persist.IsPersisting = true;
         Persist.UnloadTime = Time.time;
         Persist.CurrentProgress = timePassed;
-    }
+    }*/
 
-    public void OnDisable()
-    {
-        PushData();
-    }
+    public void OnDisable() => manager.OnDisable();
 }

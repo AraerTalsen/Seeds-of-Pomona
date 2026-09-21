@@ -53,7 +53,7 @@ public class PanelManager : MonoBehaviour
         return menus.ContainsKey(menu);
     }
 
-    public void ToggleMenus(GameObject menu)
+    private void ToggleMenus(GameObject menu)
     {
         activeMenu = !panel.activeSelf ? menu : playerInv;
         panel.SetActive(!panel.activeSelf);
@@ -63,6 +63,13 @@ public class PanelManager : MonoBehaviour
         {
             playerInv.SetActive(!playerInv.activeSelf);
         }
+    }
+
+    public void ToggleFlow(GameObject menu)
+    {
+        CursorManager.CurrentCursor = CursorManager.CursorType.DEFAULT;
+        ToggleMenus(menu);
+        move_Player.TogglePauseMovement();
     }
 
     private void ToggleFlow()

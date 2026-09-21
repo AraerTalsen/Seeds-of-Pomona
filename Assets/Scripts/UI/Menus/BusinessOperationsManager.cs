@@ -5,8 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BusinessOperationsnManager : BasicMenu
+public class BusinessOperationsManager : BasicMenu
 {
+    //Try making the display and manager classes System.Serializable as well to see if they can have the parametere directly
+    //added in instead of using a constructor
+
     [System.Serializable]
     public class Submenu
     {
@@ -17,9 +20,14 @@ public class BusinessOperationsnManager : BasicMenu
         public Button Tab => tab;
     }
     
-    [SerializeField] private JobBoardDisplay jobBoardDisplay;
-    [SerializeField] private TextMeshProUGUI playerWallet;
     [SerializeField] private List<Submenu> submenues = new();
+    [SerializeField] private TextMeshProUGUI playerWallet;
+    //[SerializeField] private int intervalInDays;
+    //[SerializeField] private int maxJobCapacity;
+    //[SerializeField] private Transform jobBoardObj;
+    [SerializeField] private JobBoardDisplay jobBoardDisplay;
+    [SerializeField] private JobBoardManager jobBoardManager;
+    private ShopManager shopManager;
     
     public PlayerInventory Inv { get; set; }
     public bool isOpen = false;
@@ -31,21 +39,18 @@ public class BusinessOperationsnManager : BasicMenu
 
     private void Start()
     {
-        GetComponent<JobBoardManager>().InitializeDisplayManager();
-        JobBoardDisplay.InitializeVariables();
+       jobBoardDisplay.Initialize();
+       jobBoardManager.Initialize(shopManager, this);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(isOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)))
-        {
-            isOpen = false;
-        }
+        jobBoardManager.ClearOldJobs();
     }
-    
-    public override void ToggleMenu(GameObject menu2 = null, Move_Player mp = null)
+
+    public override void ToggleMenu(Move_Player mp)
     {
-        base.ToggleMenu(menu2);
+        base.ToggleMenu();
 
         isOpen = true;
 
@@ -77,7 +82,7 @@ public class BusinessOperationsnManager : BasicMenu
         }
     }
 
-    public void UpdatePlayerWallet() => playerWallet.text = "$" + Inv.wallet.CurrentBalance.ToString();
+    public void UpdatePlayerWallet() => playerWallet.text = "$" + Inv.Wallet.CurrentBalance.ToString();
 
     private void SetSubmenuActivity(int index, bool isActive)
     {

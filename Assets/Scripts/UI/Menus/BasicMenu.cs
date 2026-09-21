@@ -6,13 +6,11 @@ public class BasicMenu : MonoBehaviour
 {
     [SerializeField] private GameObject menu;
     [SerializeField] private PanelManager pm;
-    [SerializeField] private bool openPlayerInventory = false;
+    [SerializeField] private bool isOpenPInv;
 
-    public GameObject Menu {get => menu; set => menu = value; }
     public GameObject ActiveMenu { get => menu; }
 
-    //Is there a better way to access the player inventory data structure than this since only the Job Board needs it right now?
-    public virtual void ToggleMenu(GameObject menu2 = null, Move_Player mp = null)
+    public virtual void ToggleMenu(Move_Player mp = null)
     {
         SignalPanelManager();
     }
@@ -21,12 +19,12 @@ public class BasicMenu : MonoBehaviour
     {
         if(!pm.HasMenu(ActiveMenu))
         {
-           pm.AddMenu(ActiveMenu, openPlayerInventory);
-           pm.ToggleMenus(ActiveMenu);
+           pm.AddMenu(ActiveMenu, isOpenPInv);
+           pm.ToggleFlow(ActiveMenu);
         }
         else
         {
-            pm.ToggleMenus(ActiveMenu);
+            pm.ToggleFlow(ActiveMenu);
         }
     }
 }

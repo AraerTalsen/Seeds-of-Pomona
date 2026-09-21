@@ -36,11 +36,11 @@ public class ShopManager : MonoBehaviour
         }
     }
     public bool IsGeneEditorEnabled { get; private set; } = false;
-    private BusinessOperationsnManager busOp;
+    private BusinessOperationsManager busOp;
 
     private void Start()
     {
-        busOp = GetComponent<BusinessOperationsnManager>();
+        busOp = GetComponent<BusinessOperationsManager>();
     }
 
     public void Initialize() => EnableGeneEditor();
@@ -56,9 +56,9 @@ public class ShopManager : MonoBehaviour
 
     private void TryCompleteTransaction(string buttonName, string titleCardName, string cost)
     {
-        if(int.TryParse(cost[(cost.IndexOf('$') + 1)..], out int costAsNum) && PlayerInventory.wallet.CurrentBalance >= costAsNum)
+        if(int.TryParse(cost[(cost.IndexOf('$') + 1)..], out int costAsNum) && PlayerInventory.Wallet.CurrentBalance >= costAsNum)
         {
-            PlayerInventory.wallet.DecrementBalance(costAsNum);
+            PlayerInventory.Wallet.DecrementBalance(costAsNum);
             busOp.UpdatePlayerWallet();
             PurchaseWares(buttonName, titleCardName);
         }
@@ -85,7 +85,7 @@ public class ShopManager : MonoBehaviour
 
     public void UpdateDisplays()
     {
-        int playerBalance = PlayerInventory.wallet.CurrentBalance;
+        int playerBalance = PlayerInventory.Wallet.CurrentBalance;
         foreach(var ware in wares)
         {
             string cost = ware.Price.text;

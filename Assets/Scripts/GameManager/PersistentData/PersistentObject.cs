@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PersistentObject<TPersist> : 
-    MonoBehaviour where TPersist : PersistentDataBase
+public abstract class PersistentObject<TPersist> where TPersist : PersistentDataBase
 {
     protected TPersist Persist { get; set; }
     protected TPersist RetrieveData(TPersist persist)
