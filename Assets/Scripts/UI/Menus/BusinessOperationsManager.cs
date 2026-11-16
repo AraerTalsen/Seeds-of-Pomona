@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class BusinessOperationsManager : BasicMenu
 {
-    //Try making the display and manager classes System.Serializable as well to see if they can have the parametere directly
-    //added in instead of using a constructor
-
     [System.Serializable]
     public class Submenu
     {
@@ -22,9 +19,6 @@ public class BusinessOperationsManager : BasicMenu
     
     [SerializeField] private List<Submenu> submenues = new();
     [SerializeField] private TextMeshProUGUI playerWallet;
-    //[SerializeField] private int intervalInDays;
-    //[SerializeField] private int maxJobCapacity;
-    //[SerializeField] private Transform jobBoardObj;
     [SerializeField] private JobBoardDisplay jobBoardDisplay;
     [SerializeField] private JobBoardManager jobBoardManager;
     private ShopManager shopManager;
@@ -39,8 +33,9 @@ public class BusinessOperationsManager : BasicMenu
 
     private void Start()
     {
-       jobBoardDisplay.Initialize();
-       jobBoardManager.Initialize(shopManager, this);
+        shopManager = GetComponent<ShopManager>();
+        jobBoardManager.Initialize(shopManager, this);
+        jobBoardDisplay.Initialize();
     }
 
     private void FixedUpdate()
@@ -69,6 +64,14 @@ public class BusinessOperationsManager : BasicMenu
         }
     }
 
+    private void Update()
+    {
+        if((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && isOpen)
+        {
+            isOpen = false;
+        }
+    }
+
     public void SetSubmenuToCurrent(Button clicked)
     {
         int index = submenues.FindIndex( s => s.Tab == clicked );
@@ -89,4 +92,6 @@ public class BusinessOperationsManager : BasicMenu
         submenues[index].Menu.SetActive(isActive);
         submenues[index].Tab.interactable = !isActive;
     }
+
+    private void OnDisable() => jobBoardManager.OnDisable();
 }

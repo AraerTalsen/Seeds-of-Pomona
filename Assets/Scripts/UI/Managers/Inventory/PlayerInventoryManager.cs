@@ -54,12 +54,7 @@ public class PlayerInventoryManager : PersistentObject<PlayerInventoryData>
     }
 
     protected override void PushData()
-    {
-        if(SceneManager.GetActiveScene().name.CompareTo("Wilderness") == 0)
-        {
-            TimerObserver.Instance.Broadcast();
-        }
-        
+    {        
         Persist.Balance = wallet.CurrentBalance;
         Persist.SaveInventory(bag.Entries);
         Persist.SaveHotbar(hotbar.Entries);

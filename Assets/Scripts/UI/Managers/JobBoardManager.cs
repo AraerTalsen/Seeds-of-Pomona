@@ -26,14 +26,14 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         busOp = operations;
         PullData();
 
-        //Remove this line when the bed is added back in
-        IncrementTime();
         InitializeDisplayManager();
+        TimerObserver.Instance.Broadcast();
     }
 
     protected override void PullData()
     {
         TimerObserver.Instance.Subscribe(this);
+
         jobListings = new();
         requestedItems = new();
         if (!Persist.IsPersisting)
@@ -74,7 +74,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         List<JobRequestContainer> removeJobs = new();
         for (int i = 0; i < jobListings.Count; i++)
         {
-            if (jobListings[i].Deadline <= TimerObserver.Instance.CurrentDay/*WorldClock.WorldTimeInSeconds*/)
+            if (jobListings[i].Deadline <= TimerObserver.Instance.CurrentDay)
             {
                 removeJobs.Add(jobListings[i]);
             }
@@ -82,7 +82,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 
         for (int i = 0; i < removeJobs.Count; i++)
         {
-            RemoveJobRequest(removeJobs[i]/*i*/);
+            RemoveJobRequest(removeJobs[i]);
         }
     }
 
@@ -101,7 +101,6 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         requestedItems.Add(new InventoryEntry(job.ItemQty, job.RequestedItem));
         jobListings.Add(job);
 
-        //Should no longer be possible
         if (busOp.isOpen)
         {
             CheckPlayerInventory();
@@ -120,15 +119,12 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         inv = inv == null ? busOp.Inv : inv;
         jobBoardProperties.FulfilledRequests = new();
         jobBoardProperties.CurrentPlayerInv.Clear();
-        //fulfilledItems = new();
 
         if (inv != null)
         {
             for (int i = 0; i < requestedItems.Count; i++)
             {
-                int id = requestedItems[i].Item.id;//inv.GetInventory().Find(requestedItems[i].Item.id);
-                //(int, int)? temp = inv.GetInventory().Find(id) == null ? null : (i, id);
-                //fulfilledItems.Add(temp);
+                int id = requestedItems[i].Item.id;
                 if(inv.Find(id) != null)
                 {
                     TryFulfillRequest(id, i);
@@ -141,33 +137,8 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
                     }
                 }
             }
-            //FindFulfilledRequests();
         }
     }
-
-    //Find all jobs where the player has the correct quantity of the requested items
-    /*private void FindFulfilledRequests()
-    {
-        if (fulfilledItems.Count > 0)
-        {
-            jobBoardProperties.FulfilledRequests = new();
-
-            for (int i = 0; i < requestedItems.Count; i++)
-            {
-                if (fulfilledItems[i] != null)
-                {
-                    int itemId = fulfilledItems[i].Value.itemId;
-                    int heldItemQty = inv.GetInventory().Sum(itemId);
-                    if (requestedItems[i].Quantity <= heldItemQty)
-                    {
-                        jobBoardProperties.FulfilledRequests.Add(fulfilledItems[i].Value.itemId);
-                    }
-                }
-            }
-            
-            jobBoardDisplay.UpdateCompleteButton();
-        }
-    }*/
 
     private void TryFulfillRequest(int id, int index)
     {
@@ -195,18 +166,15 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 
     private void TakeItemsFromPlayer()
     {
-        //Might be passing invalid item id
         int itemId = requestedItems[jobBoardDisplay.currentListingIndex].Item.id;
         int qty = requestedItems[jobBoardDisplay.currentListingIndex].Quantity;
         inv.PullItems(itemId, qty, out int unfulfilled);
     }
 
-    //Comments for proposed replacement to RemoveJobRequest(JobRequest job)
-    private void RemoveJobRequest(/*int listingIndex = jobBoardDisplay.currentListingIndex*/)
+    private void RemoveJobRequest()
     {
-        jobListings.RemoveAt(jobBoardDisplay.currentListingIndex/*listingIndex*/);
-        requestedItems.RemoveAt(jobBoardDisplay.currentListingIndex/*listingIndex*/);
-        //foreach(JobRequest j in jobListings) print($"Job, Request: {j.requestedItem}, {j.ChosenItemQty} Reward: {j.ChosenReward}");
+        jobListings.RemoveAt(jobBoardDisplay.currentListingIndex);
+        requestedItems.RemoveAt(jobBoardDisplay.currentListingIndex);
         
         if (jobListings.Count >= 1 && busOp.isOpen)
         {
@@ -225,7 +193,6 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         int index = jobListings.FindIndex(j => j.Equals(job));
         jobListings.RemoveAt(index);
         requestedItems.RemoveAt(index);
-        //foreach(JobRequest j in jobListings) print($"Job, Request: {j.requestedItem}, {j.ChosenItemQty} Reward: {j.ChosenReward}");
 
         if (jobListings.Count >= 1)
         {
@@ -251,7 +218,7 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         Persist.IsGeneEditorEnabled = shopManager.IsGeneEditorEnabled;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         PushData();
         TimerObserver.Instance.Unsubscribe(this);

@@ -42,6 +42,8 @@ public class JobBoardDisplay
             emptyBoard = jobBoard.GetChild(3).gameObject;
 
             complete.onClick.AddListener(CompleteJobRequest);
+            leftArrow.GetComponent<Button>().onClick.AddListener(PrevJob);
+            rightArrow.GetComponent<Button>().onClick.AddListener(NextJob);
 
             JobListingsActiveSelf = false;   
         }

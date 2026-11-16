@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Separator
   m_EditorClassIdentifier: 
   inventory: []
-  isPersisting: 0
+  isPersisting: 1
   inventoryKeys: []
   unloadTime: 0
   currentProgress: 0
