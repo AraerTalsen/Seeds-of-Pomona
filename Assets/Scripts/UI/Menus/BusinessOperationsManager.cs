@@ -19,22 +19,22 @@ public class BusinessOperationsManager : BasicMenu
     
     [SerializeField] private List<Submenu> submenues = new();
     [SerializeField] private TextMeshProUGUI playerWallet;
-    [SerializeField] private JobBoardDisplay jobBoardDisplay;
+    [SerializeField] private ShopManager shopManager;
     [SerializeField] private JobBoardManager jobBoardManager;
-    private ShopManager shopManager;
+    private JobBoardDisplay jobBoardDisplay;
     
     public PlayerInventory Inv { get; set; }
     public bool isOpen = false;
     
     public UnityEngine.Events.UnityAction CheckPlayerInventory { get; set;}
-    public JobBoardDisplay JobBoardDisplay => jobBoardDisplay;
 
     private int currentTab = 0;
 
     private void Start()
     {
-        shopManager = GetComponent<ShopManager>();
+        shopManager.Initialize(this);
         jobBoardManager.Initialize(shopManager, this);
+        jobBoardDisplay = jobBoardManager.JobBoardDisplay;
         jobBoardDisplay.Initialize();
     }
 
@@ -56,11 +56,12 @@ public class BusinessOperationsManager : BasicMenu
         CheckPlayerInventory();
         UpdatePlayerWallet();
         SetSubmenuActivity(currentTab, true);
-        if (JobBoardDisplay.JobListings.Count > 0)
+        if (jobBoardDisplay.JobListings.Count > 0)
         {
-            JobBoardDisplay.ActivateJobBoard();
-            JobBoardDisplay.LoadJob();
-            GetComponent<ShopManager>().PlayerInventory = Inv;
+            jobBoardDisplay.ActivateJobBoard();
+            jobBoardDisplay.LoadJob();
+            shopManager.PlayerInventory = Inv;
+            shopManager.UpdateDisplays();
         }
     }
 
@@ -84,6 +85,8 @@ public class BusinessOperationsManager : BasicMenu
             currentTab = index;
         }
     }
+
+    public void Purchase(Button button) => shopManager.Purchase(button);
 
     public void UpdatePlayerWallet() => playerWallet.text = "$" + Inv.Wallet.CurrentBalance.ToString();
 

@@ -7,13 +7,14 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
 {
     [SerializeField] private JobBoardData persist;
     [SerializeField] private int intervalInDays, maxJobCapacity;
+    [SerializeField] private JobBoardDisplay jobBoardDisplay;
     private List<JobRequestContainer> jobListings;
     private List<InventoryEntry> requestedItems;
     private List<(int requestedItmIndex, int itemId)?> fulfilledItems;
 
     public int IntervalInDays {get => intervalInDays;}
+    public JobBoardDisplay JobBoardDisplay => jobBoardDisplay;
     private PlayerInventory inv;
-    private JobBoardDisplay jobBoardDisplay;
     private BusinessOperationsManager busOp;
     private JobBoardProperties jobBoardProperties;
     private ShopManager shopManager;
@@ -46,13 +47,12 @@ public class JobBoardManager : PersistentObject<JobBoardData>, ITimer
         {
             jobListings = Persist.JobListings;
             requestedItems = Persist.RequestedItems;
-            if(Persist.IsGeneEditorEnabled) shopManager.Initialize();
         }
+        shopManager.InitializeDisplay(Persist.IsGeneEditorEnabled);
     }
 
     public void InitializeDisplayManager()
     {
-        jobBoardDisplay = busOp.JobBoardDisplay;
         jobBoardDisplay.CompleteJobRequest = CompleteJobRequest;
         busOp.CheckPlayerInventory = CheckPlayerInventory;
         jobBoardDisplay.JobBoardProperties = jobBoardProperties;

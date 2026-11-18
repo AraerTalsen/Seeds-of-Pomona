@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   inventory:
-  - quantity: 0
+  - quantity: 2
+    item: {fileID: 11400000, guid: 863882b4e10075c4b8243b824ad80410, type: 2}
+    debugItemName: Smoke Flower
+  - quantity: 1
+    item: {fileID: 11400000, guid: 204f3677bdebde249a0fc9ba70767d8b, type: 2}
+    debugItemName: Smoke Plant Seeds
+  - quantity: 2
+    item: {fileID: 11400000, guid: 64a9128484779ae468919c2c4fa23e81, type: 2}
+    debugItemName: Bio Mass
+  - quantity: 1
     item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: Empty
-  - quantity: 0
-    item: {fileID: 0}
-    debugItemName: Empty
+    debugItemName: 
   - quantity: 0
     item: {fileID: 0}
     debugItemName: Empty
@@ -74,8 +74,10 @@ MonoBehaviour:
     item: {fileID: 0}
     debugItemName: Empty
   isPersisting: 1
-  inventoryKeys: []
-  balance: 0
+  inventoryKeys:
+  - _index: 3
+    _key: -21358
+  balance: 11600
   hasDied: 0
   powerups:
   - quantity: 0
